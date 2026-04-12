@@ -9,174 +9,146 @@
 <link rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22Life%20Center%20AI%22%2C%22short_name%22%3A%22LifeOS%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23000000%22%2C%22theme_color%22%3A%22%23000000%22%7D">
 <title>LIFE CENTER AI</title>
 <style>
-    /* İOS 26 LİQUİD GLASS & TEMA DEĞİŞKENLERİ */
+    /* İOS 26 LIQUID GLASS RENK PALETİ */
     :root { 
         --bg-color: #000000; 
         --bg-gradient: radial-gradient(circle at 50% -20%, #1c1c2e 0%, #000000 80%);
-        --card-bg: rgba(28, 28, 30, 0.45); 
+        --card-bg: rgba(28, 28, 30, 0.55); 
         --text-main: #ffffff; 
         --text-muted: #8e8e93; 
-        --accent: #0a84ff; 
-        --success: #30d158; 
-        --danger: #ff453a; 
-        --pomodoro: #ff9f0a; 
-        --border: rgba(255, 255, 255, 0.08); 
-        --water-color: #64d2ff; 
-        --flow-bg: rgba(44, 44, 46, 0.5); 
+        --accent: #007AFF; 
+        --success: #34C759; 
+        --danger: #FF3B30; 
+        --pomodoro: #FF9500; 
+        --border: rgba(255, 255, 255, 0.1); 
+        --water-color: #32ADE6; 
+        --flow-bg: rgba(44, 44, 46, 0.6); 
         --glass-blur: blur(24px);
-        --input-bg: rgba(0, 0, 0, 0.3);
-        --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        --input-bg: rgba(0, 0, 0, 0.4);
     }
 
     body.light-mode {
-        --bg-color: #f2f2f7;
-        --bg-gradient: radial-gradient(circle at 50% -20%, #ffffff 0%, #f2f2f7 80%);
-        --card-bg: rgba(255, 255, 255, 0.65);
+        --bg-color: #F2F2F7;
+        --bg-gradient: radial-gradient(circle at 50% -20%, #ffffff 0%, #F2F2F7 80%);
+        --card-bg: rgba(255, 255, 255, 0.7);
         --text-main: #000000;
         --text-muted: #6e6e73;
         --border: rgba(0, 0, 0, 0.08);
-        --flow-bg: rgba(229, 229, 234, 0.6);
-        --input-bg: rgba(255, 255, 255, 0.5);
-        --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+        --flow-bg: rgba(229, 229, 234, 0.7);
+        --input-bg: rgba(255, 255, 255, 0.6);
     }
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     
     body { 
         background: var(--bg-color); background-image: var(--bg-gradient); background-attachment: fixed;
-        color: var(--text-main); font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif; 
+        color: var(--text-main); font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif; 
         margin: 0; padding: 20px 16px 120px 16px; line-height: 1.4; transition: background 0.4s ease;
     }
     
     .container { max-width: 100%; margin: 0 auto; }
     
-    /* CAM EFEKTİ (GLASSMORPHISM) ORTAK SINIFI */
     .glass-card {
-        background: var(--card-bg);
-        backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
-        border: 1px solid var(--border);
-        box-shadow: var(--shadow);
-        border-radius: 20px; padding: 16px; margin-bottom: 12px;
-        transition: all 0.3s ease;
+        background: var(--card-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+        border: 1px solid var(--border); border-radius: 20px; padding: 16px; margin-bottom: 16px;
     }
 
     header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
     .header-titles { display: flex; flex-direction: column; }
-    h1 { margin: 0; font-size: 1.8rem; color: var(--accent); font-weight: 800; letter-spacing: -0.5px; }
-    .date-display { font-size: 1rem; color: var(--text-muted); margin-top: 2px; font-weight: 600; }
-    .theme-toggle { background: var(--flow-bg); border: 1px solid var(--border); color: var(--text-main); width: 44px; height: 44px; border-radius: 50%; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); transition: 0.3s; }
+    h1 { margin: 0; font-size: 1.6rem; color: var(--accent); font-weight: 800; letter-spacing: -0.5px; text-transform: uppercase; }
+    .date-display { font-size: 0.95rem; color: var(--text-muted); margin-top: 4px; font-weight: 500; font-variant-numeric: tabular-nums; }
+    .theme-toggle { background: var(--flow-bg); border: 1px solid var(--border); color: var(--text-main); width: 40px; height: 40px; border-radius: 50%; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); }
 
-    /* NEON PROGRESS BARLAR */
-    .progress-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 25px; }
-    .progress-track { width: 100%; height: 8px; background: var(--flow-bg); border-radius: 10px; overflow: hidden; position: relative; border: 1px solid var(--border); }
-    .progress-fill { height: 100%; border-radius: 10px; transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    /* YENİ NESİL PROGRESS BARLAR */
+    .progress-container { display: flex; flex-direction: column; gap: 14px; margin-bottom: 25px; }
+    .progress-item { display: flex; flex-direction: column; gap: 6px; }
+    .progress-header { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
+    .progress-track { width: 100%; height: 10px; background: var(--input-bg); border-radius: 10px; overflow: hidden; position: relative; border: 1px solid var(--border); }
+    .progress-fill { height: 100%; border-radius: 10px; transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); }
 
     .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 25px; }
-    .stat-card { padding: 16px 5px; text-align: center; display: flex; flex-direction: column; justify-content: center;}
-    .stat-value { font-size: 1.6rem; font-weight: 800; color: var(--success); }
-    .stat-label { font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
+    .stat-card { padding: 14px 5px; text-align: center; display: flex; flex-direction: column; justify-content: center; border-radius: 16px;}
+    .stat-value { font-size: 1.5rem; font-weight: 800; color: var(--text-main); }
+    .stat-label { font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; font-weight: 600; letter-spacing: 0.5px; }
 
-    /* YAPAY ZEKA TASARIMI - LİQUİD */
-    .ai-panel { background: linear-gradient(145deg, rgba(10, 132, 255, 0.15), rgba(48, 209, 88, 0.15)); border: 1px solid rgba(10, 132, 255, 0.3); }
-    body.light-mode .ai-panel { background: linear-gradient(145deg, rgba(10, 132, 255, 0.05), rgba(48, 209, 88, 0.05)); }
-    .ai-btn { background: linear-gradient(135deg, #0a84ff, #5e5ce6); color: white; font-weight: 800; border: none; padding: 16px; border-radius: 16px; width: 100%; margin-top: 10px; cursor: pointer; box-shadow: 0 4px 15px rgba(10, 132, 255, 0.3); transition: transform 0.2s; }
-    .ai-btn:active { transform: scale(0.98); }
-    .ai-response { display: none; background: var(--input-bg); padding: 15px; border-radius: 16px; margin-top: 15px; font-size: 0.95rem; color: var(--text-main); border-left: 4px solid #5e5ce6; line-height: 1.5; white-space: pre-wrap; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+    /* YAPAY ZEKA TASARIMI */
+    .ai-panel { border: 1px solid rgba(0, 122, 255, 0.3); }
+    .ai-btn { background: var(--accent); color: white; font-weight: 700; border: none; padding: 16px; border-radius: 14px; width: 100%; margin-top: 10px; cursor: pointer; transition: 0.2s; font-size: 1.05rem;}
+    .ai-btn:active { transform: scale(0.98); opacity: 0.9; }
+    .ai-response { display: none; background: var(--input-bg); padding: 15px; border-radius: 14px; margin-top: 15px; font-size: 0.95rem; color: var(--text-main); border-left: 3px solid var(--accent); line-height: 1.5; white-space: pre-wrap; }
+    .icon-btn { background: var(--flow-bg); border: 1px solid var(--border); color: var(--text-main); width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; transition: 0.2s; }
+    .icon-btn:active { transform: scale(0.95); }
 
-    .panel-header { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 12px; padding-left: 8px; font-weight: 700; margin-top: 35px; letter-spacing: 0.5px; }
+    .panel-header { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; padding-left: 8px; font-weight: 600; margin-top: 30px; letter-spacing: 0.5px; }
 
-    .step-container { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 12px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-    .step-container::-webkit-scrollbar { display: none; }
-    .flow-step { flex: 0 0 auto; background: var(--flow-bg); border: 1px solid var(--border); border-radius: 12px; padding: 14px 20px; text-align: center; font-size: 0.95rem; font-weight: 700; color: var(--text-muted); transition: 0.3s; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); }
-    .flow-step.active { background: var(--success); color: #000; border-color: var(--success); box-shadow: 0 0 15px rgba(48, 209, 88, 0.4); }
-
-    /* MODERN INPUTLAR */
-    .input-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+    .input-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
     .input-row:last-child { border: none; margin: 0; padding: 0; }
-    .input-label-group label { font-size: 1.1rem; color: var(--text-main); display: block; font-weight: 600; }
-    .prev-data { font-size: 0.8rem; color: var(--text-muted); display: block; margin-top: 4px; font-weight: 500; }
-    .glass-input { background: var(--input-bg); border: 1px solid var(--border); color: var(--success); padding: 14px; border-radius: 12px; width: 110px; text-align: right; font-family: monospace; font-size: 18px; font-weight: bold; transition: 0.3s; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
-    .glass-input:focus { outline: 2px solid var(--accent); background: var(--flow-bg); }
+    .input-label-group label { font-size: 1.05rem; color: var(--text-main); display: block; font-weight: 500; }
+    .prev-data { font-size: 0.8rem; color: var(--text-muted); display: block; margin-top: 4px; }
+    .glass-input { background: var(--input-bg); border: 1px solid var(--border); color: var(--text-main); padding: 12px; border-radius: 12px; width: 110px; text-align: right; font-size: 1.1rem; font-weight: 600; transition: 0.3s; }
+    .glass-input:focus { outline: 2px solid var(--accent); }
 
-    /* YENİ NESİL CHECKBOX VE GÖREV DÜZENİ */
-    .task { display: grid; grid-template-columns: 44px 30px 65px 1fr 44px; gap: 8px; align-items: center; margin-bottom: 12px; padding: 10px 8px; border-radius: 16px; }
+    /* İOS 26 GÖREV DÜZENİ VE TOGGLE SWITCH */
+    .task { display: grid; grid-template-columns: 36px 50px 1fr 36px; gap: 10px; align-items: center; margin-bottom: 10px; padding: 12px 10px; border-radius: 16px; background: var(--flow-bg); border: 1px solid var(--border);}
     .task.completed { opacity: 0.5; }
     .task.completed .task-desc { text-decoration: line-through; color: var(--text-muted); }
     
-    /* MODERN İOS CHECKBOX */
-    .task input[type="checkbox"] { 
-        appearance: none; -webkit-appearance: none; width: 26px; height: 26px; border-radius: 50%; 
-        border: 2px solid var(--text-muted); background: transparent; outline: none; cursor: pointer; 
-        position: relative; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); margin: 0;
-    }
-    .task input[type="checkbox"]:checked { background: var(--success); border-color: var(--success); transform: scale(1.1); }
-    .task input[type="checkbox"]:checked::after {
-        content: '✓'; color: white; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -45%);
-        font-size: 16px; font-weight: 900;
-    }
+    .ios-toggle { appearance: none; -webkit-appearance: none; width: 46px; height: 26px; background: rgba(120,120,128,0.3); border-radius: 13px; position: relative; cursor: pointer; outline: none; transition: 0.3s; margin: 0; border: 1px solid rgba(255,255,255,0.1); }
+    .ios-toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background: white; border-radius: 50%; transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+    .ios-toggle:checked { background: var(--success); border-color: var(--success); }
+    .ios-toggle:checked::after { transform: translateX(20px); }
 
-    .time-badge { background: var(--input-bg); color: var(--accent); padding: 10px 0; border-radius: 10px; font-size: 0.95rem; font-family: monospace; border: 1px solid var(--border); font-weight: 700; width: 100%; text-align: center; appearance: none; -webkit-appearance: none; }
-    .task-desc { outline: none; font-size: 1.05rem; line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
-    .del-btn { color: var(--danger); background: rgba(255, 69, 58, 0.1); border: 1px solid rgba(255, 69, 58, 0.2); font-size: 1.4rem; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer; transition: 0.2s; }
-    .drag-handle { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; font-size: 22px; color: var(--text-muted); cursor: grab; }
-    .lock-handle { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; font-size: 18px; color: var(--danger); opacity: 0.8; cursor: pointer; }
-    .task.fixed-task { border-color: rgba(255, 69, 58, 0.4); background: rgba(255, 69, 58, 0.05); }
-    .sortable-ghost { opacity: 0.3; background-color: var(--accent); }
+    .time-badge { background: var(--input-bg); color: var(--text-main); padding: 6px 0; border-radius: 8px; font-size: 0.9rem; border: 1px solid var(--border); font-weight: 600; width: 100%; text-align: center; }
+    .task-desc { outline: none; font-size: 1rem; line-height: 1.3; font-weight: 500; white-space: normal; word-wrap: break-word;}
+    .del-btn { color: var(--danger); background: transparent; font-size: 1.4rem; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer; border: none; opacity: 0.7;}
+    .drag-handle { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; font-size: 20px; color: var(--text-muted); cursor: grab; opacity: 0.5;}
 
     /* POMODORO VE SU STİLLERİ */
-    .water-wrapper { display: grid; grid-template-columns: 1fr 120px; gap: 15px; align-items: center; }
-    .water-tracker { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-    .water-cup { height: 48px; border: 2px solid var(--water-color); border-radius: 6px 6px 12px 12px; background: linear-gradient(to bottom, transparent 5%, rgba(100, 210, 255, 0.8) 5%); transition: 0.3s; cursor: pointer; }
-    .water-cup.empty { background: rgba(100, 210, 255, 0.05) !important; border-color: rgba(100, 210, 255, 0.3); }
-    .pitcher-container { position: relative; width: 100px; height: 120px; margin: 0 auto; }
+    .water-wrapper { display: flex; flex-direction: column; gap: 15px; }
+    .water-header-row { display: flex; justify-content: space-between; align-items: center; }
+    .water-tracker { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;}
+    .water-cup { width: 35px; height: 50px; border: 2px solid var(--water-color); border-radius: 4px 4px 12px 12px; background: rgba(50, 173, 230, 0.1); transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; position: relative; overflow: hidden;}
+    .water-cup::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 0%; background: var(--water-color); transition: height 0.4s ease; }
+    .water-cup.filled::after { height: 95%; }
 
     .pomo-wrapper { display: flex; flex-direction: column; }
-    .timer-display { font-size: 5.5rem; font-weight: 900; font-variant-numeric: tabular-nums; text-align: center; width: 100%; margin: 5px 0; line-height: 1; letter-spacing: -2px; }
-    .pomo-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; width: 100%; max-width: 320px; margin: 0 auto; }
-    .pomo-btn-new { aspect-ratio: 1; border-radius: 12px; background: rgba(255, 159, 10, 0.1); border: 2px solid rgba(255, 159, 10, 0.3); color: var(--pomodoro); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-    .pomo-btn-new.filled { background: var(--pomodoro); color: #000; border-color: var(--pomodoro); transform: scale(1.05); box-shadow: 0 4px 10px rgba(255, 159, 10, 0.4); }
-    
-    .apple-container { position: relative; width: 180px; height: 180px; display: flex; align-items: center; justify-content: center; margin: 0 auto; }
-    .apple-core, .apple-full { position: absolute; width: 100%; height: 100%; top: 0; left: 0; }
-    .apple-full { transition: clip-path 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-    .apple-percent { position: absolute; font-size: 2rem; font-weight: 900; color: white; text-shadow: 0 4px 15px rgba(0,0,0,0.9); pointer-events: none; z-index: 10; }
+    .timer-display { font-size: 5rem; font-weight: 800; font-variant-numeric: tabular-nums; text-align: center; width: 100%; margin: 5px 0; letter-spacing: -1px; }
+    .pomo-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; width: 100%; max-width: 320px; margin: 0 auto; }
+    .pomo-btn-new { aspect-ratio: 1; border-radius: 10px; background: rgba(255, 149, 0, 0.1); border: 1px solid rgba(255, 149, 0, 0.3); color: var(--pomodoro); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem; cursor: pointer; transition: 0.3s; }
+    .pomo-btn-new.filled { background: var(--pomodoro); color: #000; border-color: var(--pomodoro); }
 
-    /* BUTONLAR */
-    .main-btn { padding: 18px; border-radius: 16px; cursor: pointer; font-weight: 800; border: none; font-size: 1.05rem; width: 100%; transition: transform 0.2s, opacity 0.2s; }
+    .main-btn { padding: 16px; border-radius: 14px; cursor: pointer; font-weight: 700; border: none; font-size: 1.05rem; width: 100%; transition: 0.2s; }
     .main-btn:active { transform: scale(0.97); }
-    .btn-green { background: var(--success); color: #000; box-shadow: 0 4px 15px rgba(48, 209, 88, 0.3); }
-    .btn-gray { background: var(--flow-bg); color: var(--text-main); border: 1px solid var(--border); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
-    .btn-red { background: rgba(255, 69, 58, 0.1); color: var(--danger); border: 1px solid rgba(255, 69, 58, 0.3); margin-top: 40px; padding: 12px 20px; font-size: 0.95rem; font-weight: 700; }
 
-    /* NOTLAR */
-    .note-card { background: var(--card-bg); border-left: 5px solid var(--accent); padding: 16px; margin-bottom: 12px; border-radius: 16px; display: flex; flex-direction: column; gap: 8px; border: 1px solid var(--border); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); }
-    .note-meta { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); font-weight: 700; }
-    .note-badge { padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; text-transform: uppercase; background: rgba(10, 132, 255, 0.15); color: var(--accent); font-weight: 800; }
-    
+    .note-card { background: var(--card-bg); border-left: 4px solid var(--accent); padding: 14px; margin-bottom: 12px; border-radius: 14px; display: flex; flex-direction: column; gap: 8px; border: 1px solid var(--border); }
+    .note-meta { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
+    .note-badge { padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; text-transform: uppercase; background: rgba(0, 122, 255, 0.15); color: var(--accent); font-weight: 700; }
+
+    #onboarding-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: var(--bg-color); background-image: var(--bg-gradient); z-index:9999; padding:20px; overflow-y:auto; transition: opacity 0.4s; }
     #history-modal { display:none; margin-top: 20px; padding: 16px; overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; font-size: 0.9rem; min-width: 300px; }
-    th, td { border-bottom: 1px solid var(--border); padding: 14px 8px; text-align: left; }
-    th { color: var(--text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
-
-    #onboarding-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: var(--bg-color); background-image: var(--bg-gradient); z-index:9999; padding:20px; overflow-y:auto; transition: background 0.4s; }
+    th, td { border-bottom: 1px solid var(--border); padding: 12px 8px; text-align: left; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 </head>
 <body>
 
 <div id="onboarding-modal">
-    <h2 style="color:var(--accent); text-align:center; margin-top:40px; font-size: 2.5rem; font-weight:900; letter-spacing:-1px;">LIFE CENTER AI</h2>
-    <p style="color:var(--text-muted); text-align:center; margin-bottom: 30px; font-size:1.1rem; font-weight:500;">Seni tanıyabilmem ve analizleri kusursuz yapabilmem için profili tamamla.</p>
+    <h2 style="color:var(--text-main); text-align:center; margin-top:30px; font-size: 2rem; font-weight:800; letter-spacing:-1px;">LIFE CENTER AI</h2>
+    <p style="color:var(--text-muted); text-align:center; margin-bottom: 25px; font-size:1rem; font-weight:500;">Sistemin seni tanıması ve sana özel koçluk yapabilmesi için lütfen detaylı doldur.</p>
     <div class="glass-card">
-        <div class="input-row"><div class="input-label-group"><label>İsmin veya Lakabın</label></div><input type="text" id="ob-name" class="glass-input" style="width:160px; text-align:right;"></div>
-        <div class="input-row"><div class="input-label-group"><label>Yaş</label></div><input type="number" id="ob-age" class="glass-input" style="width:100px;"></div>
-        <div class="input-row"><div class="input-label-group"><label>Boy (cm)</label></div><input type="number" id="ob-height" class="glass-input" style="width:100px;"></div>
-        <div class="input-row"><div class="input-label-group"><label>Kilo (kg)</label></div><input type="number" id="ob-weight" class="glass-input" style="width:100px;"></div>
-        <div class="input-row"><div class="input-label-group"><label>Cinsiyet (E/K)</label></div><input type="text" id="ob-gender" class="glass-input" style="width:100px; text-transform:uppercase;"></div>
-        <div class="input-row"><div class="input-label-group"><label>Meslek / Bölüm</label></div><input type="text" id="ob-job" class="glass-input" style="width:160px; text-align:right;"></div>
-        <div class="input-row" style="border:none;"><div class="input-label-group"><label>API Key</label><span style="font-size:0.8rem; color:var(--text-muted);">Sonradan eklenebilir</span></div><input type="password" id="ob-apikey" class="glass-input" style="width:140px; font-size:12px;" placeholder="AIzaSy..."></div>
+        <div class="input-row"><div class="input-label-group"><label>İsmin</label></div><input type="text" id="ob-name" class="glass-input" style="width:160px; text-align:right;"></div>
+        <div class="input-row"><div class="input-label-group"><label>Yaş</label></div><input type="number" id="ob-age" class="glass-input" style="width:80px;"></div>
+        <div class="input-row"><div class="input-label-group"><label>Boy (cm)</label></div><input type="number" id="ob-height" class="glass-input" style="width:80px;"></div>
+        <div class="input-row"><div class="input-label-group"><label>Kilo (kg)</label></div><input type="number" id="ob-weight" class="glass-input" style="width:80px;"></div>
+        <div class="input-row" style="border:none;"><div class="input-label-group"><label>API Key</label></div><input type="password" id="ob-apikey" class="glass-input" style="width:140px; font-size:12px;" placeholder="AIzaSy..."></div>
     </div>
-    <button class="main-btn btn-green" style="margin-top:20px;" onclick="saveOnboarding()">Merkeze Bağlan 🚀</button>
+    <div class="glass-card">
+        <label style="font-size: 1.05rem; color: var(--text-main); font-weight: 600; display:block; margin-bottom:10px;">Bana Gününü ve Kendini Anlat</label>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-top:0;">Hobilerin neler? Saat kaçta kalkarsın? Hedeflerin neler? Ne kadar detay verirsen gününü o kadar iyi planlarım.</p>
+        <textarea id="ob-lifestyle" class="glass-input" style="width: 100%; min-height: 120px; text-align: left; resize: vertical; margin-top:10px;" placeholder="Örn: Sabahları 7'de kalkıp spor yapmayı severim. Yazılımcıyım ve bütün gün masa başındayım. Hedefim kilo vermek..."></textarea>
+    </div>
+    <button class="main-btn" style="background:var(--text-main); color:var(--bg-color); margin-top:10px;" onclick="saveOnboarding()">Sistemi Başlat</button>
 </div>
 
 <div class="container">
@@ -184,16 +156,25 @@
 
     <header>
         <div class="header-titles">
-            <h1>LIFE CENTER AI</h1>
+            <h1 id="mainTitle">LIFE CENTER AI</h1>
             <div class="date-display" id="dateDisplay">Yükleniyor...</div>
         </div>
         <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌓</button>
     </header>
 
     <div class="progress-container">
-        <div class="progress-track" title="Görev Akışı"><div class="progress-fill" id="bar-tasks" style="background: var(--accent); width: 0%; box-shadow: 0 0 12px var(--accent);"></div></div>
-        <div class="progress-track" title="Su İlerlemesi"><div class="progress-fill" id="bar-water" style="background: var(--water-color); width: 0%; box-shadow: 0 0 12px var(--water-color);"></div></div>
-        <div class="progress-track" title="Pomodoro İlerlemesi"><div class="progress-fill" id="bar-pomo" style="background: var(--pomodoro); width: 0%; box-shadow: 0 0 12px var(--pomodoro);"></div></div>
+        <div class="progress-item">
+            <div class="progress-header"><span>Görevler</span><span id="pct-tasks">%0</span></div>
+            <div class="progress-track"><div class="progress-fill" id="bar-tasks" style="background: var(--accent); width: 0%;"></div></div>
+        </div>
+        <div class="progress-item">
+            <div class="progress-header"><span>Su İhtiyacı</span><span id="pct-water">%0</span></div>
+            <div class="progress-track"><div class="progress-fill" id="bar-water" style="background: var(--water-color); width: 0%;"></div></div>
+        </div>
+        <div class="progress-item">
+            <div class="progress-header"><span>Odak Seansları</span><span id="pct-pomo">%0</span></div>
+            <div class="progress-track"><div class="progress-fill" id="bar-pomo" style="background: var(--pomodoro); width: 0%;"></div></div>
+        </div>
     </div>
 
     <div class="stats-grid">
@@ -202,78 +183,53 @@
         <div class="glass-card stat-card" style="margin-bottom:0;"><span class="stat-value" id="stat-pomo-streak">0</span><span class="stat-label">Pomo Seri</span></div>
     </div>
 
-    <div class="panel-header" style="color: var(--accent);">🧠 LIFE CENTER AI</div>
+    <div class="panel-header">LIFE CENTER AI</div>
     <div class="glass-card ai-panel">
-        <div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 12px; font-weight: 500;">Gözüm ve kulağım sende. Bir yemek fotoğrafı yükleyip "Kaloriyi ekle" diyebilirsin.</div>
-        
-        <div class="input-row" id="apiKeyRow">
-            <div class="input-label-group"><label>API Key</label></div>
-            <input type="password" id="geminiApiKey" class="glass-input" style="width: 150px; font-size: 14px;" placeholder="AIzaSy..." onchange="saveApiKey()">
-        </div>
-        
         <div style="display: flex; gap: 10px; align-items: flex-end;">
             <input type="file" id="aiImageInput" accept="image/*" style="display: none;" onchange="previewImage(event)">
-            <button class="theme-toggle" style="width:55px; height:55px; border-radius:16px; font-size:1.6rem;" onclick="document.getElementById('aiImageInput').click()" title="Fotoğraf Yükle">📷</button>
+            <button class="icon-btn" onclick="document.getElementById('aiImageInput').click()" title="Fotoğraf Yükle">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+            </button>
             <div style="flex: 1; display: flex; flex-direction: column; gap: 5px;">
-                <img id="aiImagePreview" style="display: none; width: 100%; max-height: 120px; object-fit: cover; border-radius: 12px; border: 2px solid var(--accent);">
-                <textarea id="aiPrompt" class="glass-input" placeholder="Yaz, konuş veya fotoğraf yükle..." style="width: 100%; min-height: 55px; text-align: left; padding: 14px; border-radius: 16px; resize: vertical;"></textarea>
+                <img id="aiImagePreview" style="display: none; width: 100%; max-height: 100px; object-fit: cover; border-radius: 8px;">
+                <textarea id="aiPrompt" class="glass-input" placeholder="Yaz veya konuş..." style="width: 100%; min-height: 50px; text-align: left; padding: 12px; border-radius: 12px; resize: vertical;"></textarea>
             </div>
-            <button class="theme-toggle" id="micBtn" style="width:55px; height:55px; border-radius:16px; font-size:1.6rem; background:rgba(255, 69, 58, 0.15); color:var(--danger); border-color:rgba(255,69,58,0.3);" onclick="startVoiceRecognition()" title="Sesle Yazdır">🎙️</button>
+            <button class="icon-btn" id="micBtn" onclick="startVoiceRecognition()" title="Sesle Yazdır" style="color:var(--danger);">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+            </button>
         </div>
-        
-        <button class="ai-btn" onclick="askGemini()">✨ Gönder / Analiz Et</button>
-        <div id="aiResult" class="ai-response">Yükleniyor...</div>
+        <button class="ai-btn" onclick="askGemini()">Analiz Et</button>
+        <div id="aiResult" class="ai-response"></div>
     </div>
 
-    <div class="panel-header">Kilit Noktalar</div>
-    <div class="step-container" id="flowSteps"></div>
-
-    <div class="panel-header">Odak Motoru & Seanslar</div>
+    <div class="panel-header">Odak Motoru</div>
     <div class="glass-card pomo-wrapper">
-        <div class="timer-section">
-            <div class="timer-settings">
-                <div class="setting-group"><label style="font-weight:600; color:var(--text-muted); font-size:0.9rem;">Çalışma</label><input type="time" id="pomoWork" value="00:25" class="time-badge"></div>
-                <div class="setting-group"><label style="font-weight:600; color:var(--text-muted); font-size:0.9rem;">Mola</label><input type="time" id="pomoBreak" value="00:05" class="time-badge"></div>
+        <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 10px;">
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
+                <label style="font-size:0.8rem; color:var(--text-muted); font-weight:600;">Çalışma (dk)</label>
+                <input type="number" id="pomoWork" value="25" class="glass-input" style="width:70px; text-align:center;">
             </div>
-            <div class="timer-display" id="timerDisplay">25:00</div>
-            <div class="timer-status" id="timerStatus">BAŞLAMAYA HAZIR</div>
-            <div class="timer-controls">
-                <button class="main-btn btn-green" id="pomoStartBtn" onclick="startPomodoro()" style="width: 220px;">Süreci Başlat</button>
-                <button class="main-btn btn-red" id="pomoStopBtn" style="display:none; width: 220px; margin-top: 0;" onclick="stopPomodoro()">Süreci Bitir</button>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
+                <label style="font-size:0.8rem; color:var(--text-muted); font-weight:600;">Mola (dk)</label>
+                <input type="number" id="pomoBreak" value="5" class="glass-input" style="width:70px; text-align:center;">
             </div>
         </div>
-        <hr style="border-color: var(--border); margin: 25px 0 20px 0; width:100%;">
-        <div class="tracker-section">
-            <div class="apple-container">
-                <svg viewBox="0 0 100 100" class="apple-core">
-                    <path d="M50 20 C40 10 40 0 50 0 C60 0 60 10 50 20 Z" fill="var(--success)"/>
-                    <path d="M48 20 L52 20 L52 85 L48 85 Z" fill="var(--text-muted)"/>
-                    <path d="M44 85 C44 95 56 95 56 85 Z" fill="var(--text-muted)"/>
-                </svg>
-                <svg viewBox="0 0 100 100" class="apple-full">
-                    <defs><mask id="biteMask"><rect x="0" y="0" width="100" height="100" fill="white" /></mask></defs>
-                    <path d="M50 20 C30 0 0 20 10 50 C20 80 40 95 50 90 C60 95 80 80 90 50 C100 20 70 0 50 20 Z" fill="var(--danger)" mask="url(#biteMask)"/>
-                </svg>
-                <div class="apple-percent" id="applePercent">%0</div>
-            </div>
-            <div class="pomo-grid" id="pomoGrid20"></div>
-        </div>
+        <div class="timer-display" id="timerDisplay">25:00</div>
+        <div style="text-align: center; font-weight: 600; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px;" id="timerStatus">BAŞLAMAYA HAZIR</div>
+        <button class="main-btn" id="pomoStartBtn" style="background:var(--text-main); color:var(--bg-color);" onclick="startPomodoro()">Süreci Başlat</button>
+        <button class="main-btn" id="pomoStopBtn" style="display:none; background:rgba(255,59,48,0.1); color:var(--danger);" onclick="stopPomodoro()">Süreci Bitir</button>
+        
+        <hr style="border: 0; height: 1px; background: var(--border); margin: 20px 0;">
+        <div class="pomo-grid" id="pomoGrid20"></div>
     </div>
 
-    <div class="panel-header">Su Takibi (7 Bardak)</div>
+    <div class="panel-header">Su Takibi</div>
     <div class="glass-card water-wrapper">
-        <div class="water-tracker" id="waterContainer"></div>
-        <div class="pitcher-container">
-            <svg viewBox="0 0 100 120" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-                <path d="M30 20 L70 20 L75 110 L25 110 Z" fill="none" stroke="var(--water-color)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M70 40 C90 40 90 80 72 85" fill="none" stroke="var(--water-color)" stroke-width="4" stroke-linecap="round"/>
-            </svg>
-            <svg viewBox="0 0 100 120" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-                <defs><mask id="waterMask"><rect id="waterLevel" x="0" y="25" width="100" height="85" fill="white" transition="all 0.5s"/></mask></defs>
-                <path d="M32 25 L68 25 L73 108 L27 108 Z" fill="var(--water-color)" mask="url(#waterMask)" opacity="0.8"/>
-            </svg>
-            <div id="pitcherPercent" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 1.2rem; text-shadow: 0 2px 8px rgba(0,0,0,0.8); pointer-events: none; padding-top: 10px;">%0</div>
+        <div class="water-header-row">
+            <span style="font-size: 0.9rem; font-weight: 600; color:var(--text-muted);">Günlük Hedef (Bardak)</span>
+            <input type="number" id="waterGoal" value="7" class="glass-input" style="width:60px; padding:6px; text-align:center; font-size:1rem;" onchange="render()">
         </div>
+        <div class="water-tracker" id="waterContainer"></div>
     </div>
 
     <div class="panel-header">Durum Analizi</div>
@@ -293,75 +249,62 @@
     </div>
 
     <div style="display:flex; justify-content:space-between; align-items:center; padding: 10px 5px 10px 5px; margin-top:20px;">
-        <h3 style="margin:0; font-size:1.1rem; color:var(--text-main); text-transform:uppercase; font-weight:800; letter-spacing:0.5px;">GÜNLÜK AKIŞ</h3>
+        <h3 style="margin:0; font-size:1rem; color:var(--text-muted); text-transform:uppercase; font-weight:600; letter-spacing:0.5px;">GÜNLÜK AKIŞ</h3>
         <div style="display: flex; gap: 8px;">
-            <button style="background: rgba(255, 159, 10, 0.2); color: var(--pomodoro); border: 1px solid rgba(255, 159, 10, 0.4); padding: 6px 12px; border-radius: 10px; font-weight:800; cursor: pointer; backdrop-filter: blur(5px);" onclick="shiftRoutine(30)">+30dk Kaydır</button>
-            <button style="background: var(--flow-bg); color: var(--text-main); border: 1px solid var(--border); padding: 6px 12px; border-radius: 10px; font-weight:700; backdrop-filter: blur(5px);" onclick="saveAsDefault()">Sabitle</button>
+            <button style="background: rgba(255, 149, 0, 0.15); color: var(--pomodoro); border: none; padding: 6px 10px; border-radius: 8px; font-weight:700; font-size:0.8rem;" onclick="shiftRoutine(-30)">-30dk</button>
+            <button style="background: rgba(255, 149, 0, 0.15); color: var(--pomodoro); border: none; padding: 6px 10px; border-radius: 8px; font-weight:700; font-size:0.8rem;" onclick="shiftRoutine(30)">+30dk</button>
+            <button style="background: var(--flow-bg); color: var(--text-main); border: 1px solid var(--border); padding: 6px 10px; border-radius: 8px; font-weight:600; font-size:0.8rem;" onclick="saveAsDefault()">Sabitle</button>
         </div>
     </div>
     <div id="taskList"></div>
 
-    <div class="panel-header">Yeni Not / Görev Ekle</div>
-    <div class="glass-card add-panel">
+    <div class="panel-header">Yeni Görev / Not</div>
+    <div class="glass-card">
         <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 15px;">
-            <label style="font-size: 1.1rem; color: var(--text-main); font-weight: 700;">Görev / Not</label>
-            <textarea id="newDesc" class="glass-input" placeholder="Ne yapacaksın?" style="width: 100% !important; min-height: 80px; resize: vertical; text-align: left; border-radius: 16px; font-weight:500;"></textarea>
+            <textarea id="newDesc" class="glass-input" placeholder="Ne yapacaksın?" style="width: 100%; min-height: 70px; text-align: left; font-weight:500; font-size:1rem;"></textarea>
         </div>
         <div class="input-row">
             <div class="input-label-group"><label>Tarih</label></div>
-            <input type="date" id="newDate" class="glass-input" style="width: 160px; text-align: center;">
+            <input type="date" id="newDate" class="glass-input" style="width: 140px; text-align: center; font-size:0.9rem;">
         </div>
         <div class="input-row">
             <div class="input-label-group"><label>Saat</label></div>
-            <input type="time" id="newTime" class="glass-input" style="width: 130px; text-align: center;">
+            <input type="time" id="newTime" class="glass-input" style="width: 100px; text-align: center;">
         </div>
         <div class="input-row" style="border: none; padding-bottom: 0;">
             <div class="input-label-group"><label>Tür</label></div>
             <div style="display: flex; gap: 10px; align-items: center;">
-                <select id="newType" class="glass-input" style="width: 140px; text-align: left;"><option value="">Seçiniz...</option></select>
-                <button style="background:var(--flow-bg); border:1px solid var(--border); color:var(--text-main); width: 50px; height: 50px; border-radius: 14px; font-size: 1.8rem; display: flex; align-items: center; justify-content: center; padding: 0;" onclick="addNewType()">+</button>
+                <select id="newType" class="glass-input" style="width: 120px; text-align: left; font-size:0.9rem;"><option value="">Seçiniz...</option></select>
+                <button style="background:var(--flow-bg); border:1px solid var(--border); color:var(--text-main); width: 44px; height: 44px; border-radius: 12px; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; padding: 0;" onclick="addNewType()">+</button>
             </div>
         </div>
-        <button class="main-btn" style="background:var(--accent); color:white; width: 100%; margin-top: 25px; box-shadow: 0 4px 15px rgba(10, 132, 255, 0.3);" onclick="addTask()">Sisteme Kaydet</button>
+        <button class="main-btn" style="background:var(--text-main); color:var(--bg-color); margin-top: 20px;" onclick="addTask()">Sisteme Kaydet</button>
     </div>
 
-    <div class="panel-header">Genel Notlar (Gelecek Planı)</div>
+    <div class="panel-header">Genel Notlar</div>
     <div id="globalNotesList" style="margin-bottom: 30px;"></div>
 
     <div class="glass-card" id="history-modal"><table id="historyTable"></table></div>
 
-    <div style="display: flex; gap: 15px; margin-top: 30px;">
-        <button class="main-btn btn-gray" style="flex: 1;" onclick="toggleHistory()">Geçmiş</button>
-        <button class="main-btn btn-green" style="flex: 1;" onclick="finishDay()">Günü Bitir</button>
-    </div>
-    
-    <div style="text-align: center; margin-top: 25px; margin-bottom: 40px;">
-        <button style="width: 100%; padding: 16px; border-radius: 16px; border: 1px solid rgba(255, 69, 58, 0.4); color: var(--danger); background: rgba(255, 69, 58, 0.05); font-size: 1.05rem; font-weight: 800; cursor: pointer; transition:0.3s;" onclick="hardReset()">Tüm Sistemi Sıfırla (Reset)</button>
+    <div style="display: flex; gap: 15px; margin-top: 20px;">
+        <button class="main-btn" style="background:var(--flow-bg); color:var(--text-main); border:1px solid var(--border);" onclick="toggleHistory()">Geçmiş</button>
+        <button class="main-btn" style="background:var(--success); color:#fff;" onclick="finishDay()">Günü Bitir</button>
     </div>
 </div>
 
 <audio id="pomoAlarm" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg" preload="auto"></audio>
-<audio id="pomoBite" src="https://www.soundjay.com/buttons/sounds/button-50.mp3" preload="auto"></audio>
 
 <script>
-    const DB_KEY = 'life_center_ai_v1'; 
-    const flowItems = ["Sabah", "Ders 1", "Öğle", "İkindi", "Ders 2", "Akşam", "Yatsı"];
-    const factorySchedule = [
-        { time: "06:30", desc: "Uyanış, Duş & Tartılma", tag: "diger" }, { time: "06:50", desc: "Sabah Namazı", tag: "namaz" },
-        { time: "13:15", desc: "Öğle Namazı", tag: "namaz" }, { time: "13:30", desc: "Ders 1 (Kısa Okuma)", tag: "ders" },
-        { time: "14:00", desc: "Pomodoro Seansı", tag: "ders" }, { time: "15:00", desc: "İkindi Namazı", tag: "namaz" },
-        { time: "15:30", desc: "Kariyer Planlama", tag: "ders" }, { time: "17:15", desc: "Ders 2 (Manevi)", tag: "ders" },
-        { time: "17:45", desc: "Akşam Namazı", tag: "namaz" }, { time: "21:00", desc: "Yatsı Namazı", tag: "namaz" }
-    ];
-
+    const DB_KEY = 'life_center_ai_v2'; 
+    
     function getInitialState() {
         return {
-            userProfile: null, theme: 'dark',
-            dateStr: "11 Nisan 2026", schedule: JSON.parse(JSON.stringify(factorySchedule)),
-            userDefaultSchedule: null, completedIndices: [], flowState: Array(7).fill(false), pomoCount: 0, water: 0,
-            inputs: { w: '', in: '', out: '' }, stats: { namaz: 0, ders: 0, pomoStreak: 0, waterStreak: 0, days: 0 },
-            history: [], globalNotes: [],
-            customTypes: [{ id: "diger", label: "Diğer", color: "#0a84ff" }, { id: "ders", label: "Ders / Çalışma", color: "#30d158" }, { id: "namaz", label: "Maneviyat", color: "#ff3b30" }, { id: "saglik", label: "Sağlık / Spor", color: "#ff9f0a" }]
+            userProfile: null, theme: 'dark', dateStr: "Yükleniyor",
+            schedule: [], userDefaultSchedule: null, completedIndices: [],
+            pomoCount: 0, water: 0, waterGoal: 7, inputs: { w: '', in: '', out: '' },
+            stats: { namaz: 0, ders: 0, pomoStreak: 0, days: 0 },
+            history: [], globalNotes: [], geminiKey: '',
+            customTypes: [{ id: "diger", label: "Diğer", color: "#007AFF" }, { id: "ders", label: "Ders / Çalışma", color: "#34C759" }, { id: "namaz", label: "Maneviyat", color: "#FF3B30" }, { id: "saglik", label: "Sağlık / Spor", color: "#FF9500" }]
         };
     }
 
@@ -369,10 +312,8 @@
         try {
             const raw = localStorage.getItem(DB_KEY); if (!raw) return getInitialState();
             const data = JSON.parse(raw);
-            if(!data.schedule) data.schedule = JSON.parse(JSON.stringify(factorySchedule));
-            if(!data.stats) data.stats = { namaz:0, ders:0, pomoStreak:0, waterStreak:0, days:0 };
-            if(!data.globalNotes) data.globalNotes = [];
-            if(!data.customTypes) data.customTypes = getInitialState().customTypes;
+            if(!data.stats) data.stats = { namaz:0, ders:0, pomoStreak:0, days:0 };
+            if(!data.waterGoal) data.waterGoal = 7;
             if(!data.theme) data.theme = 'dark';
             return data;
         } catch (e) { return getInitialState(); }
@@ -380,34 +321,33 @@
 
     function saveData(data) { try { localStorage.setItem(DB_KEY, JSON.stringify(data)); } catch(e){} }
 
-    /* YENİ: TEMA DEĞİŞTİRİCİ */
     function applyTheme() {
         const data = loadData();
         const body = document.body;
         const metaTheme = document.getElementById('themeColorMeta');
         if(data.theme === 'light') {
-            body.classList.add('light-mode');
-            metaTheme.setAttribute('content', '#f2f2f7');
-            document.getElementById('themeBtn').innerText = '🌙';
+            body.classList.add('light-mode'); metaTheme.setAttribute('content', '#F2F2F7'); document.getElementById('themeBtn').innerText = '🌙';
         } else {
-            body.classList.remove('light-mode');
-            metaTheme.setAttribute('content', '#000000');
-            document.getElementById('themeBtn').innerText = '☀️';
+            body.classList.remove('light-mode'); metaTheme.setAttribute('content', '#000000'); document.getElementById('themeBtn').innerText = '☀️';
         }
     }
-    function toggleTheme() {
-        const data = loadData();
-        data.theme = data.theme === 'light' ? 'dark' : 'light';
-        saveData(data);
-        applyTheme();
+    
+    function toggleTheme() { const data = loadData(); data.theme = data.theme === 'light' ? 'dark' : 'light'; saveData(data); applyTheme(); }
+
+    // CANLI SAAT MOTORU
+    function updateLiveClock() {
+        const now = new Date();
+        const options = { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute:'2-digit' };
+        document.getElementById('dateDisplay').innerText = now.toLocaleDateString('tr-TR', options);
     }
+    setInterval(updateLiveClock, 1000);
 
     function saveOnboarding() {
         const data = loadData();
         data.userProfile = {
             name: document.getElementById('ob-name').value || 'Dostum', age: document.getElementById('ob-age').value || '',
             height: document.getElementById('ob-height').value || '', weight: document.getElementById('ob-weight').value || '',
-            gender: document.getElementById('ob-gender').value || '', job: document.getElementById('ob-job').value || ''
+            lifestyle: document.getElementById('ob-lifestyle').value || ''
         };
         data.inputs.w = data.userProfile.weight; 
         const key = document.getElementById('ob-apikey').value; if(key) data.geminiKey = key;
@@ -415,15 +355,22 @@
         document.getElementById('onboarding-modal').style.opacity = '0';
         setTimeout(() => { document.getElementById('onboarding-modal').style.display = 'none'; }, 400);
         render();
-        setTimeout(() => { if(data.geminiKey) { proactiveAI(`Sisteme az önce kayıt oldum. İsmim ${data.userProfile.name}, yaşım ${data.userProfile.age}, mesleğim ${data.userProfile.job}. Bana ismimle hitap ederek 'Life Center AI Sistemine Hoş Geldin' konuşması yap.`); } }, 1000);
-        startShadowAI();
     }
 
     function render() {
         try {
             const data = loadData();
             applyTheme();
-            if (document.getElementById('geminiApiKey')) { document.getElementById('geminiApiKey').value = data.geminiKey || ''; }
+            updateLiveClock();
+            
+            if(data.userProfile && data.userProfile.name) {
+                document.getElementById('mainTitle').innerText = `LIFE CENTER AI - ${data.userProfile.name.toUpperCase()}`;
+            }
+
+            const wGoalInput = document.getElementById('waterGoal');
+            if(wGoalInput.value != data.waterGoal) data.waterGoal = parseInt(wGoalInput.value) || 7;
+            saveData(data);
+
             const months = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
             processGlobalNotes(data);
 
@@ -432,7 +379,6 @@
             data.customTypes.forEach(t => { const opt = document.createElement('option'); opt.value = t.id; opt.innerText = t.label; typeSelect.appendChild(opt); });
             if (currentSel) typeSelect.value = currentSel;
             
-            document.getElementById('dateDisplay').innerText = data.dateStr;
             document.getElementById('stat-namaz').innerText = data.stats.namaz;
             document.getElementById('stat-ders').innerText = data.stats.ders;
             document.getElementById('stat-pomo-streak').innerText = data.stats.pomoStreak;
@@ -442,16 +388,14 @@
             document.getElementById('prev-cal-in').innerText = lastLog ? `Dün: ${lastLog.calIn}` : "Dün: -";
             document.getElementById('prev-cal-out').innerText = lastLog ? `Dün: ${lastLog.calOut}` : "Dün: -";
 
-            const taskPct = data.schedule.length === 0 ? 0 : (data.completedIndices.length / data.schedule.length) * 100;
-            document.getElementById('bar-tasks').style.width = `${taskPct}%`;
-            document.getElementById('bar-water').style.width = `${Math.min(100, (data.water / 7) * 100)}%`;
-            document.getElementById('bar-pomo').style.width = `${Math.min(100, (data.pomoCount / 20) * 100)}%`;
-
-            const flowDiv = document.getElementById('flowSteps'); flowDiv.innerHTML = '';
-            flowItems.forEach((item, idx) => {
-                const el = document.createElement('div'); el.className = `flow-step ${data.flowState[idx] ? 'active' : ''}`;
-                el.innerText = item; el.onclick = () => toggleFlow(idx); flowDiv.appendChild(el);
-            });
+            const taskPct = data.schedule.length === 0 ? 0 : Math.round((data.completedIndices.length / data.schedule.length) * 100);
+            document.getElementById('bar-tasks').style.width = `${taskPct}%`; document.getElementById('pct-tasks').innerText = `%${taskPct}`;
+            
+            const waterPct = Math.round((data.water / data.waterGoal) * 100);
+            document.getElementById('bar-water').style.width = `${Math.min(100, waterPct)}%`; document.getElementById('pct-water').innerText = `%${waterPct}`;
+            
+            const pomoPct = Math.round((data.pomoCount / 20) * 100);
+            document.getElementById('bar-pomo').style.width = `${Math.min(100, pomoPct)}%`; document.getElementById('pct-pomo').innerText = `%${pomoPct}`;
 
             const gridDiv = document.getElementById('pomoGrid20');
             if (gridDiv) {
@@ -460,61 +404,47 @@
                     const btn = document.createElement('button'); btn.className = `pomo-btn-new ${i <= data.pomoCount ? 'filled' : ''}`;
                     btn.innerText = i; btn.onclick = () => togglePomo(i); gridDiv.appendChild(btn);
                 }
-                const mask = document.getElementById('biteMask'); const applePercent = document.getElementById('applePercent');
-                if (mask && applePercent) {
-                    mask.innerHTML = '<rect x="0" y="0" width="100" height="100" fill="white" />';
-                    const bites = [{x: 15, y: 28, r: 18}, {x: 85, y: 28, r: 18}, {x: 8, y: 48, r: 18}, {x: 92, y: 48, r: 18}, {x: 15, y: 68, r: 18}, {x: 85, y: 68, r: 18}, {x: 25, y: 85, r: 18}, {x: 75, y: 85, r: 18}, {x: 25, y: 35, r: 18}, {x: 75, y: 35, r: 18}, {x: 22, y: 52, r: 18}, {x: 78, y: 52, r: 18}, {x: 25, y: 68, r: 18}, {x: 75, y: 68, r: 18}, {x: 32, y: 42, r: 18}, {x: 68, y: 42, r: 18}, {x: 32, y: 62, r: 18}, {x: 68, y: 62, r: 18}, {x: 40, y: 25, r: 18}, {x: 50, y: 50, r: 200}];
-                    for(let i=0; i<data.pomoCount; i++) {
-                        if(i >= bites.length) break; const b = bites[i];
-                        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle'); circle.setAttribute('cx', b.x); circle.setAttribute('cy', b.y); circle.setAttribute('r', b.r); circle.setAttribute('fill', 'black'); mask.appendChild(circle);
-                    }
-                    applePercent.innerText = `%${Math.round((data.pomoCount / 20) * 100)}`;
-                }
             }
 
-            const waterDiv = document.getElementById('waterContainer'); const waterLevel = document.getElementById('waterLevel'); const pitcherPercent = document.getElementById('pitcherPercent');
-            if (waterDiv && waterLevel) {
+            const waterDiv = document.getElementById('waterContainer');
+            if (waterDiv) {
                 waterDiv.innerHTML = '';
-                for(let i=1; i<=7; i++) {
-                    const el = document.createElement('div'); el.className = `water-cup ${i <= data.water ? 'empty' : ''}`;
-                    el.onclick = () => { const d = loadData(); d.water = (d.water === i) ? i - 1 : i; saveData(d); render(); }; waterDiv.appendChild(el);
+                for(let i=1; i<=data.waterGoal; i++) {
+                    const el = document.createElement('div'); 
+                    el.className = `water-cup ${i <= data.water ? 'filled' : ''}`;
+                    el.onclick = () => { const d = loadData(); d.water = (d.water === i) ? i - 1 : i; saveData(d); render(); }; 
+                    waterDiv.appendChild(el);
                 }
-                const step = 85 / 7; const newY = 25 + (data.water * step); const newHeight = 85 - (data.water * step); 
-                waterLevel.setAttribute('y', newY); waterLevel.setAttribute('height', Math.max(0, newHeight));
-                if (pitcherPercent) pitcherPercent.innerText = `%${Math.round((data.water / 7) * 100)}`;
             }
 
             document.getElementById('in-weight').value = data.inputs.w || ''; document.getElementById('in-cal-in').value = data.inputs.in || ''; document.getElementById('in-cal-out').value = data.inputs.out || '';
 
             const listDiv = document.getElementById('taskList'); listDiv.innerHTML = '';
             data.schedule.forEach((task, idx) => {
-                const row = document.createElement('div'); const isDone = data.completedIndices.includes(idx); const isFixed = !!task.locked;
-                row.className = `glass-card task ${isDone ? 'completed' : ''} ${isFixed ? 'fixed-task' : ''}`;
-                const handleIcon = isFixed ? `<div class="lock-handle" onclick="handleLockTap(${idx})">🔒</div>` : `<div class="drag-handle" onclick="handleLockTap(${idx})">≡</div>`;
-                const timeDisabled = isFixed ? 'disabled' : ''; const descEditable = isFixed ? '' : `contenteditable="true" onblur="editTask(${idx}, 'desc', this.innerText)"`; const delDisabled = isFixed ? 'disabled style="opacity:0.2;"' : '';
+                const row = document.createElement('div'); const isDone = data.completedIndices.includes(idx);
+                row.className = `task ${isDone ? 'completed' : ''}`;
+                
                 row.innerHTML = `
-                    ${handleIcon}
-                    <input type="checkbox" ${isDone?'checked':''} onchange="toggleTask(${idx})">
-                    <input type="time" class="time-badge" value="${task.time}" ${timeDisabled} onblur="editTask(${idx}, 'time', this.value)">
-                    <span class="task-desc" ${descEditable}>${task.desc}</span>
-                    <button class="del-btn" onclick="delTask(${idx})" ${delDisabled}>×</button>
+                    <div class="drag-handle">≡</div>
+                    <input type="checkbox" class="ios-toggle" ${isDone?'checked':''} onchange="toggleTask(${idx})">
+                    <div style="display:flex; flex-direction:column; gap:4px; overflow:hidden;">
+                        <input type="time" class="time-badge" value="${task.time}" style="width:70px; border:none; background:transparent; text-align:left; padding:0;" onblur="editTask(${idx}, 'time', this.value)">
+                        <span class="task-desc" contenteditable="true" onblur="editTask(${idx}, 'desc', this.innerText)">${task.desc}</span>
+                    </div>
+                    <button class="del-btn" onclick="delTask(${idx})">×</button>
                 `;
                 listDiv.appendChild(row);
             });
 
             if (window.taskSortable) window.taskSortable.destroy();
             window.taskSortable = Sortable.create(listDiv, {
-                handle: '.drag-handle', filter: '.fixed-task', preventOnFilter: false, animation: 250, ghostClass: 'sortable-ghost',
+                handle: '.drag-handle', animation: 250, ghostClass: 'sortable-ghost',
                 onEnd: function (evt) {
                     if (evt.oldIndex === evt.newIndex) return; const tempData = loadData();
                     let completionStates = new Array(tempData.schedule.length).fill(false); tempData.completedIndices.forEach(i => completionStates[i] = true);
                     const movedItem = tempData.schedule.splice(evt.oldIndex, 1)[0]; tempData.schedule.splice(evt.newIndex, 0, movedItem);
                     const movedState = completionStates.splice(evt.oldIndex, 1)[0]; completionStates.splice(evt.newIndex, 0, movedState);
                     tempData.completedIndices = []; completionStates.forEach((state, idx) => { if (state) tempData.completedIndices.push(idx); });
-                    if (!movedItem.originalTime) movedItem.originalTime = movedItem.time;
-                    const prevTime = evt.newIndex > 0 ? tempData.schedule[evt.newIndex - 1].time : null; const nextTime = evt.newIndex < tempData.schedule.length - 1 ? tempData.schedule[evt.newIndex + 1].time : null;
-                    const isOriginalFit = () => { if (!movedItem.originalTime) return false; if (prevTime && movedItem.originalTime <= prevTime) return false; if (nextTime && movedItem.originalTime >= nextTime) return false; return true; };
-                    if (isOriginalFit()) movedItem.time = movedItem.originalTime; else movedItem.time = getMidTime(prevTime, nextTime);
                     saveData(tempData); render();
                 }
             });
@@ -523,27 +453,27 @@
             if (data.globalNotes && data.globalNotes.length > 0) {
                 data.globalNotes.forEach((note, nIdx) => {
                     const nCard = document.createElement('div'); nCard.className = 'note-card';
-                    const typeObj = data.customTypes.find(t => t.id === note.type) || { label: note.type, color: '#0a84ff' };
-                    nCard.style.borderLeftColor = typeObj.color; let dateFmt = "Belirsiz Tarih";
+                    const typeObj = data.customTypes.find(t => t.id === note.type) || { label: note.type, color: '#007AFF' };
+                    nCard.style.borderLeftColor = typeObj.color; let dateFmt = "Tarihsiz";
                     if (note.date) { const d = new Date(note.date); dateFmt = `${d.getDate()} ${months[d.getMonth()]}`; }
                     nCard.innerHTML = `
-                        <div class="note-meta"><span>📅 ${dateFmt} | ${note.time ? `⏰ ${note.time}` : "⏰ Saat Yok"}</span><span class="note-badge" style="background:${typeObj.color}22; color:${typeObj.color};">${note.type}</span></div>
-                        <div class="note-text" contenteditable="true" onblur="editGlobalNote(${nIdx}, this.innerText)" style="padding: 8px 0; border-bottom: 1px dashed var(--border); font-weight:500;">${note.desc}</div>
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
-                            <button style="background:var(--success); color:#000; border:none; padding:8px 14px; border-radius:10px; font-weight:800; font-size:0.85rem; cursor:pointer;" onclick="moveToToday(${nIdx})">👇 Bugüne Al</button>
-                            <button class="del-btn" style="width:36px; height:36px; font-size:1.2rem;" onclick="delGlobalNote(${nIdx})">×</button>
+                        <div class="note-meta"><span>📅 ${dateFmt} | ⏰ ${note.time || "Yok"}</span><span class="note-badge" style="background:${typeObj.color}22; color:${typeObj.color};">${typeObj.label}</span></div>
+                        <div style="font-size:0.95rem; font-weight:500; margin-top:4px;">${note.desc}</div>
+                        <div style="display:flex; justify-content:space-between; margin-top:10px;">
+                            <button style="background:var(--success); color:#fff; border:none; padding:6px 12px; border-radius:8px; font-weight:700; cursor:pointer;" onclick="moveToToday(${nIdx})">👇 Bugüne Al</button>
+                            <button class="del-btn" style="color:var(--danger);" onclick="delGlobalNote(${nIdx})">×</button>
                         </div>
                     `;
                     notesDiv.appendChild(nCard);
                 });
-            } else { notesDiv.innerHTML = '<div style="text-align:center; color:var(--text-muted); padding:20px; font-size:0.95rem; font-weight:600;">Gelecek planı bulunmuyor.</div>'; }
-            document.getElementById('emergency-btn').style.display = 'none';
-        } catch (e) { document.getElementById('emergency-btn').style.display = 'block'; }
+            } else { notesDiv.innerHTML = '<div style="text-align:center; color:var(--text-muted); padding:10px; font-size:0.9rem;">Not bulunmuyor.</div>'; }
+            
+        } catch (e) {}
     }
 
     function addNewType() {
         const newLabel = prompt("Yeni türün adını girin:"); if (!newLabel || newLabel.trim() === "") return;
-        const data = loadData(); const newId = "custom_" + Date.now(); const colors = ['#bf5af2', '#ff2d55', '#5e5ce6', '#ff9f0a', '#30d158', '#64d2ff', '#ff375f'];
+        const data = loadData(); const newId = "custom_" + Date.now(); const colors = ['#AF52DE', '#FF2D55', '#5856D6', '#FF9500', '#34C759', '#32ADE6', '#FF3B30'];
         data.customTypes.push({ id: newId, label: newLabel.trim(), color: colors[Math.floor(Math.random() * colors.length)] });
         saveData(data); render(); setTimeout(() => { document.getElementById('newType').value = newId; }, 50);
     }
@@ -553,41 +483,14 @@
         const todayStr = localDate.toISOString().split('T')[0];
         const dueNotes = data.globalNotes.filter(note => note.date && note.date <= todayStr);
         if (dueNotes.length > 0) {
-            dueNotes.forEach(note => data.schedule.push({ time: note.time, desc: note.desc, tag: note.type, locked: false }));
+            dueNotes.forEach(note => data.schedule.push({ time: note.time, desc: note.desc, tag: note.type }));
             data.globalNotes = data.globalNotes.filter(note => !note.date || note.date > todayStr);
-            data.schedule.sort((a, b) => a.time.localeCompare(b.time)); saveData(data); alert(`${dueNotes.length} adet bekleyen görev bugünkü akışınıza aktarıldı.`);
+            data.schedule.sort((a, b) => a.time.localeCompare(b.time)); saveData(data);
         }
     }
 
-    let lastTap = 0;
-    function handleLockTap(idx) { const now = new Date().getTime(); if ((now - lastTap < 300) && (now - lastTap > 0)) toggleLock(idx); lastTap = now; }
-
-    function getMidTime(t1, t2) {
-        const parse = t => { if(!t) return null; const [h, m] = t.split(':').map(Number); return h * 60 + m; };
-        const format = mins => { const h = Math.floor(mins / 60) % 24; const m = mins % 60; return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`; };
-        let m1 = parse(t1), m2 = parse(t2);
-        if (m1 !== null && m2 !== null) {
-            if (m1 >= m2) m2 = m1 + 60; let mid = Math.round((m1 + m2) / 2); mid = Math.round(mid / 5) * 5;
-            if (mid <= m1) mid = m1 + 5; if (mid >= m2) mid = m2 - 5; return format(mid);
-        } else if (m1 !== null) return format(m1 + 30); else if (m2 !== null) return format(Math.max(0, m2 - 30)); return "12:00";
-    }
-
-    function toggleLock(idx) { const data = loadData(); if (data.schedule[idx]) { const isLocked = data.schedule[idx].locked; if (!confirm(isLocked ? "Kilidi açmak istediğinize emin misiniz?" : "Bu görevi kilitlemek istediğinize emin misiniz?")) return; data.schedule[idx].locked = !isLocked; saveData(data); render(); } }
-    function toggleFlow(idx) { const data = loadData(); data.flowState[idx] = !data.flowState[idx]; saveData(data); render(); }
-    
     function togglePomo(count) {
-        const data = loadData();
-        if (count > data.pomoCount) {
-            const biteAudio = document.getElementById('pomoBite'); if (biteAudio) { biteAudio.load(); biteAudio.currentTime = 0; biteAudio.play().catch(e => console.log(e)); }
-            if (count > 0 && count % 4 === 0) { proactiveAI("Kullanıcı az önce 4. pomodoro seansını bitirdi. Veriminin düşmemesi için, onun mevcut programını da göz önüne alarak kısa, zekice bir tavsiye ver."); }
-        }
-        data.pomoCount = (data.pomoCount === count) ? count - 1 : count; saveData(data); render();
-    }
-
-    function toggleWater(count) {
-        const data = loadData(); data.water = (data.water === count) ? count - 1 : count;
-        if (data.water === 7) proactiveAI("Kullanıcı bugünkü su hedefini (7 bardak) bitirdi! Onu tebrik et ve bu enerjiyi sıradaki görevine nasıl yansıtacağını söyle.");
-        saveData(data); render();
+        const data = loadData(); data.pomoCount = (data.pomoCount === count) ? count - 1 : count; saveData(data); render();
     }
 
     function updateInputs() { const data = loadData(); data.inputs.w = document.getElementById('in-weight').value; data.inputs.in = document.getElementById('in-cal-in').value; data.inputs.out = document.getElementById('in-cal-out').value; saveData(data); render(); }
@@ -595,7 +498,6 @@
     function toggleTask(idx) {
         const data = loadData(); const pos = data.completedIndices.indexOf(idx);
         if(pos === -1) data.completedIndices.push(idx); else data.completedIndices.splice(pos, 1);
-        if (data.completedIndices.length === Math.ceil(data.schedule.length / 2) && data.schedule.length > 2) proactiveAI("Kullanıcı bugünkü görev listesinin tam YARISINI bitirdi! Onun motivasyonunu zirveye taşıyacak kısa bir değerlendirme yap.");
         saveData(data); render();
     }
 
@@ -603,12 +505,7 @@
         const data = loadData();
         if(data.schedule[idx]) { 
             data.schedule[idx][key] = val;
-            if (key === 'time') {
-                data.schedule[idx].originalTime = val;
-                data.schedule.forEach((task, i) => { task._tempDone = data.completedIndices.includes(i); });
-                data.schedule.sort((a, b) => a.time.localeCompare(b.time)); data.completedIndices = [];
-                data.schedule.forEach((task, i) => { if (task._tempDone) data.completedIndices.push(i); delete task._tempDone; });
-            }
+            if (key === 'time') { data.schedule.sort((a, b) => a.time.localeCompare(b.time)); data.completedIndices = []; }
             saveData(data); if (key !== 'desc') render();
         }
     }
@@ -616,237 +513,68 @@
     function addTask() {
         const noteDesc = document.getElementById('newDesc').value; const noteDate = document.getElementById('newDate').value; 
         const noteTime = document.getElementById('newTime').value; const noteType = document.getElementById('newType').value;
-        if(!noteDesc) { alert("Lütfen bir not metni girin."); return; } if(!noteType) { alert("Lütfen tür seçin."); return; }
+        if(!noteDesc || !noteType) return;
         const data = loadData(); let isToday = false;
         if (noteDate) { isToday = (new Date(noteDate).setHours(0,0,0,0) === new Date().setHours(0,0,0,0)); }
-        const newEntry = { id: Date.now(), date: noteDate, time: noteTime, desc: noteDesc, type: noteType, locked: false };
-        const sortTime = (t) => t ? t : "24:00";
-        if (isToday) { data.schedule.push(newEntry); data.schedule.sort((a, b) => sortTime(a.time).localeCompare(sortTime(b.time))); } 
-        else { data.globalNotes.push(newEntry); data.globalNotes.sort((a, b) => { if (!a.date && !b.date) return sortTime(a.time).localeCompare(sortTime(b.time)); if (!a.date) return 1; if (!b.date) return -1; const diff = new Date(a.date) - new Date(b.date); return diff !== 0 ? diff : sortTime(a.time).localeCompare(sortTime(b.time)); }); }
-        saveData(data); document.getElementById('newDesc').value = ''; render(); alert(isToday ? "Günlük akışa eklendi." : "Genel notlara kaydedildi.");
+        const newEntry = { id: Date.now(), date: noteDate, time: noteTime, desc: noteDesc, type: noteType };
+        if (isToday || !noteDate) { data.schedule.push(newEntry); data.schedule.sort((a, b) => (a.time||"24:00").localeCompare(b.time||"24:00")); } 
+        else { data.globalNotes.push(newEntry); }
+        saveData(data); document.getElementById('newDesc').value = ''; render();
     }    
 
-    function delTask(idx) { if(!confirm("Silinsin mi?")) return; const data = loadData(); data.schedule.splice(idx, 1); data.completedIndices = []; saveData(data); render(); }
-    function delGlobalNote(idx) { if(!confirm("Silmek istediğinize emin misiniz?")) return; const data = loadData(); data.globalNotes.splice(idx, 1); saveData(data); render(); }
-    function editGlobalNote(idx, val) { const data = loadData(); if(data.globalNotes[idx]) { data.globalNotes[idx].desc = val; saveData(data); } }
-    function moveToToday(idx) { if(!confirm("Bugünkü akışa çekilsin mi?")) return; const data = loadData(); const note = data.globalNotes.splice(idx, 1)[0]; data.schedule.push({ time: note.time, desc: note.desc, tag: note.type, locked: false }); data.schedule.sort((a, b) => a.time.localeCompare(b.time)); saveData(data); render(); }
+    function delTask(idx) { const data = loadData(); data.schedule.splice(idx, 1); data.completedIndices = []; saveData(data); render(); }
+    function delGlobalNote(idx) { const data = loadData(); data.globalNotes.splice(idx, 1); saveData(data); render(); }
+    function moveToToday(idx) { const data = loadData(); const note = data.globalNotes.splice(idx, 1)[0]; data.schedule.push({ time: note.time, desc: note.desc, tag: note.type }); data.schedule.sort((a, b) => a.time.localeCompare(b.time)); saveData(data); render(); }
 
     function finishDay() {
-        if(!confirm("Günü tamamlayıp kaydetmek istiyor musun?")) return;
-        const data = loadData(); const flowDone = data.flowState.filter(Boolean).length;
-        if(flowDone === 7) { data.stats.namaz++; data.stats.ders++; } if(data.pomoCount >= 4) { data.stats.pomoStreak++; } if(data.water >= 7) { data.stats.waterStreak++; }
-        data.stats.days++;
-        data.history.unshift({ date: data.dateStr, weight: data.inputs.w || '-', calIn: data.inputs.in || '-', calOut: data.inputs.out || '-', pomo: data.pomoCount, flowScore: flowDone + "/7" });
-        const months = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
-        try { let parts = data.dateStr.split(' '); if(parts.length >= 3) { let d = new Date(parseInt(parts[2]), months.indexOf(parts[1]), parseInt(parts[0])); d.setDate(d.getDate() + 1); data.dateStr = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`; } } catch(e) {}
-        data.schedule = data.userDefaultSchedule ? JSON.parse(JSON.stringify(data.userDefaultSchedule)) : JSON.parse(JSON.stringify(factorySchedule));
-        data.completedIndices = []; data.flowState = Array(7).fill(false); data.pomoCount = 0; data.water = 0; data.inputs.in = ''; data.inputs.out = '';
-        saveData(data); render(); alert("Gün kapandı. Yeni tarih: " + data.dateStr);
+        if(!confirm("Günü bitirmek istiyor musun?")) return;
+        const data = loadData();
+        data.history.unshift({ date: new Date().toLocaleDateString('tr-TR'), weight: data.inputs.w || '-', calIn: data.inputs.in || '-', calOut: data.inputs.out || '-', pomo: data.pomoCount });
+        data.schedule = data.userDefaultSchedule ? JSON.parse(JSON.stringify(data.userDefaultSchedule)) : [];
+        data.completedIndices = []; data.pomoCount = 0; data.water = 0; data.inputs.in = ''; data.inputs.out = '';
+        saveData(data); render();
     }
 
-    function saveAsDefault() { if(!confirm("Varsayılan yapmak istiyor musun?")) return; const data = loadData(); data.userDefaultSchedule = JSON.parse(JSON.stringify(data.schedule)); saveData(data); alert("Kaydedildi."); }
-    function toggleHistory() { const el = document.getElementById('history-modal'); const data = loadData(); el.style.display = el.style.display === 'block' ? 'none' : 'block'; const table = document.getElementById('historyTable'); if(!data.history || data.history.length === 0) { table.innerHTML = "<tr><td>Kayıt yok.</td></tr>"; return; } let html = `<thead><tr><th>Tarih</th><th>Kg</th><th>Al</th><th>Ver</th><th>Pom</th></tr></thead><tbody>`; data.history.forEach(log => { html += `<tr><td>${log.date.split(' ').slice(0,2).join(' ')}</td><td>${log.weight}</td><td>${log.calIn}</td><td>${log.calOut}</td><td>${log.pomo}</td></tr>`; }); html += "</tbody>"; table.innerHTML = html; }
-    function hardReset() { if(confirm("DİKKAT: Her şey silinecek!")) { localStorage.removeItem(DB_KEY); location.reload(); } }
+    function saveAsDefault() { const data = loadData(); data.userDefaultSchedule = JSON.parse(JSON.stringify(data.schedule)); saveData(data); alert("Kaydedildi."); }
+    function toggleHistory() { const el = document.getElementById('history-modal'); const data = loadData(); el.style.display = el.style.display === 'block' ? 'none' : 'block'; const table = document.getElementById('historyTable'); if(!data.history || data.history.length === 0) { table.innerHTML = "<tr><td>Kayıt yok.</td></tr>"; return; } let html = `<thead><tr><th>Tarih</th><th>Kg</th><th>Al</th><th>Ver</th><th>Pom</th></tr></thead><tbody>`; data.history.forEach(log => { html += `<tr><td>${log.date}</td><td>${log.weight}</td><td>${log.calIn}</td><td>${log.calOut}</td><td>${log.pomo}</td></tr>`; }); html += "</tbody>"; table.innerHTML = html; }
     function forceReset() { localStorage.removeItem(DB_KEY); location.reload(); }
 
     let pomoInterval = null; let pomoTimeLeft = 0; let isWorkSession = true; 
     function startPomodoro() {
         if(pomoInterval) return;
-        const [hours, mins] = (document.getElementById('pomoWork').value || "00:25").split(':').map(Number);
-        pomoTimeLeft = ((hours * 60) + mins) * 60; isWorkSession = true;
-        document.getElementById('timerStatus').innerText = "💪 ÇALIŞMA ZAMANI"; document.getElementById('timerStatus').style.color = "var(--pomodoro)";
+        const mins = parseInt(document.getElementById('pomoWork').value) || 25;
+        pomoTimeLeft = mins * 60; isWorkSession = true;
+        document.getElementById('timerStatus').innerText = "ÇALIŞMA ZAMANI"; document.getElementById('timerStatus').style.color = "var(--pomodoro)";
         document.getElementById('pomoStartBtn').style.display = "none"; document.getElementById('pomoStopBtn').style.display = "block";
         pomoInterval = setInterval(timerTick, 1000); timerTick(); 
     }
-    function stopPomodoro() { clearInterval(pomoInterval); pomoInterval = null; document.getElementById('timerStatus').innerText = "BAŞLAMAYA HAZIR"; document.getElementById('timerStatus').style.color = "var(--accent)"; document.getElementById('timerDisplay').innerText = "25:00"; document.getElementById('pomoStartBtn').style.display = "block"; document.getElementById('pomoStopBtn').style.display = "none"; }
+    function stopPomodoro() { clearInterval(pomoInterval); pomoInterval = null; document.getElementById('timerStatus').innerText = "BAŞLAMAYA HAZIR"; document.getElementById('timerStatus').style.color = "var(--text-muted)"; document.getElementById('timerDisplay').innerText = document.getElementById('pomoWork').value + ":00"; document.getElementById('pomoStartBtn').style.display = "block"; document.getElementById('pomoStopBtn').style.display = "none"; }
     function timerTick() {
         if (pomoTimeLeft <= 0) {
             clearInterval(pomoInterval); pomoInterval = null;
             const alarm = document.getElementById('pomoAlarm'); if(alarm) alarm.play().catch(e => console.log(e));
             if (isWorkSession) {
                 const data = loadData(); if (data.pomoCount < 20) togglePomo(data.pomoCount + 1);
-                setTimeout(() => {
-                    if(confirm("Tebrikler! Mola geçilsin mi?")) {
-                        const [bH, bM] = (document.getElementById('pomoBreak').value || "00:05").split(':').map(Number);
-                        pomoTimeLeft = ((bH * 60) + bM) * 60; isWorkSession = false;
-                        document.getElementById('timerStatus').innerText = "☕ MOLA ZAMANI"; document.getElementById('timerStatus').style.color = "var(--water-color)";
-                        pomoInterval = setInterval(timerTick, 1000);
-                    } else stopPomodoro();
-                }, 500);
-            } else { setTimeout(() => { if(confirm("Mola bitti! Yeni seans?")) startPomodoro(); else stopPomodoro(); }, 500); }
+                const bM = parseInt(document.getElementById('pomoBreak').value) || 5; pomoTimeLeft = bM * 60; isWorkSession = false;
+                document.getElementById('timerStatus').innerText = "MOLA ZAMANI"; document.getElementById('timerStatus').style.color = "var(--water-color)";
+                pomoInterval = setInterval(timerTick, 1000);
+            } else { stopPomodoro(); }
             return;
         }
         pomoTimeLeft--; const m = Math.floor(pomoTimeLeft / 60); const s = pomoTimeLeft % 60; document.getElementById('timerDisplay').innerText = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
     }
 
-    function saveApiKey() { const data = loadData(); data.geminiKey = document.getElementById('geminiApiKey').value; saveData(data); }
-
-    let currentAttachedImage = null;
-    function previewImage(event) {
-        const file = event.target.files[0]; if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const imgPreview = document.getElementById('aiImagePreview');
-            imgPreview.src = e.target.result; imgPreview.style.display = "block"; 
-            currentAttachedImage = { mimeType: file.type, data: e.target.result.split(',')[1] };
-        };
-        reader.readAsDataURL(file);
-    }
-
-    async function askGemini() {
+    function shiftRoutine(minsToAdd) {
         const data = loadData();
-        const apiKey = data.geminiKey || document.getElementById('geminiApiKey').value;
-        const userPrompt = document.getElementById('aiPrompt').value;
-        const resultDiv = document.getElementById('aiResult');
-
-        if (!apiKey) { alert("Lütfen önce API anahtarınızı girin."); return; }
-        if (!userPrompt && !currentAttachedImage) { alert("Lütfen bir soru yazın veya fotoğraf yükleyin."); return; }
-
-        resultDiv.style.display = "block";
-        resultDiv.innerHTML = "<span style='color:var(--accent); font-weight:700;'>Merkez analiz ediyor... 🧠</span>";
-
-        const scheduleText = data.schedule.map(t => `${t.time} - ${t.desc} [${t.tag}] ${data.completedIndices.includes(data.schedule.indexOf(t)) ? '(Tamamlandı)' : '(Bekliyor)'}`).join("\n");
-        const systemInstruction = `Sen 'Life Center AI' adında hiper-üretkenlik ve yaşam koçu asistanısın.
-Kullanıcı Profili: İsim: ${data.userProfile?.name}, Yaş: ${data.userProfile?.age}, Boy: ${data.userProfile?.height}cm, Kilo: ${data.userProfile?.weight}kg, Cinsiyet: ${data.userProfile?.gender}, Meslek: ${data.userProfile?.job}. ONA DAİMA İSMİYLE HİTAP ET.
-Bugünün Tarihi: ${data.dateStr}
-Görevler:
-${scheduleText}
-İstatistikler -> Su: ${data.water}/7, Pomo: ${data.pomoCount}, Alınan Kalori: ${data.inputs.in || 0}, Yakılan Kalori: ${data.inputs.out || 0}, Kilo: ${data.inputs.w || 0}
-Sana bir fotoğraf gönderilirse detaylıca analiz et.
-
-GİZLİ SİSTEM KOMUTU:
-Değişiklik istenirse metnin EN SONUNA JSON ekle.
-1. Görev Ekle: {"action":"ADD_TASK", "time":"09:00", "desc":"Spor", "type":"saglik"}
-2. Sil: {"action":"DELETE_TASK", "time":"09:00"}
-3. Su: {"action":"ADD_WATER", "amount": 1}
-4. Pomo: {"action":"ADD_POMO", "amount": 1}
-5. Kilit: {"action":"TOGGLE_LOCK", "time":"06:30"}
-6. Veri Güncelleme: {"action":"UPDATE_INPUTS", "weight": "75.5", "addCalIn": "350", "addCalOut": "200"}
-Sadece ham JSON yaz.`;
-
-        const fullPrompt = `${systemInstruction}\n\nKullanıcı Mesajı: ${userPrompt || "Ekteki görüntüyü analiz et."}`;
-        const apiParts = [{ text: fullPrompt }];
-        if (currentAttachedImage) { apiParts.push({ inlineData: { mimeType: currentAttachedImage.mimeType, data: currentAttachedImage.data } }); }
-
-        try {
-            const cleanApiKey = apiKey.trim();
-const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${cleanApiKey}`;
-            
-            const response = await fetch(apiUrl, {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ contents: [{ parts: apiParts }] })
-            });
-
-            if (!response.ok) throw new Error("API Hatası");
-
-            const json = await response.json();
-            let reply = json.candidates[0].content.parts[0].text;
-            
-            const actionRegex = /\{"action"\s*:\s*"[^"]+"[\s\S]*?\}/g;
-            const matches = reply.match(actionRegex);
-            
-            if (matches) {
-                const newData = loadData(); let isChanged = false;
-                matches.forEach(matchStr => {
-                    try {
-                        const actionData = JSON.parse(matchStr);
-                        switch(actionData.action) {
-                            case "ADD_TASK":
-                                newData.schedule.push({ id: Date.now(), time: actionData.time || "12:00", desc: actionData.desc || "Yeni", tag: actionData.type || "diger", locked: false });
-                                newData.schedule.sort((a, b) => a.time.localeCompare(b.time)); isChanged = true; break;
-                            case "DELETE_TASK":
-                                newData.schedule = newData.schedule.filter(t => t.time !== actionData.time);
-                                newData.completedIndices = []; isChanged = true; break;
-                            case "TOGGLE_LOCK":
-                                const taskToLock = newData.schedule.find(t => t.time === actionData.time);
-                                if (taskToLock) { taskToLock.locked = !taskToLock.locked; isChanged = true; } break;
-                            case "ADD_WATER":
-                                newData.water = Math.min(7, newData.water + (actionData.amount || 1)); isChanged = true; break;
-                            case "ADD_POMO":
-                                newData.pomoCount = Math.min(20, newData.pomoCount + (actionData.amount || 1)); isChanged = true; break;
-                            case "UPDATE_INPUTS":
-                                if (actionData.weight) newData.inputs.w = actionData.weight;
-                                if (actionData.addCalIn) newData.inputs.in = (parseInt(newData.inputs.in || 0) + parseInt(actionData.addCalIn)).toString();
-                                if (actionData.addCalOut) newData.inputs.out = (parseInt(newData.inputs.out || 0) + parseInt(actionData.addCalOut)).toString();
-                                isChanged = true; break;
-                        }
-                    } catch(e) {}
-                });
-
-                if (isChanged) {
-                    saveData(newData); render();
-                    if(document.getElementById('in-weight')) document.getElementById('in-weight').value = newData.inputs.w;
-                    if(document.getElementById('in-cal-in')) document.getElementById('in-cal-in').value = newData.inputs.in;
-                    if(document.getElementById('in-cal-out')) document.getElementById('in-cal-out').value = newData.inputs.out;
-                }
-                reply = reply.replace(actionRegex, ''); 
-            }
-
-            document.getElementById('aiImagePreview').style.display = 'none'; currentAttachedImage = null; document.getElementById('aiImageInput').value = "";
-            reply = reply.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>").replace(/\n/g, "<br>");
-            resultDiv.innerHTML = reply;
-            
-        } catch (error) { resultDiv.innerHTML = `<span style='color:var(--danger);'>Hata: Bağlantı kurulamadı.</span>`; }
-    }
-
-    async function proactiveAI(situationPrompt) {
-        const data = loadData(); const apiKey = data.geminiKey || document.getElementById('geminiApiKey').value; if (!apiKey) return;
-        const resultDiv = document.getElementById('aiResult'); resultDiv.style.display = "block"; resultDiv.innerHTML = "<span style='color:var(--accent); font-weight:700;'>Merkez analiz ediyor... 🧠</span>";
-        const scheduleText = data.schedule.map(t => `${t.time} - ${t.desc} [${t.tag}] ${data.completedIndices.includes(data.schedule.indexOf(t)) ? '(Tamamlandı)' : '(Bekliyor)'}`).join("\n");
-        const systemInstruction = `Sen 'Life Center AI' adında hiper-üretkenlik ve yaşam koçu asistanısın. 
-Kullanıcı Profili: İsim: ${data.userProfile?.name}, Yaş: ${data.userProfile?.age}, Boy: ${data.userProfile?.height}cm, Kilo: ${data.userProfile?.weight}kg, Meslek: ${data.userProfile?.job}.
-Görevleri: ${scheduleText}
-Kısa, nokta atışı ve ona doğrudan ismini kullanarak koçluk yap.`;
-        const fullPrompt = `${systemInstruction}\n\nSİSTEM BİLDİRİMİ: ${situationPrompt}`;
-        try {
-const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${apiKey.trim()}`, {
-                method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: [{ text: fullPrompt }] }] })
-            });
-            if (response.ok) {
-                const json = await response.json(); let reply = json.candidates[0].content.parts[0].text;
-                reply = reply.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>").replace(/\n/g, "<br>"); resultDiv.innerHTML = reply;
-            }
-        } catch (error) { resultDiv.innerHTML = "<span style='color:var(--text-muted);'>Merkez şu an meşgul...</span>"; }
-    }
-
-    function startShadowAI() {
-        setInterval(() => {
-            const data = loadData(); if(!data.geminiKey) return;
-            const now = new Date(); const currentMins = now.getHours() * 60 + now.getMinutes();
-            data.schedule.forEach((task, idx) => {
-                const isCompleted = data.completedIndices.includes(idx);
-                if (!isCompleted && task.time) {
-                    const [h, m] = task.time.split(':').map(Number); const taskMins = h * 60 + m;
-                    if (currentMins === taskMins + 15) { proactiveAI(`SİSTEM BİLDİRİMİ: Kullanıcının saat ${task.time}'daki '${task.desc}' görevi 15 dk gecikti. İsmiyle hitap et ve uyar!`); }
-                }
-            });
-        }, 60000); 
-    }
-
-    function startVoiceRecognition() {
-        const micBtn = document.getElementById('micBtn'); const promptInput = document.getElementById('aiPrompt');
-        if (!('webkitSpeechRecognition' in window)) { alert("Safari için lütfen klavyedeki mikrofon tuşunu kullanın."); return; }
-        const recognition = new webkitSpeechRecognition(); recognition.lang = 'tr-TR'; recognition.interimResults = false; recognition.maxAlternatives = 1;
-        recognition.onstart = function() { micBtn.style.background = "var(--success)"; micBtn.innerHTML = "🎧"; promptInput.placeholder = "Sizi dinliyorum..."; };
-        recognition.onresult = function(event) { promptInput.value = event.results[0][0].transcript; setTimeout(askGemini, 500); };
-        recognition.onerror = function(event) { micBtn.style.background = "rgba(255,69,58,0.15)"; micBtn.innerHTML = "🎙️"; promptInput.placeholder = "Ses anlaşılamadı."; };
-        recognition.onend = function() { micBtn.style.background = "rgba(255,69,58,0.15)"; micBtn.innerHTML = "🎙️"; };
-        recognition.start();
+        const parse = t => { if(!t) return null; const [h, m] = t.split(':').map(Number); return h * 60 + m; };
+        const format = mins => { const h = Math.floor(mins / 60) % 24; const m = mins % 60; return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`; };
+        data.schedule.forEach(task => { if(task.time) { const currentMins = parse(task.time); task.time = format(currentMins + minsToAdd); } });
+        saveData(data); render();
     }
 
     window.onload = function() {
         const data = loadData();
-        if (!document.getElementById('newDate').value) { document.getElementById('newDate').valueAsDate = new Date(); }
-        
-        if (!data.userProfile || !data.userProfile.name) {
-            document.getElementById('onboarding-modal').style.display = 'block';
-        } else {
-            render();
-            setTimeout(() => {
-                if(data.geminiKey) { proactiveAI("Uygulama yeni açıldı. Tüm programı analiz et ve 2-3 cümlelik çok zekice bir 'Hoş geldin' mesajı ver."); }
-            }, 1500);
-            startShadowAI();
-        }
+        if (!data.userProfile || !data.userProfile.name) { document.getElementById('onboarding-modal').style.display = 'block'; } else { render(); }
     };
 </script>
 </body>
