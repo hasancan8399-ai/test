@@ -277,11 +277,11 @@
         <div class="input-row"><div class="input-label-group"><label>Yakılan Kalori</label><span class="prev-data" id="prev-cal-out">Dün: -</span></div><input type="number" id="in-cal-out" class="glass-input" onchange="updateInputs()"></div>
     </div>
 
-    <div style="display:flex; justify-content:space-between; align-items:center; padding: 10px 5px 10px 5px; margin-top:20px;">
+<div style="display:flex; justify-content:space-between; align-items:center; padding: 10px 5px 10px 5px; margin-top:20px;">
         <h3 style="margin:0; font-size:1rem; color:var(--text-muted); text-transform:uppercase; font-weight:600; letter-spacing:0.5px;">GÜNLÜK AKIŞ</h3>
         <div style="display: flex; gap: 8px;">
-            <button style="background: rgba(255, 149, 0, 0.15); color: var(--pomodoro); border: none; padding: 6px 12px; border-radius: 8px; font-weight:700; font-size:0.85rem;" onclick="shiftRoutine(-30)">-30dk</button>
-            <button style="background: rgba(255, 149, 0, 0.15); color: var(--pomodoro); border: none; padding: 6px 12px; border-radius: 8px; font-weight:700; font-size:0.85rem;" onclick="shiftRoutine(30)">+30dk</button>
+            <button style="background: rgba(255, 59, 48, 0.15); color: var(--danger); border: none; padding: 6px 12px; border-radius: 8px; font-weight:700; font-size:0.85rem;" onclick="shiftRoutine(-30)">-30dk</button>
+            <button style="background: rgba(52, 199, 89, 0.15); color: var(--success); border: none; padding: 6px 12px; border-radius: 8px; font-weight:700; font-size:0.85rem;" onclick="shiftRoutine(30)">+30dk</button>
         </div>
     </div>
     <div id="taskList"></div>
@@ -378,7 +378,7 @@
 
 function updateLiveClock() {
         const now = new Date(); 
-        const options = { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute:'2-digit', second:'2-digit' };
+        const options = { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute:'2-digit' };
         const todayStr = now.toLocaleDateString('tr-TR', options);
         const display = document.getElementById('dateDisplay');
         if(display) display.innerText = todayStr;
@@ -691,7 +691,7 @@ data.globalNotes.sort((a, b) => {
 
         const scheduleText = data.schedule.map(t => `${t.time} - ${t.desc} [${t.tag}] ${t.locked ? '(Kilitli)' : ''}`).join("\n");
 const systemInstruction = `Sen 'Life Center AI'. Kullanıcı: ${data.userProfile?.name}, Yaş: ${data.userProfile?.age}, Hedef: ${data.userProfile?.goal}, Uyanış: ${data.userProfile?.wake}.
-Bugünün Gerçek Tarihi ve Saati: ${new Date().toLocaleString('tr-TR')}
+Bugünün Gerçek Tarihi ve Saati: ${new Date().toLocaleDateString('tr-TR')} - Saat: ${String(new Date().getHours()).padStart(2,'0')}:${String(new Date().getMinutes()).padStart(2,'0')}
 Görevler:
 ${scheduleText}
 
