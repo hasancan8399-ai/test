@@ -376,10 +376,12 @@
         wSel.value = 25; bSel.value = 5;
     }
 
-    function updateLiveClock() {
-        const now = new Date(); const options = { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute:'2-digit' };
+function updateLiveClock() {
+        const now = new Date(); 
+        const options = { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute:'2-digit', second:'2-digit' };
         const todayStr = now.toLocaleDateString('tr-TR', options);
-        document.getElementById('dateDisplay').innerText = todayStr;
+        const display = document.getElementById('dateDisplay');
+        if(display) display.innerText = todayStr;
         
         // 00:00 OTOMATİK ARŞİVLEME
         const data = loadData();
@@ -521,6 +523,13 @@
                     tempData.userDefaultSchedule = JSON.parse(JSON.stringify(tempData.schedule)); // AUTO SAVE
                     saveData(tempData); render();
                 }
+            });
+
+data.globalNotes.sort((a, b) => {
+                let dateA = a.date || "9999-12-31"; let dateB = b.date || "9999-12-31";
+                if (dateA !== dateB) return dateA.localeCompare(dateB);
+                let timeA = a.time || "24:00"; let timeB = b.time || "24:00";
+                return timeA.localeCompare(timeB);
             });
 
             const notesDiv = document.getElementById('globalNotesList'); notesDiv.innerHTML = '';
@@ -681,18 +690,18 @@
         resultDiv.style.display = "block"; resultDiv.innerHTML = "<span style='color:var(--accent); font-weight:700;'>Analiz ediliyor... 🧠</span>";
 
         const scheduleText = data.schedule.map(t => `${t.time} - ${t.desc} [${t.tag}] ${t.locked ? '(Kilitli)' : ''}`).join("\n");
-        const systemInstruction = `Sen 'Life Center AI'. Kullanıcı: ${data.userProfile?.name}, Yaş: ${data.userProfile?.age}, Hedef: ${data.userProfile?.goal}, Uyanış: ${data.userProfile?.wake}.
-Bugünün Gerçek Tarihi/Saati: ${document.getElementById('dateDisplay').innerText}
+const systemInstruction = `Sen 'Life Center AI'. Kullanıcı: ${data.userProfile?.name}, Yaş: ${data.userProfile?.age}, Hedef: ${data.userProfile?.goal}, Uyanış: ${data.userProfile?.wake}.
+Bugünün Gerçek Tarihi ve Saati: ${new Date().toLocaleString('tr-TR')}
 Görevler:
 ${scheduleText}
 
-GİZLİ SİSTEM KOMUTU: Tüm günü sabahtan akşama kadar (15-20 görev olsa bile) eksiksiz olarak TEK BİR JSON'a bas. 
-Kullanıcıya verdiğin metinsel cevabın EN SONUNA Markdown formatı OLMADAN, sadece süslü parantezlerle başlayan ham JSON ekle.
-ÖRNEKLER:
-1. Ekle: {"action":"ADD_TASKS", "tasks": [{"time":"09:00", "desc":"Spor", "type":"saglik"}, {"time":"10:00", "desc":"İş", "type":"is"}]}
-2. Sil: {"action":"DELETE_TASK", "time":"09:00"}
-3. Saat Kaydır: {"action":"SHIFT_TASKS", "mins": 30}
-4. Su Ekle: {"action":"ADD_WATER", "amount": 1}`;
+GİZLİ SİSTEM KOMUTU: Kullanıcı sana 'Bütün günümü tasarla' dediğinde 15-20 görev bile olsa HİÇBİRİNİ EKSİLTME. 
+Cevabının EN SONUNA sadece aşağıdaki formatta, Markdown (\`\`\`json) KULLANMADAN ham JSON yaz.
+Örnek JSON:
+[
+  {"action":"ADD_TASKS", "tasks": [{"time":"09:00", "desc":"Spor", "type":"saglik"}, {"time":"10:00", "desc":"İş", "type":"is"}]},
+  {"action":"DELETE_TASK", "time":"09:00"}
+]`;
 
         const fullPrompt = `${systemInstruction}\n\nKullanıcı Mesajı: ${userPrompt}`;
         const apiParts = [{ text: fullPrompt }]; if (currentAttachedImage) { apiParts.push({ inlineData: { mimeType: currentAttachedImage.mimeType, data: currentAttachedImage.data } }); }
@@ -702,41 +711,40 @@ Kullanıcıya verdiğin metinsel cevabın EN SONUNA Markdown formatı OLMADAN, s
             const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: apiParts }] }) });
             if (!response.ok) { const errData = await response.json(); throw new Error(errData.error.message || "Bilinmeyen API Hatası"); }
 
-            const json = await response.json(); let reply = json.candidates[0].content.parts[0].text;
+            const json = await response.json();
             
-            // GELİŞMİŞ JSON AYRIŞTIRICI (REGEX)
-            let extractedJSONs = [];
-            reply = reply.replace(/```json\n([\s\S]*?)\n```/g, (m, g1) => { extractedJSONs.push(g1); return ""; });
-            reply = reply.replace(/\{"action"\s*:\s*"[^"]+"[\s\S]*?\}/g, (m) => { if(!extractedJSONs.includes(m)) extractedJSONs.push(m); return ""; });
-
-            if (extractedJSONs.length > 0) {
-                const newData = loadData(); let isChanged = false; let requiresApproval = false; let approvalText = "";
-                
-                extractedJSONs.forEach(matchStr => {
-                    try {
-                        const actionData = JSON.parse(matchStr);
-                        if(actionData.action === "DELETE_TASK") { requiresApproval = true; approvalText = `Saat ${actionData.time} görevini SİLMEK istiyor.`; }
-                        else if(actionData.action === "SHIFT_TASKS") { requiresApproval = true; approvalText = `Planı ${actionData.mins} dakika kaydırmak istiyor.`; }
-                    } catch(e) {}
-                });
-
-                const executeJSON = () => {
-                    extractedJSONs.forEach(matchStr => {
-                        try {
-                            const actionData = JSON.parse(matchStr);
-                            switch(actionData.action) {
-                                case "ADD_TASKS": if(actionData.tasks) { actionData.tasks.forEach(t => newData.schedule.push({ id: Date.now()+Math.random(), time: t.time || "12:00", desc: t.desc, tag: t.type || "diger", locked: false, originalTime: t.time })); } newData.schedule.sort((a, b) => (a.time||"24:00").localeCompare(b.time||"24:00")); newData.userDefaultSchedule = JSON.parse(JSON.stringify(newData.schedule)); isChanged = true; break;
-                                case "DELETE_TASK": newData.schedule = newData.schedule.filter(t => t.time !== actionData.time); newData.completedIndices = []; newData.userDefaultSchedule = JSON.parse(JSON.stringify(newData.schedule)); isChanged = true; break;
-                                case "SHIFT_TASKS": newData.schedule.forEach(t => { if(t.time && !t.locked) { const [h, m] = t.time.split(':').map(Number); let mins = h*60 + m + actionData.mins; const newH = Math.floor(mins/60)%24; const newM = mins%60; t.time = `${String(newH).padStart(2,'0')}:${String(newM).padStart(2,'0')}`; }}); newData.userDefaultSchedule = JSON.parse(JSON.stringify(newData.schedule)); isChanged = true; break;
-                                case "ADD_WATER": newData.water = Math.min(newData.waterGoal, newData.water + (actionData.amount || 1)); isChanged = true; break;
-                            }
-                        } catch(e) {}
+let reply = json.candidates[0].content.parts[0].text;
+            
+            // Markdown kod bloklarını zorla temizle (Hatayı çözen kısım)
+            reply = reply.replace(/```json/gi, '').replace(/```/g, '');
+            
+            // JSON dizisini köşeli parantezleriyle yakala
+            const jsonArrayRegex = /\[\s*\{[\s\S]*\}\s*\]/;
+            const match = reply.match(jsonArrayRegex);
+            
+            if (match) {
+                try {
+                    const actions = JSON.parse(match[0]);
+                    const newData = loadData(); let isChanged = false;
+                    
+                    actions.forEach(actionData => {
+                        if (actionData.action === "ADD_TASKS" && actionData.tasks) {
+                            actionData.tasks.forEach(t => newData.schedule.push({ id: Date.now()+Math.random(), time: t.time || "12:00", desc: t.desc, tag: t.type || "diger", locked: false, originalTime: t.time }));
+                            isChanged = true;
+                        } else if (actionData.action === "DELETE_TASK") {
+                            newData.schedule = newData.schedule.filter(t => t.time !== actionData.time); newData.completedIndices = []; isChanged = true;
+                        }
                     });
-                    if (isChanged) { saveData(newData); render(); document.getElementById('aiPrompt').value = ""; }
-                };
-
-                if (requiresApproval) { document.getElementById('confirm-text').innerText = approvalText; document.getElementById('confirm-modal').style.display = 'flex'; pendingAIAction = executeJSON; } else { executeJSON(); }
-            } else { document.getElementById('aiPrompt').value = ""; }
+                    
+                    if (isChanged) {
+                        newData.schedule.sort((a, b) => (a.time||"24:00").localeCompare(b.time||"24:00"));
+                        newData.userDefaultSchedule = JSON.parse(JSON.stringify(newData.schedule));
+                        saveData(newData); render(); 
+                    }
+                } catch(e) { console.error("JSON Parse Hatası:", e); }
+                reply = reply.replace(jsonArrayRegex, '');
+            }
+            document.getElementById('aiPrompt').value = "";
 
             document.getElementById('aiImagePreview').style.display = 'none'; currentAttachedImage = null; document.getElementById('aiImageInput').value = "";
             reply = reply.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>").replace(/\n/g, "<br>"); resultDiv.innerHTML = reply;
