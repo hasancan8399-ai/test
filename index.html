@@ -241,6 +241,11 @@
             <div class="apple-percent" id="applePercent">%0</div>
         </div>
 
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 10px;">
+            <span style="font-size: 0.9rem; font-weight: 600; color:var(--text-muted);">Günlük Elma Hedefi</span>
+            <input type="number" id="pomoGoal" value="20" class="glass-input" style="width:70px; padding:8px; text-align:center; font-size:1.1rem;" onchange="render()">
+        </div>
+
         <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 10px;">
             <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
                 <label style="font-size:0.8rem; color:var(--text-muted); font-weight:600;">Çalışma (dk)</label>
@@ -332,7 +337,7 @@
             schedule: [], userDefaultSchedule: [], completedIndices: [],
             pomoCount: 0, water: 0, waterGoal: 7, inputs: { w: '', in: '', out: '' },
             stats: { namaz: 0, ders: 0, pomoStreak: 0, days: 0 },
-            history: [], globalNotes: [], geminiKey: '',
+            history: [], globalNotes: [], geminiKey: '', chatHistory: [],
             customTypes: [{ id: "diger", label: "Diğer", color: "#007AFF" }, { id: "ders", label: "Ders", color: "#34C759" }, { id: "namaz", label: "Maneviyat", color: "#FF3B30" }, { id: "saglik", label: "Sağlık", color: "#FF9500" }, { id: "is", label: "İş", color: "#AF52DE" }]
         };
     }
@@ -447,7 +452,11 @@ function updateLiveClock() {
             const waterPct = Math.round((data.water / data.waterGoal) * 100);
             document.getElementById('bar-water').style.width = `${Math.min(100, waterPct)}%`; document.getElementById('pct-water').innerText = `%${waterPct}`;
             
-            const pomoPct = Math.round((data.pomoCount / 20) * 100);
+const pGoalInput = document.getElementById('pomoGoal');
+            if(pGoalInput && pGoalInput.value != (data.pomoGoal || 20)) data.pomoGoal = parseInt(pGoalInput.value) || 20;
+            const targetPomo = data.pomoGoal || 20;
+
+            const pomoPct = Math.round((data.pomoCount / targetPomo) * 100);
             document.getElementById('bar-pomo').style.width = `${Math.min(100, pomoPct)}%`; document.getElementById('pct-pomo').innerText = `%${pomoPct}`;
 
             // ELMA ANİMASYONU VE KIRMIZI ELMALAR
@@ -465,7 +474,7 @@ function updateLiveClock() {
             const gridDiv = document.getElementById('pomoGrid20');
             if (gridDiv) {
                 gridDiv.innerHTML = '';
-                for(let i=1; i<=20; i++) {
+                for(let i=1; i<=targetPomo; i++) {
                     const btn = document.createElement('div'); btn.className = `pomo-apple ${i <= data.pomoCount ? 'filled' : ''}`;
                     btn.innerHTML = '🍎'; btn.onclick = () => togglePomo(i); gridDiv.appendChild(btn);
                 }
@@ -682,70 +691,102 @@ data.globalNotes.sort((a, b) => {
         micRecognition.start();
     }
 
-    async function askGemini() {
+async function askGemini() {
         const data = loadData(); const apiKey = data.geminiKey; const userPrompt = document.getElementById('aiPrompt').value; const resultDiv = document.getElementById('aiResult');
         if (!apiKey) { const newKey = prompt("Geçerli bir API Key girin:"); if(newKey) { data.geminiKey = newKey; saveData(data); askGemini(); } return; }
         if (!userPrompt && !currentAttachedImage) return;
 
+        if (!data.chatHistory) data.chatHistory = []; // Hafıza yoksa oluştur
         resultDiv.style.display = "block"; resultDiv.innerHTML = "<span style='color:var(--accent); font-weight:700;'>Analiz ediliyor... 🧠</span>";
 
         const scheduleText = data.schedule.map(t => `${t.time} - ${t.desc} [${t.tag}] ${t.locked ? '(Kilitli)' : ''}`).join("\n");
-const systemInstruction = `Sen 'Life Center AI'. Kullanıcı: ${data.userProfile?.name}, Yaş: ${data.userProfile?.age}, Hedef: ${data.userProfile?.goal}, Uyanış: ${data.userProfile?.wake}.
+        const systemInstruction = `Sen 'Life Center AI'. Kullanıcı: ${data.userProfile?.name}, Yaş: ${data.userProfile?.age}, Hedef: ${data.userProfile?.goal}.
 Bugünün Gerçek Tarihi ve Saati: ${new Date().toLocaleDateString('tr-TR')} - Saat: ${String(new Date().getHours()).padStart(2,'0')}:${String(new Date().getMinutes()).padStart(2,'0')}
 Görevler:
 ${scheduleText}
 
-GİZLİ SİSTEM KOMUTU: Kullanıcı sana 'Bütün günümü tasarla' dediğinde 15-20 görev bile olsa HİÇBİRİNİ EKSİLTME. 
-Cevabının EN SONUNA sadece aşağıdaki formatta, Markdown (\`\`\`json) KULLANMADAN ham JSON yaz.
-Örnek JSON:
+GİZLİ SİSTEM KOMUTU (TAM YETKİ): Kullanıcının asistanısın. Sohbet geçmişini biliyorsun. Tüm günü tasarlayabilir, pomodoro başlatabilir, su/elma ekleyebilir, kilit açıp/kapatabilirsin.
+İşlem yapman gerekirse cevabının EN SONUNA Markdown OLMADAN sadece ham JSON yaz. 
+Formatlar:
 [
-  {"action":"ADD_TASKS", "tasks": [{"time":"09:00", "desc":"Spor", "type":"saglik"}, {"time":"10:00", "desc":"İş", "type":"is"}]},
-  {"action":"DELETE_TASK", "time":"09:00"}
+  {"action":"ADD_TASKS", "tasks": [{"time":"09:00", "desc":"Spor", "type":"saglik"}]},
+  {"action":"DELETE_TASK", "time":"09:00"},
+  {"action":"SHIFT_TASKS", "mins": 30},
+  {"action":"ADD_WATER", "amount": 1},
+  {"action":"SET_POMO_GOAL", "amount": 15},
+  {"action":"TOGGLE_LOCK", "time":"09:00"},
+  {"action":"START_POMO"},
+  {"action":"ADD_GLOBAL_NOTE", "desc":"Market alışverişi", "type":"diger"}
 ]`;
 
         const fullPrompt = `${systemInstruction}\n\nKullanıcı Mesajı: ${userPrompt}`;
         const apiParts = [{ text: fullPrompt }]; if (currentAttachedImage) { apiParts.push({ inlineData: { mimeType: currentAttachedImage.mimeType, data: currentAttachedImage.data } }); }
 
+        const requestBody = { 
+            contents: [ ...data.chatHistory, { role: "user", parts: apiParts } ] // SINIRSIZ HAFIZA GÖNDERİMİ
+        };
+
         try {
             const cleanApiKey = apiKey.trim(); const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${cleanApiKey}`;
-            const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: apiParts }] }) });
+            const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(requestBody) });
             if (!response.ok) { const errData = await response.json(); throw new Error(errData.error.message || "Bilinmeyen API Hatası"); }
 
-            const json = await response.json();
+            const json = await response.json(); let reply = json.candidates[0].content.parts[0].text;
             
-let reply = json.candidates[0].content.parts[0].text;
-            
-            // Markdown kod bloklarını zorla temizle (Hatayı çözen kısım)
+            // Hafızaya Kaydet (Sınırsız)
+            data.chatHistory.push({ role: "user", parts: apiParts });
+            data.chatHistory.push({ role: "model", parts: [{ text: reply }] });
+            saveData(data);
+
+            // JSON Temizleme ve Yakalama
             reply = reply.replace(/```json/gi, '').replace(/```/g, '');
-            
-            // JSON dizisini köşeli parantezleriyle yakala
             const jsonArrayRegex = /\[\s*\{[\s\S]*\}\s*\]/;
             const match = reply.match(jsonArrayRegex);
-            
+
             if (match) {
-                try {
-                    const actions = JSON.parse(match[0]);
-                    const newData = loadData(); let isChanged = false;
-                    
+                const actions = JSON.parse(match[0]);
+                const newData = loadData(); let isChanged = false; 
+                
+                // MEGA POP-UP ONAY METNİ HAZIRLAMA
+                let approvalText = "Yapay Zeka şu işlemleri yapmak istiyor:<br><br>";
+                actions.forEach(actionData => {
+                    if(actionData.action === "ADD_TASKS") approvalText += "📌 Görev(ler) eklemek<br>";
+                    else if(actionData.action === "DELETE_TASK") approvalText += `🗑️ Saat ${actionData.time} görevini silmek<br>`;
+                    else if(actionData.action === "SHIFT_TASKS") approvalText += `⏱️ Planı ${actionData.mins} dk kaydırmak<br>`;
+                    else if(actionData.action === "ADD_WATER") approvalText += `💧 Su eklemek<br>`;
+                    else if(actionData.action === "START_POMO") approvalText += `🍅 Pomodoro sayacını başlatmak<br>`;
+                    else if(actionData.action === "TOGGLE_LOCK") approvalText += `🔒 Bir görevi kilitlemek/açmak<br>`;
+                    else if(actionData.action === "ADD_GLOBAL_NOTE") approvalText += `📝 Genel not eklemek<br>`;
+                    else approvalText += `⚙️ Sistem ayarı değiştirmek<br>`;
+                });
+
+                // ONAYLANIRSA ÇALIŞACAK FONKSİYON
+                const executeJSON = () => {
                     actions.forEach(actionData => {
-                        if (actionData.action === "ADD_TASKS" && actionData.tasks) {
-                            actionData.tasks.forEach(t => newData.schedule.push({ id: Date.now()+Math.random(), time: t.time || "12:00", desc: t.desc, tag: t.type || "diger", locked: false, originalTime: t.time }));
-                            isChanged = true;
-                        } else if (actionData.action === "DELETE_TASK") {
-                            newData.schedule = newData.schedule.filter(t => t.time !== actionData.time); newData.completedIndices = []; isChanged = true;
-                        }
+                        try {
+                            switch(actionData.action) {
+                                case "ADD_TASKS": if(actionData.tasks) { actionData.tasks.forEach(t => newData.schedule.push({ id: Date.now()+Math.random(), time: t.time || "12:00", desc: t.desc, tag: t.type || "diger", locked: false, originalTime: t.time })); } newData.schedule.sort((a, b) => (a.time||"24:00").localeCompare(b.time||"24:00")); newData.userDefaultSchedule = JSON.parse(JSON.stringify(newData.schedule)); isChanged = true; break;
+                                case "DELETE_TASK": newData.schedule = newData.schedule.filter(t => t.time !== actionData.time); newData.completedIndices = []; newData.userDefaultSchedule = JSON.parse(JSON.stringify(newData.schedule)); isChanged = true; break;
+                                case "SHIFT_TASKS": newData.schedule.forEach(t => { if(t.time && !t.locked) { const [h, m] = t.time.split(':').map(Number); let mins = h*60 + m + actionData.mins; const newH = Math.floor(mins/60)%24; const newM = mins%60; t.time = `${String(newH).padStart(2,'0')}:${String(newM).padStart(2,'0')}`; }}); newData.userDefaultSchedule = JSON.parse(JSON.stringify(newData.schedule)); isChanged = true; break;
+                                case "ADD_WATER": newData.water = Math.min(newData.waterGoal, newData.water + (actionData.amount || 1)); isChanged = true; break;
+                                case "START_POMO": setTimeout(startPomodoro, 500); break;
+                                case "TOGGLE_LOCK": const t = newData.schedule.find(x => x.time === actionData.time); if(t) t.locked = !t.locked; isChanged = true; break;
+                                case "ADD_GLOBAL_NOTE": newData.globalNotes.push({ id: Date.now(), desc: actionData.desc, type: actionData.type || "diger" }); isChanged = true; break;
+                            }
+                        } catch(e) {}
                     });
-                    
-                    if (isChanged) {
-                        newData.schedule.sort((a, b) => (a.time||"24:00").localeCompare(b.time||"24:00"));
-                        newData.userDefaultSchedule = JSON.parse(JSON.stringify(newData.schedule));
-                        saveData(newData); render(); 
-                    }
-                } catch(e) { console.error("JSON Parse Hatası:", e); }
+                    if (isChanged) { saveData(newData); render(); document.getElementById('aiPrompt').value = ""; }
+                };
+
+                // POP-UP'I ZORLA AÇ
+                document.getElementById('confirm-text').innerHTML = approvalText; 
+                document.getElementById('confirm-modal').style.display = 'flex'; 
+                pendingAIAction = executeJSON;
+                
                 reply = reply.replace(jsonArrayRegex, '');
             }
+            
             document.getElementById('aiPrompt').value = "";
-
             document.getElementById('aiImagePreview').style.display = 'none'; currentAttachedImage = null; document.getElementById('aiImageInput').value = "";
             reply = reply.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>").replace(/\n/g, "<br>"); resultDiv.innerHTML = reply;
 
@@ -779,9 +820,16 @@ let reply = json.candidates[0].content.parts[0].text;
         }, 60000);
     }
 
-    window.onload = function() {
+window.onload = function() {
         const data = loadData();
-        if (!data.userProfile || !data.userProfile.name) { document.getElementById('onboarding-modal').style.display = 'block'; } else { render(); startShadowAI(); }
+        if (!data.userProfile || !data.userProfile.name) { 
+            document.getElementById('onboarding-modal').style.display = 'block'; 
+        } else { 
+            render(); 
+            startShadowAI();
+            // Saati her saniye güncelleyen motor
+            setInterval(updateLiveClock, 1000); 
+        }
     };
 </script>
 </body>
