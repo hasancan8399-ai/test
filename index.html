@@ -39,19 +39,10 @@
     }
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    
-    body { 
-        background: var(--bg-color); background-image: var(--bg-gradient); background-attachment: fixed;
-        color: var(--text-main); font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif; 
-        margin: 0; padding: 20px 16px 120px 16px; line-height: 1.4; transition: background 0.4s ease;
-    }
-    
+    body { background: var(--bg-color); background-image: var(--bg-gradient); background-attachment: fixed; color: var(--text-main); font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 20px 16px 120px 16px; line-height: 1.4; transition: background 0.4s ease; }
     .container { max-width: 100%; margin: 0 auto; }
-    
-    .glass-card {
-        background: var(--card-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
-        border: 1px solid var(--border); border-radius: 20px; padding: 16px; margin-bottom: 16px;
-    }
+
+    .glass-card { background: var(--card-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--border); border-radius: 20px; padding: 16px; margin-bottom: 16px; }
 
     header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
     .header-titles { display: flex; flex-direction: column; }
@@ -59,23 +50,12 @@
     .date-display { font-size: 0.95rem; color: var(--text-muted); margin-top: 4px; font-weight: 500; font-variant-numeric: tabular-nums; }
     .theme-toggle { background: var(--flow-bg); border: 1px solid var(--border); color: var(--text-main); width: 40px; height: 40px; border-radius: 50%; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); }
 
-    /* YENİ NESİL PROGRESS BARLAR */
     .progress-container { display: flex; flex-direction: column; gap: 14px; margin-bottom: 25px; }
     .progress-item { display: flex; flex-direction: column; gap: 6px; }
     .progress-header { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
     .progress-track { width: 100%; height: 10px; background: var(--input-bg); border-radius: 10px; overflow: hidden; position: relative; border: 1px solid var(--border); }
     .progress-fill { height: 100%; border-radius: 10px; transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); }
 
-    /* GELİŞMİŞ SERİ (STREAK) PANOSU */
-    .streak-board { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
-    .streak-header { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
-    .streak-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-    .streak-card { background: var(--input-bg); padding: 12px 5px; border-radius: 12px; text-align: center; border: 1px solid var(--border); }
-    .streak-val { font-size: 1.4rem; font-weight: 800; color: var(--text-main); }
-    .streak-lbl { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; font-weight: 600; }
-    .economy-row { display: flex; justify-content: space-between; align-items: center; background: rgba(255, 149, 0, 0.1); padding: 10px 15px; border-radius: 12px; border: 1px solid rgba(255, 149, 0, 0.2); }
-
-    /* YAPAY ZEKA TASARIMI */
     .ai-panel { border: 1px solid rgba(0, 122, 255, 0.3); }
     .ai-btn { background: var(--accent); color: white; font-weight: 700; border: none; padding: 16px; border-radius: 14px; width: 100%; margin-top: 10px; cursor: pointer; transition: 0.2s; font-size: 1.05rem;}
     .ai-btn:active { transform: scale(0.98); opacity: 0.9; }
@@ -83,16 +63,22 @@
     .icon-btn { background: var(--flow-bg); border: 1px solid var(--border); color: var(--text-main); width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; transition: 0.2s; }
     .icon-btn:active { transform: scale(0.95); }
 
-    .panel-header { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; padding-left: 8px; font-weight: 600; margin-top: 30px; letter-spacing: 0.5px; }
+    .streak-board { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+    .streak-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .streak-card { background: var(--input-bg); padding: 12px 5px; border-radius: 12px; text-align: center; border: 1px solid var(--border); }
+    .streak-val { font-size: 1.4rem; font-weight: 800; color: var(--text-main); }
+    .streak-lbl { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; font-weight: 600; text-transform: uppercase; }
 
+    .panel-header { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; padding-left: 8px; font-weight: 600; margin-top: 30px; letter-spacing: 0.5px; }
     .input-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
     .input-row:last-child { border: none; margin: 0; padding: 0; }
     .input-label-group label { font-size: 1.05rem; color: var(--text-main); display: block; font-weight: 500; }
     .prev-data { font-size: 0.8rem; color: var(--text-muted); display: block; margin-top: 4px; }
-    .glass-input { background: var(--input-bg); border: 1px solid var(--border); color: var(--text-main); padding: 12px; border-radius: 12px; width: 110px; text-align: right; font-size: 1.1rem; font-weight: 600; transition: 0.3s; }
+    .glass-input { background: var(--input-bg); border: 1px solid var(--border); color: var(--text-main); padding: 12px; border-radius: 12px; width: 110px; text-align: right; font-size: 1rem; font-weight: 600; transition: 0.3s; }
     .glass-input:focus { outline: 2px solid var(--accent); }
+    
+    select.glass-input { appearance: none; -webkit-appearance: none; text-align: center; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='gray' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 8px center; background-size: 14px; padding-right: 25px; }
 
-    /* İOS 26 GÖREV DÜZENİ VE TOGGLE SWITCH */
     .task { display: grid; grid-template-columns: 36px 50px 1fr 36px; gap: 10px; align-items: center; margin-bottom: 10px; padding: 12px 10px; border-radius: 16px; background: var(--flow-bg); border: 1px solid var(--border);}
     .task.completed { opacity: 0.5; }
     .task.completed .task-desc { text-decoration: line-through; color: var(--text-muted); }
@@ -109,20 +95,19 @@
     .drag-handle { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; font-size: 20px; color: var(--text-muted); cursor: grab; opacity: 0.5;}
     .lock-handle { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; font-size: 16px; color: var(--danger); opacity: 0.8; cursor: pointer; }
 
-    /* VAKA EVRENİ: ELMA ANİMASYONU VE ODAK MOTORU */
+    /* VAKA EVRENİ: ELMA VE ODAK */
     .pomo-wrapper { display: flex; flex-direction: column; }
-    .timer-display { font-size: 5rem; font-weight: 800; font-variant-numeric: tabular-nums; text-align: center; width: 100%; margin: 5px 0; letter-spacing: -1px; }
+    .timer-display { font-size: 5.5rem; font-weight: 800; font-variant-numeric: tabular-nums; text-align: center; width: 100%; margin: 5px 0; letter-spacing: -2px; }
     
-    .apple-container { position: relative; width: 160px; height: 160px; display: flex; align-items: center; justify-content: center; margin: 15px auto; }
+    .apple-container { position: relative; width: 150px; height: 150px; display: flex; align-items: center; justify-content: center; margin: 15px auto; }
     .apple-core, .apple-full { position: absolute; width: 100%; height: 100%; top: 0; left: 0; }
     .apple-full { transition: clip-path 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
     .apple-percent { position: absolute; font-size: 1.8rem; font-weight: 900; color: white; text-shadow: 0 4px 15px rgba(0,0,0,0.9); pointer-events: none; z-index: 10; }
 
-    .pomo-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; width: 100%; max-width: 320px; margin: 0 auto; }
-    .pomo-btn-new { aspect-ratio: 1; border-radius: 10px; background: rgba(255, 149, 0, 0.1); border: 1px solid rgba(255, 149, 0, 0.3); color: var(--pomodoro); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem; cursor: pointer; transition: 0.3s; }
-    .pomo-btn-new.filled { background: var(--pomodoro); color: #000; border-color: var(--pomodoro); }
+    .pomo-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; width: 100%; max-width: 320px; margin: 0 auto; justify-items: center; }
+    .pomo-apple { font-size: 2rem; cursor: pointer; transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); opacity: 0.2; filter: grayscale(100%); user-select: none; }
+    .pomo-apple.filled { opacity: 1; filter: grayscale(0%); transform: scale(1.15); }
 
-    /* SU STİLLERİ */
     .water-wrapper { display: flex; flex-direction: column; gap: 15px; }
     .water-header-row { display: flex; justify-content: space-between; align-items: center; }
     .water-tracker { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;}
@@ -130,23 +115,14 @@
     .water-cup::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 0%; background: var(--water-color); transition: height 0.4s ease; }
     .water-cup.filled::after { height: 95%; }
 
-    /* FLOW (GÜNÜN BÖLÜMLERİ) GİZLİ TAKİP UI'SI */
-    .flow-container { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
-    .flow-container::-webkit-scrollbar { display: none; }
-    .flow-step { flex: 0 0 auto; background: var(--input-bg); border: 1px solid var(--border); border-radius: 10px; padding: 8px 14px; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: 0.2s; }
-    .flow-step.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-
-    /* GENEL BİLEŞENLER */
     .main-btn { padding: 16px; border-radius: 14px; cursor: pointer; font-weight: 700; border: none; font-size: 1.05rem; width: 100%; transition: 0.2s; }
     .main-btn:active { transform: scale(0.97); }
 
     .note-card { background: var(--card-bg); border-left: 4px solid var(--accent); padding: 14px; margin-bottom: 12px; border-radius: 14px; display: flex; flex-direction: column; gap: 8px; border: 1px solid var(--border); }
     .note-meta { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
-    .note-badge { padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; text-transform: uppercase; background: rgba(0, 122, 255, 0.15); color: var(--accent); font-weight: 700; }
 
     #onboarding-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: var(--bg-color); background-image: var(--bg-gradient); z-index:9999; padding:20px; overflow-y:auto; transition: opacity 0.4s; }
     
-    /* POP-UP ONAY SİSTEMİ */
     #confirm-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); z-index:10000; align-items:center; justify-content:center; backdrop-filter: blur(10px); }
     .confirm-box { background: var(--card-bg); border: 1px solid var(--border); padding: 25px; border-radius: 20px; width: 90%; max-width: 350px; text-align: center; }
     
@@ -160,29 +136,40 @@
 
 <div id="onboarding-modal">
     <h2 style="color:var(--text-main); text-align:center; margin-top:30px; font-size: 2rem; font-weight:800; letter-spacing:-1px;">LIFE CENTER AI</h2>
-    <p style="color:var(--text-muted); text-align:center; margin-bottom: 25px; font-size:1rem; font-weight:500;">Sistemin seni tanıması ve sana özel koçluk yapabilmesi için lütfen detaylı doldur.</p>
+    <p style="color:var(--text-muted); text-align:center; margin-bottom: 25px; font-size:0.95rem; font-weight:500;">Sistemin seni tanıması ve sana özel koçluk yapabilmesi için detayları eksiksiz doldur.</p>
+    
     <div class="glass-card">
+        <div class="panel-header" style="margin-top:0; padding-left:0;">Fiziksel Bilgiler</div>
         <div class="input-row"><div class="input-label-group"><label>İsmin</label></div><input type="text" id="ob-name" class="glass-input" style="width:160px; text-align:right;"></div>
         <div class="input-row"><div class="input-label-group"><label>Yaş</label></div><input type="number" id="ob-age" class="glass-input" style="width:80px;"></div>
         <div class="input-row"><div class="input-label-group"><label>Boy (cm)</label></div><input type="number" id="ob-height" class="glass-input" style="width:80px;"></div>
-        <div class="input-row"><div class="input-label-group"><label>Kilo (kg)</label></div><input type="number" id="ob-weight" class="glass-input" style="width:80px;"></div>
-        <div class="input-row" style="border:none;"><div class="input-label-group"><label>API Key</label></div><input type="password" id="ob-apikey" class="glass-input" style="width:140px; font-size:12px;" placeholder="AIzaSy..."></div>
+        <div class="input-row" style="border:none;"><div class="input-label-group"><label>Kilo (kg)</label></div><input type="number" id="ob-weight" class="glass-input" style="width:80px;"></div>
     </div>
+
     <div class="glass-card">
-        <label style="font-size: 1.05rem; color: var(--text-main); font-weight: 600; display:block; margin-bottom:10px;">Bana Gününü ve Kendini Anlat</label>
-        <p style="font-size:0.85rem; color:var(--text-muted); margin-top:0;">Hobilerin neler? Saat kaçta kalkarsın? Hedeflerin neler? Ne kadar detay verirsen gününü o kadar iyi planlarım.</p>
-        <textarea id="ob-lifestyle" class="glass-input" style="width: 100%; min-height: 120px; text-align: left; resize: vertical; margin-top:10px;" placeholder="Örn: Sabahları 7'de kalkıp spor yapmayı severim..."></textarea>
+        <div class="panel-header" style="margin-top:0; padding-left:0;">Yaşam Tarzı ve Rutinler</div>
+        <div class="input-row"><div class="input-label-group"><label>Uyanma Saati</label></div><input type="time" id="ob-wake" class="glass-input" style="width:100px;"></div>
+        <div class="input-row"><div class="input-label-group"><label>Uyuma Saati</label></div><input type="time" id="ob-sleep" class="glass-input" style="width:100px;"></div>
+        <div class="input-row"><div class="input-label-group"><label>Çalışma/Okul Düzeni</label><span class="prev-data">Örn: Masa başı, öğrenci</span></div><input type="text" id="ob-work" class="glass-input" style="width:140px; text-align:right;"></div>
+        <div class="input-row"><div class="input-label-group"><label>Beslenme Tarzı</label><span class="prev-data">Örn: Aralıklı oruç, protein</span></div><input type="text" id="ob-diet" class="glass-input" style="width:140px; text-align:right;"></div>
+        <div class="input-row"><div class="input-label-group"><label>Hobiler</label></div><input type="text" id="ob-hobbies" class="glass-input" style="width:160px; text-align:right;"></div>
+        <div class="input-row" style="border:none;"><div class="input-label-group"><label>Ana Hedefin</label><span class="prev-data">Örn: Kilo vermek, Sınav</span></div><input type="text" id="ob-goal" class="glass-input" style="width:140px; text-align:right;"></div>
     </div>
-    <button class="main-btn" style="background:var(--text-main); color:var(--bg-color); margin-top:10px;" onclick="saveOnboarding()">Sistemi Başlat</button>
+
+    <div class="glass-card">
+        <div class="input-row" style="border:none;"><div class="input-label-group"><label>API Key</label></div><input type="password" id="ob-apikey" class="glass-input" style="width:160px; font-size:12px;" placeholder="AIzaSy..."></div>
+    </div>
+
+    <button class="main-btn" style="background:var(--text-main); color:var(--bg-color); margin-top:10px; margin-bottom: 30px;" onclick="saveOnboarding()">Sistemi Başlat</button>
 </div>
 
 <div id="confirm-modal">
     <div class="confirm-box">
         <h3 style="margin-top:0; color:var(--text-main);">Yapay Zeka Uyarıyor</h3>
-        <p id="confirm-text" style="color:var(--text-muted); margin-bottom:20px;">Bu işlemi onaylıyor musunuz?</p>
+        <p id="confirm-text" style="color:var(--text-muted); margin-bottom:20px; font-size:0.95rem; font-weight:500;">Bu işlemi onaylıyor musunuz?</p>
         <div style="display:flex; gap:10px;">
-            <button class="main-btn" style="background:var(--input-bg); color:var(--text-main); border:1px solid var(--border);" onclick="cancelAIAction()">Hayır</button>
-            <button class="main-btn" style="background:var(--danger); color:#fff;" onclick="approveAIAction()">Evet, Sil</button>
+            <button class="main-btn" style="background:var(--input-bg); color:var(--text-main); border:1px solid var(--border);" onclick="cancelAIAction()">İptal</button>
+            <button class="main-btn" style="background:var(--danger); color:#fff;" onclick="approveAIAction()">Onayla</button>
         </div>
     </div>
 </div>
@@ -222,7 +209,7 @@
                 <img id="aiImagePreview" style="display: none; width: 100%; max-height: 100px; object-fit: cover; border-radius: 8px;">
                 <textarea id="aiPrompt" class="glass-input" placeholder="Yaz veya konuş..." style="width: 100%; min-height: 50px; text-align: left; padding: 12px; border-radius: 12px; resize: vertical; font-size: 0.95rem;"></textarea>
             </div>
-            <button class="icon-btn" id="micBtn" onclick="toggleVoiceRecognition()" title="Sesle Yazdır" style="color:var(--danger);">
+            <button class="icon-btn" id="micBtn" onclick="toggleVoiceRecognition()" title="Sesle Yazdır" style="color:var(--text-main);">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
             </button>
         </div>
@@ -231,15 +218,11 @@
     </div>
 
     <div class="glass-card streak-board">
-        <div class="streak-header">Günlük Seri & Odak</div>
+        <div class="panel-header" style="margin:0; padding:0;">Günlük Seri & Odak</div>
         <div class="streak-stats">
             <div class="streak-card"><span class="streak-val" id="stat-days">0</span><div class="streak-lbl">GÜN</div></div>
             <div class="streak-card"><span class="streak-val" id="stat-pomo-streak">0</span><div class="streak-lbl">ODAK SERİ</div></div>
-            <div class="streak-card"><span class="streak-val" id="stat-flow">0/7</span><div class="streak-lbl">AKIL AKIŞI</div></div>
-        </div>
-        <div class="economy-row">
-            <div style="font-weight:700; color:var(--pomodoro); font-size:1.1rem;">🪙 <span id="stat-coin">0</span></div>
-            <div style="font-size:0.8rem; color:var(--text-main); font-weight:600;">Seri Dondurucu: <span id="stat-freeze">0</span> 🧊</div>
+            <div class="streak-card"><span class="streak-val" id="stat-namaz">0</span><div class="streak-lbl">NAMAZ</div></div>
         </div>
     </div>
 
@@ -261,13 +244,11 @@
         <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 10px;">
             <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
                 <label style="font-size:0.8rem; color:var(--text-muted); font-weight:600;">Çalışma (dk)</label>
-                <input type="range" id="pomoWork" min="1" max="60" value="25" class="glass-input" style="width:100px; padding:0;" oninput="document.getElementById('workVal').innerText=this.value">
-                <span id="workVal" style="font-weight:bold;">25</span>
+                <select id="pomoWork" class="glass-input" style="width:80px; font-size:1.2rem;"></select>
             </div>
             <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
                 <label style="font-size:0.8rem; color:var(--text-muted); font-weight:600;">Mola (dk)</label>
-                <input type="range" id="pomoBreak" min="1" max="30" value="5" class="glass-input" style="width:100px; padding:0;" oninput="document.getElementById('breakVal').innerText=this.value">
-                <span id="breakVal" style="font-weight:bold;">5</span>
+                <select id="pomoBreak" class="glass-input" style="width:80px; font-size:1.2rem;"></select>
             </div>
         </div>
         
@@ -280,40 +261,27 @@
         <div class="pomo-grid" id="pomoGrid20"></div>
     </div>
 
-    <div class="panel-header">Günün Akışı (Flow)</div>
-    <div class="flow-container" id="flowSteps"></div>
-
     <div class="panel-header">Su Takibi</div>
     <div class="glass-card water-wrapper">
         <div class="water-header-row">
             <span style="font-size: 0.9rem; font-weight: 600; color:var(--text-muted);">Günlük Hedef (Bardak)</span>
-            <input type="number" id="waterGoal" value="7" class="glass-input" style="width:60px; padding:6px; text-align:center; font-size:1rem;" onchange="render()">
+            <input type="number" id="waterGoal" value="7" class="glass-input" style="width:70px; padding:8px; text-align:center; font-size:1.1rem;" onchange="render()">
         </div>
         <div class="water-tracker" id="waterContainer"></div>
     </div>
 
     <div class="panel-header">Durum Analizi</div>
     <div class="glass-card">
-        <div class="input-row">
-            <div class="input-label-group"><label>Kilo</label><span class="prev-data" id="prev-weight">Dün: -</span></div>
-            <input type="number" id="in-weight" class="glass-input" onchange="updateInputs()">
-        </div>
-        <div class="input-row">
-            <div class="input-label-group"><label>Alınan Kalori</label><span class="prev-data" id="prev-cal-in">Dün: -</span></div>
-            <input type="number" id="in-cal-in" class="glass-input" onchange="updateInputs()">
-        </div>
-        <div class="input-row">
-            <div class="input-label-group"><label>Yakılan Kalori</label><span class="prev-data" id="prev-cal-out">Dün: -</span></div>
-            <input type="number" id="in-cal-out" class="glass-input" onchange="updateInputs()">
-        </div>
+        <div class="input-row"><div class="input-label-group"><label>Kilo</label><span class="prev-data" id="prev-weight">Dün: -</span></div><input type="number" id="in-weight" class="glass-input" onchange="updateInputs()"></div>
+        <div class="input-row"><div class="input-label-group"><label>Alınan Kalori</label><span class="prev-data" id="prev-cal-in">Dün: -</span></div><input type="number" id="in-cal-in" class="glass-input" onchange="updateInputs()"></div>
+        <div class="input-row"><div class="input-label-group"><label>Yakılan Kalori</label><span class="prev-data" id="prev-cal-out">Dün: -</span></div><input type="number" id="in-cal-out" class="glass-input" onchange="updateInputs()"></div>
     </div>
 
     <div style="display:flex; justify-content:space-between; align-items:center; padding: 10px 5px 10px 5px; margin-top:20px;">
         <h3 style="margin:0; font-size:1rem; color:var(--text-muted); text-transform:uppercase; font-weight:600; letter-spacing:0.5px;">GÜNLÜK AKIŞ</h3>
         <div style="display: flex; gap: 8px;">
-            <button style="background: rgba(255, 149, 0, 0.15); color: var(--pomodoro); border: none; padding: 6px 10px; border-radius: 8px; font-weight:700; font-size:0.8rem;" onclick="shiftRoutine(-30)">-30dk</button>
-            <button style="background: rgba(255, 149, 0, 0.15); color: var(--pomodoro); border: none; padding: 6px 10px; border-radius: 8px; font-weight:700; font-size:0.8rem;" onclick="shiftRoutine(30)">+30dk</button>
-            <button style="background: var(--flow-bg); color: var(--text-main); border: 1px solid var(--border); padding: 6px 10px; border-radius: 8px; font-weight:600; font-size:0.8rem;" onclick="saveAsDefault()">Sabitle</button>
+            <button style="background: rgba(255, 149, 0, 0.15); color: var(--pomodoro); border: none; padding: 6px 12px; border-radius: 8px; font-weight:700; font-size:0.85rem;" onclick="shiftRoutine(-30)">-30dk</button>
+            <button style="background: rgba(255, 149, 0, 0.15); color: var(--pomodoro); border: none; padding: 6px 12px; border-radius: 8px; font-weight:700; font-size:0.85rem;" onclick="shiftRoutine(30)">+30dk</button>
         </div>
     </div>
     <div id="taskList"></div>
@@ -324,12 +292,10 @@
             <textarea id="newDesc" class="glass-input" placeholder="Ne yapacaksın?" style="width: 100%; min-height: 70px; text-align: left; font-weight:500; font-size:1rem;"></textarea>
         </div>
         <div class="input-row">
-            <div class="input-label-group"><label>Tarih</label></div>
-            <input type="date" id="newDate" class="glass-input" style="width: 140px; text-align: center; font-size:0.9rem;">
+            <div class="input-label-group"><label>Tarih</label></div><input type="date" id="newDate" class="glass-input" style="width: 140px; text-align: center; font-size:0.9rem;">
         </div>
         <div class="input-row">
-            <div class="input-label-group"><label>Saat</label></div>
-            <input type="time" id="newTime" class="glass-input" style="width: 100px; text-align: center;">
+            <div class="input-label-group"><label>Saat</label></div><input type="time" id="newTime" class="glass-input" style="width: 100px; text-align: center;" onblur="formatTimeInput(this)">
         </div>
         <div class="input-row" style="border: none; padding-bottom: 0;">
             <div class="input-label-group"><label>Tür</label></div>
@@ -347,7 +313,7 @@
     <div class="glass-card" id="history-modal"><table id="historyTable"></table></div>
 
     <div style="display: flex; gap: 15px; margin-top: 20px;">
-        <button class="main-btn" style="background:var(--flow-bg); color:var(--text-main); border:1px solid var(--border);" onclick="toggleHistory()">Geçmiş</button>
+        <button class="main-btn" style="background:var(--flow-bg); color:var(--text-main); border:1px solid var(--border);" onclick="toggleHistory()">Geçmiş (Arşiv)</button>
     </div>
     
     <div style="text-align: center; margin-top: 40px; margin-bottom: 40px;">
@@ -358,17 +324,16 @@
 <audio id="pomoAlarm" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg" preload="auto"></audio>
 
 <script>
-    const DB_KEY = 'life_center_ai_v2'; 
-    const flowItems = ["Sabah", "Ders 1", "Öğle", "İkindi", "Ders 2", "Akşam", "Yatsı"];
+    const DB_KEY = 'life_center_ai_v10_ultimate'; 
     
     function getInitialState() {
         return {
-            userProfile: null, theme: 'dark', dateStr: "Yükleniyor",
-            schedule: [], userDefaultSchedule: null, completedIndices: [],
-            flowState: Array(7).fill(false), pomoCount: 0, water: 0, waterGoal: 7, inputs: { w: '', in: '', out: '' },
-            stats: { coin: 0, freeze: 0, pomoStreak: 0, days: 0 },
+            userProfile: null, theme: 'dark', dateStr: "Yükleniyor", lastFinishedDate: "",
+            schedule: [], userDefaultSchedule: [], completedIndices: [],
+            pomoCount: 0, water: 0, waterGoal: 7, inputs: { w: '', in: '', out: '' },
+            stats: { namaz: 0, ders: 0, pomoStreak: 0, days: 0 },
             history: [], globalNotes: [], geminiKey: '',
-            customTypes: [{ id: "diger", label: "Diğer", color: "#007AFF" }, { id: "ders", label: "Ders / Çalışma", color: "#34C759" }, { id: "namaz", label: "Maneviyat", color: "#FF3B30" }, { id: "saglik", label: "Sağlık / Spor", color: "#FF9500" }]
+            customTypes: [{ id: "diger", label: "Diğer", color: "#007AFF" }, { id: "ders", label: "Ders", color: "#34C759" }, { id: "namaz", label: "Maneviyat", color: "#FF3B30" }, { id: "saglik", label: "Sağlık", color: "#FF9500" }, { id: "is", label: "İş", color: "#AF52DE" }]
         };
     }
 
@@ -376,10 +341,10 @@
         try {
             const raw = localStorage.getItem(DB_KEY); if (!raw) return getInitialState();
             const data = JSON.parse(raw);
-            if(!data.stats) data.stats = { coin: 0, freeze: 0, pomoStreak: 0, days: 0 };
-            if(!data.flowState) data.flowState = Array(7).fill(false);
+            if(!data.stats) data.stats = { namaz:0, ders:0, pomoStreak:0, days:0 };
             if(!data.waterGoal) data.waterGoal = 7;
             if(!data.theme) data.theme = 'dark';
+            if(!data.userDefaultSchedule) data.userDefaultSchedule = [];
             return data;
         } catch (e) { return getInitialState(); }
     }
@@ -393,34 +358,57 @@
     }
     function toggleTheme() { const data = loadData(); data.theme = data.theme === 'light' ? 'dark' : 'light'; saveData(data); applyTheme(); }
 
+    function formatTimeInput(inputElem) {
+        let val = inputElem.value;
+        if(val && val.includes(':')) {
+            let parts = val.split(':');
+            if(parts[1].length === 1) { parts[1] = parts[1] + "0"; inputElem.value = `${parts[0].padStart(2,'0')}:${parts[1]}`; }
+        }
+    }
+
+    function populateTimeWheels() {
+        const wSel = document.getElementById('pomoWork'); const bSel = document.getElementById('pomoBreak');
+        if(wSel.options.length > 0) return;
+        for(let i=1; i<=59; i++) { 
+            const optW = document.createElement('option'); optW.value = i; optW.text = i; wSel.appendChild(optW);
+            const optB = document.createElement('option'); optB.value = i; optB.text = i; bSel.appendChild(optB);
+        }
+        wSel.value = 25; bSel.value = 5;
+    }
+
     function updateLiveClock() {
         const now = new Date(); const options = { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute:'2-digit' };
-        document.getElementById('dateDisplay').innerText = now.toLocaleDateString('tr-TR', options);
+        const todayStr = now.toLocaleDateString('tr-TR', options);
+        document.getElementById('dateDisplay').innerText = todayStr;
         
-        // OTOMATİK GÜN BİTİRME (00:00 KONTROLÜ)
-        const currentHour = now.getHours(); const currentMin = now.getMinutes();
-        if(currentHour === 0 && currentMin === 0) { autoFinishDay(); }
+        // 00:00 OTOMATİK ARŞİVLEME
+        const data = loadData();
+        const dateKey = now.toLocaleDateString('tr-TR');
+        if(now.getHours() === 0 && now.getMinutes() === 0 && data.lastFinishedDate !== dateKey) {
+            autoFinishDay(data, dateKey);
+        }
     }
-    setInterval(updateLiveClock, 1000);
 
     function saveOnboarding() {
         const data = loadData();
         data.userProfile = {
             name: document.getElementById('ob-name').value || 'Dostum', age: document.getElementById('ob-age').value || '',
             height: document.getElementById('ob-height').value || '', weight: document.getElementById('ob-weight').value || '',
-            lifestyle: document.getElementById('ob-lifestyle').value || ''
+            wake: document.getElementById('ob-wake').value || '', sleep: document.getElementById('ob-sleep').value || '',
+            work: document.getElementById('ob-work').value || '', diet: document.getElementById('ob-diet').value || '',
+            hobbies: document.getElementById('ob-hobbies').value || '', goal: document.getElementById('ob-goal').value || ''
         };
         data.inputs.w = data.userProfile.weight; 
         const key = document.getElementById('ob-apikey').value; if(key) data.geminiKey = key;
         saveData(data);
         document.getElementById('onboarding-modal').style.opacity = '0';
         setTimeout(() => { document.getElementById('onboarding-modal').style.display = 'none'; }, 400);
-        render(); proactiveAI("Uygulamaya ilk defa kayıt oldum. İsmimi kullanarak, girdiğim yaşam tarzı bilgilerime göre beni kısaca motive et ve hoş geldin de.");
+        render(); proactiveAI("Uygulamaya ilk defa kayıt oldum. İsmimi kullanarak, girdiğim profil bilgilerime göre beni kısaca motive et ve hoş geldin de.");
     }
 
     function render() {
         try {
-            const data = loadData(); applyTheme(); updateLiveClock();
+            const data = loadData(); applyTheme(); populateTimeWheels();
             
             if(data.userProfile && data.userProfile.name) { document.getElementById('mainTitle').innerText = `LIFE CENTER AI - ${data.userProfile.name.toUpperCase()}`; }
 
@@ -429,20 +417,22 @@
             saveData(data);
 
             const months = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
-            processGlobalNotes(data);
+            const now = new Date(); const localDate = new Date(now.getTime() - (now.getTimezoneOffset() * 60000)); const todayStr = localDate.toISOString().split('T')[0];
+            const dueNotes = data.globalNotes.filter(note => note.date && note.date <= todayStr);
+            if (dueNotes.length > 0) {
+                dueNotes.forEach(note => data.schedule.push({ time: note.time, desc: note.desc, tag: note.type, locked: false, originalTime: note.time }));
+                data.globalNotes = data.globalNotes.filter(note => !note.date || note.date > todayStr);
+                data.schedule.sort((a, b) => (a.time||"24:00").localeCompare(b.time||"24:00")); data.userDefaultSchedule = JSON.parse(JSON.stringify(data.schedule)); saveData(data);
+            }
 
             const typeSelect = document.getElementById('newType'); const currentSel = typeSelect.value;
             typeSelect.innerHTML = '<option value="">Seçiniz...</option>';            
             data.customTypes.forEach(t => { const opt = document.createElement('option'); opt.value = t.id; opt.innerText = t.label; typeSelect.appendChild(opt); });
             if (currentSel) typeSelect.value = currentSel;
             
-            // GELİŞMİŞ SERİ EKRANI
-            const flowDone = data.flowState.filter(Boolean).length;
             document.getElementById('stat-days').innerText = data.stats.days;
             document.getElementById('stat-pomo-streak').innerText = data.stats.pomoStreak;
-            document.getElementById('stat-flow').innerText = `${flowDone}/7`;
-            document.getElementById('stat-coin').innerText = data.stats.coin;
-            document.getElementById('stat-freeze').innerText = data.stats.freeze;
+            document.getElementById('stat-namaz').innerText = data.stats.namaz;
 
             const lastLog = data.history && data.history.length > 0 ? data.history[0] : null;
             document.getElementById('prev-weight').innerText = lastLog ? `Dün: ${lastLog.weight}` : "Dün: -";
@@ -458,7 +448,7 @@
             const pomoPct = Math.round((data.pomoCount / 20) * 100);
             document.getElementById('bar-pomo').style.width = `${Math.min(100, pomoPct)}%`; document.getElementById('pct-pomo').innerText = `%${pomoPct}`;
 
-            // ELMA ANİMASYONU GERİ GELDİ
+            // ELMA ANİMASYONU VE KIRMIZI ELMALAR
             const mask = document.getElementById('biteMask'); const applePercent = document.getElementById('applePercent');
             if (mask && applePercent) {
                 mask.innerHTML = '<rect x="0" y="0" width="100" height="100" fill="white" />';
@@ -474,17 +464,10 @@
             if (gridDiv) {
                 gridDiv.innerHTML = '';
                 for(let i=1; i<=20; i++) {
-                    const btn = document.createElement('button'); btn.className = `pomo-btn-new ${i <= data.pomoCount ? 'filled' : ''}`;
-                    btn.innerText = i; btn.onclick = () => togglePomo(i); gridDiv.appendChild(btn);
+                    const btn = document.createElement('div'); btn.className = `pomo-apple ${i <= data.pomoCount ? 'filled' : ''}`;
+                    btn.innerHTML = '🍎'; btn.onclick = () => togglePomo(i); gridDiv.appendChild(btn);
                 }
             }
-
-            // FLOW (GÜNÜN BÖLÜMLERİ) GERİ GELDİ
-            const flowDiv = document.getElementById('flowSteps'); flowDiv.innerHTML = '';
-            flowItems.forEach((item, idx) => {
-                const el = document.createElement('div'); el.className = `flow-step ${data.flowState[idx] ? 'active' : ''}`;
-                el.innerText = item; el.onclick = () => toggleFlow(idx); flowDiv.appendChild(el);
-            });
 
             const waterDiv = document.getElementById('waterContainer');
             if (waterDiv) {
@@ -504,7 +487,6 @@
                 const row = document.createElement('div'); const isDone = data.completedIndices.includes(idx); const isFixed = !!task.locked;
                 row.className = `task ${isDone ? 'completed' : ''} ${isFixed ? 'fixed-task' : ''}`;
                 
-                // KİLİT MEKANİZMASI GERİ GELDİ
                 const handleIcon = isFixed ? `<div class="lock-handle" onclick="handleLockTap(${idx})">🔒</div>` : `<div class="drag-handle" onclick="handleLockTap(${idx})">≡</div>`;
                 const timeDisabled = isFixed ? 'disabled' : ''; const descEditable = isFixed ? '' : `contenteditable="true" onblur="editTask(${idx}, 'desc', this.innerText)"`; const delDisabled = isFixed ? 'disabled style="opacity:0.2;"' : '';
                 
@@ -512,7 +494,7 @@
                     ${handleIcon}
                     <input type="checkbox" class="ios-toggle" ${isDone?'checked':''} onchange="toggleTask(${idx})">
                     <div style="display:flex; flex-direction:column; gap:4px; overflow:hidden;">
-                        <input type="time" class="time-badge" value="${task.time}" ${timeDisabled} style="width:70px; border:none; background:transparent; text-align:left; padding:0;" onblur="editTask(${idx}, 'time', this.value)">
+                        <input type="time" class="time-badge" value="${task.time}" ${timeDisabled} style="width:70px; border:none; background:transparent; text-align:left; padding:0;" onblur="formatTimeInput(this); editTask(${idx}, 'time', this.value)">
                         <span class="task-desc" ${descEditable}>${task.desc}</span>
                     </div>
                     <button class="del-btn" ${delDisabled} onclick="delTask(${idx})">×</button>
@@ -520,7 +502,7 @@
                 listDiv.appendChild(row);
             });
 
-            // SÜRÜKLE-BIRAK OTOMATİK SAAT ATAMA GERİ GELDİ
+            // SÜRÜKLE BIRAK SAAT HAFIZASI
             if (window.taskSortable) window.taskSortable.destroy();
             window.taskSortable = Sortable.create(listDiv, {
                 handle: '.drag-handle', filter: '.fixed-task', preventOnFilter: false, animation: 250, ghostClass: 'sortable-ghost',
@@ -535,6 +517,8 @@
                     const prevTime = evt.newIndex > 0 ? tempData.schedule[evt.newIndex - 1].time : null; const nextTime = evt.newIndex < tempData.schedule.length - 1 ? tempData.schedule[evt.newIndex + 1].time : null;
                     const isOriginalFit = () => { if (!movedItem.originalTime) return false; if (prevTime && movedItem.originalTime <= prevTime) return false; if (nextTime && movedItem.originalTime >= nextTime) return false; return true; };
                     if (isOriginalFit()) movedItem.time = movedItem.originalTime; else movedItem.time = getMidTime(prevTime, nextTime);
+                    
+                    tempData.userDefaultSchedule = JSON.parse(JSON.stringify(tempData.schedule)); // AUTO SAVE
                     saveData(tempData); render();
                 }
             });
@@ -547,12 +531,11 @@
                     nCard.style.borderLeftColor = typeObj.color; let dateFmt = "Tarihsiz";
                     if (note.date) { const d = new Date(note.date); dateFmt = `${d.getDate()} ${months[d.getMonth()]}`; }
                     
-                    // EMOJİLER KALDIRILDI, ŞIK BUGÜNE AL BUTONU
                     nCard.innerHTML = `
                         <div class="note-meta"><span>${dateFmt} | ${note.time || "Yok"}</span><span class="note-badge" style="background:${typeObj.color}22; color:${typeObj.color};">${typeObj.label}</span></div>
                         <div style="font-size:0.95rem; font-weight:500; margin-top:4px;">${note.desc}</div>
                         <div style="display:flex; justify-content:space-between; margin-top:10px;">
-                            <button style="background:var(--input-bg); color:var(--text-main); border:1px solid var(--border); padding:6px 12px; border-radius:8px; font-weight:700; cursor:pointer;" onclick="moveToToday(${nIdx})">Bugüne Al</button>
+                            <button style="background:var(--flow-bg); color:var(--text-main); border:1px solid var(--border); padding:6px 12px; border-radius:8px; font-weight:600; cursor:pointer; font-size:0.85rem;" onclick="moveToToday(${nIdx})">Bugüne Al</button>
                             <button class="del-btn" style="color:var(--danger);" onclick="delGlobalNote(${nIdx})">×</button>
                         </div>
                     `;
@@ -560,15 +543,12 @@
                 });
             } else { notesDiv.innerHTML = '<div style="text-align:center; color:var(--text-muted); padding:10px; font-size:0.9rem;">Not bulunmuyor.</div>'; }
             
-        } catch (e) {
-            console.error("Render Hatası:", e);
-        }
+        } catch (e) {}
     }
 
     let lastTap = 0;
     function handleLockTap(idx) { const now = new Date().getTime(); if ((now - lastTap < 300) && (now - lastTap > 0)) toggleLock(idx); lastTap = now; }
-    function toggleLock(idx) { const data = loadData(); if (data.schedule[idx]) { const isLocked = data.schedule[idx].locked; data.schedule[idx].locked = !isLocked; saveData(data); render(); } }
-    function toggleFlow(idx) { const data = loadData(); data.flowState[idx] = !data.flowState[idx]; saveData(data); render(); }
+    function toggleLock(idx) { const data = loadData(); if (data.schedule[idx]) { data.schedule[idx].locked = !data.schedule[idx].locked; data.userDefaultSchedule = JSON.parse(JSON.stringify(data.schedule)); saveData(data); render(); } }
 
     function getMidTime(t1, t2) {
         const parse = t => { if(!t) return null; const [h, m] = t.split(':').map(Number); return h * 60 + m; };
@@ -579,40 +559,22 @@
     }
 
     function addNewType() {
-        const newLabel = prompt("Yeni türün adını girin:"); if (!newLabel || newLabel.trim() === "") return;
+        const newLabel = prompt("Yeni türün adını girin (Örn: Alışveriş):"); if (!newLabel || newLabel.trim() === "") return;
         const data = loadData(); const newId = "custom_" + Date.now(); const colors = ['#AF52DE', '#FF2D55', '#5856D6', '#FF9500', '#34C759', '#32ADE6', '#FF3B30'];
         data.customTypes.push({ id: newId, label: newLabel.trim(), color: colors[Math.floor(Math.random() * colors.length)] });
         saveData(data); render(); setTimeout(() => { document.getElementById('newType').value = newId; }, 50);
     }
 
-    function processGlobalNotes(data) {
-        const now = new Date(); const localDate = new Date(now.getTime() - (now.getTimezoneOffset() * 60000));
-        const todayStr = localDate.toISOString().split('T')[0];
-        const dueNotes = data.globalNotes.filter(note => note.date && note.date <= todayStr);
-        if (dueNotes.length > 0) {
-            dueNotes.forEach(note => data.schedule.push({ time: note.time, desc: note.desc, tag: note.type, locked: false }));
-            data.globalNotes = data.globalNotes.filter(note => !note.date || note.date > todayStr);
-            data.schedule.sort((a, b) => a.time.localeCompare(b.time)); saveData(data);
-        }
-    }
-
-    function togglePomo(count) {
-        const data = loadData(); data.pomoCount = (data.pomoCount === count) ? count - 1 : count; saveData(data); render();
-    }
-
+    function togglePomo(count) { const data = loadData(); data.pomoCount = (data.pomoCount === count) ? count - 1 : count; saveData(data); render(); }
     function updateInputs() { const data = loadData(); data.inputs.w = document.getElementById('in-weight').value; data.inputs.in = document.getElementById('in-cal-in').value; data.inputs.out = document.getElementById('in-cal-out').value; saveData(data); render(); }
-
-    function toggleTask(idx) {
-        const data = loadData(); const pos = data.completedIndices.indexOf(idx);
-        if(pos === -1) data.completedIndices.push(idx); else data.completedIndices.splice(pos, 1);
-        saveData(data); render();
-    }
+    function toggleTask(idx) { const data = loadData(); const pos = data.completedIndices.indexOf(idx); if(pos === -1) data.completedIndices.push(idx); else data.completedIndices.splice(pos, 1); saveData(data); render(); }
 
     function editTask(idx, key, val) {
         const data = loadData();
         if(data.schedule[idx]) { 
             data.schedule[idx][key] = val;
             if (key === 'time') { data.schedule[idx].originalTime = val; data.schedule.sort((a, b) => (a.time||"24:00").localeCompare(b.time||"24:00")); data.completedIndices = []; }
+            data.userDefaultSchedule = JSON.parse(JSON.stringify(data.schedule)); // AUTO SAVE
             saveData(data); if (key !== 'desc') render();
         }
     }
@@ -623,30 +585,26 @@
         if(!noteDesc || !noteType) return;
         const data = loadData(); let isToday = false;
         if (noteDate) { isToday = (new Date(noteDate).setHours(0,0,0,0) === new Date().setHours(0,0,0,0)); }
-        const newEntry = { id: Date.now(), date: noteDate, time: noteTime, desc: noteDesc, type: noteType, locked: false };
+        const newEntry = { id: Date.now(), date: noteDate, time: noteTime, desc: noteDesc, type: noteType, locked: false, originalTime: noteTime };
         
-        // OTOMATİK SABİTLEME (AUTO-SAVE) EKLENDİ
+        // OTOMATİK SABİTLEME (AUTO-SAVE)
         if (isToday || !noteDate) { data.schedule.push(newEntry); data.schedule.sort((a, b) => (a.time||"24:00").localeCompare(b.time||"24:00")); data.userDefaultSchedule = JSON.parse(JSON.stringify(data.schedule)); } 
         else { data.globalNotes.push(newEntry); }
         saveData(data); document.getElementById('newDesc').value = ''; render();
     }    
 
-    function delTask(idx) { const data = loadData(); data.schedule.splice(idx, 1); data.completedIndices = []; saveData(data); render(); }
+    function delTask(idx) { const data = loadData(); data.schedule.splice(idx, 1); data.completedIndices = []; data.userDefaultSchedule = JSON.parse(JSON.stringify(data.schedule)); saveData(data); render(); }
     function delGlobalNote(idx) { const data = loadData(); data.globalNotes.splice(idx, 1); saveData(data); render(); }
-    function moveToToday(idx) { const data = loadData(); const note = data.globalNotes.splice(idx, 1)[0]; data.schedule.push({ time: note.time, desc: note.desc, tag: note.type, locked:false }); data.schedule.sort((a, b) => (a.time||"24:00").localeCompare(b.time||"24:00")); saveData(data); render(); }
+    function moveToToday(idx) { const data = loadData(); const note = data.globalNotes.splice(idx, 1)[0]; data.schedule.push({ time: note.time, desc: note.desc, tag: note.type, locked:false, originalTime: note.time }); data.schedule.sort((a, b) => (a.time||"24:00").localeCompare(b.time||"24:00")); data.userDefaultSchedule = JSON.parse(JSON.stringify(data.schedule)); saveData(data); render(); }
 
-    // OTOMATİK GÜN BİTİRME (Veya Arşive Atma)
-    function autoFinishDay() {
-        const data = loadData();
-        data.history.unshift({ date: new Date().toLocaleDateString('tr-TR'), weight: data.inputs.w || '-', calIn: data.inputs.in || '-', calOut: data.inputs.out || '-', pomo: data.pomoCount });
+    function autoFinishDay(data, dateKey) {
+        data.history.unshift({ date: dateKey, weight: data.inputs.w || '-', calIn: data.inputs.in || '-', calOut: data.inputs.out || '-', pomo: data.pomoCount });
         data.schedule = data.userDefaultSchedule ? JSON.parse(JSON.stringify(data.userDefaultSchedule)) : [];
-        data.completedIndices = []; data.flowState = Array(7).fill(false); data.pomoCount = 0; data.water = 0; data.inputs.in = ''; data.inputs.out = '';
-        data.stats.days++;
-        saveData(data); render();
+        data.completedIndices = []; data.pomoCount = 0; data.water = 0; data.inputs.in = ''; data.inputs.out = ''; data.stats.days++;
+        data.lastFinishedDate = dateKey; saveData(data); render();
     }
 
-    function saveAsDefault() { const data = loadData(); data.userDefaultSchedule = JSON.parse(JSON.stringify(data.schedule)); saveData(data); alert("Kaydedildi."); }
-    function toggleHistory() { const el = document.getElementById('history-modal'); const data = loadData(); el.style.display = el.style.display === 'block' ? 'none' : 'block'; const table = document.getElementById('historyTable'); if(!data.history || data.history.length === 0) { table.innerHTML = "<tr><td>Kayıt yok.</td></tr>"; return; } let html = `<thead><tr><th>Tarih</th><th>Kg</th><th>Al</th><th>Ver</th><th>Pom</th></tr></thead><tbody>`; data.history.forEach(log => { html += `<tr><td>${log.date}</td><td>${log.weight}</td><td>${log.calIn}</td><td>${log.calOut}</td><td>${log.pomo}</td></tr>`; }); html += "</tbody>"; table.innerHTML = html; }
+    function toggleHistory() { const el = document.getElementById('history-modal'); const data = loadData(); el.style.display = el.style.display === 'block' ? 'none' : 'block'; const table = document.getElementById('historyTable'); if(!data.history || data.history.length === 0) { table.innerHTML = "<tr><td>Kayıt yok.</td></tr>"; return; } let html = `<thead><tr><th>Tarih</th><th>Kg</th><th>Al</th><th>Ver</th><th>Pom</th></tr></thead><tbody>`; data.history.forEach(log => { html += `<tr><td>${log.date.split(' ')[0]}</td><td>${log.weight}</td><td>${log.calIn}</td><td>${log.calOut}</td><td>${log.pomo}</td></tr>`; }); html += "</tbody>"; table.innerHTML = html; }
     function forceReset() { if(confirm("DİKKAT: Her şey silinecek! Onaylıyor musunuz?")) { localStorage.removeItem(DB_KEY); location.reload(); } }
 
     let pomoInterval = null; let pomoTimeLeft = 0; let isWorkSession = true; 
@@ -661,13 +619,8 @@
     function stopPomodoro() { 
         clearInterval(pomoInterval); pomoInterval = null; 
         document.getElementById('timerStatus').innerText = "BAŞLAMAYA HAZIR"; document.getElementById('timerStatus').style.color = "var(--text-muted)"; 
-        
-        // OTOMATİK SIFIRLAMA (25 VE 5'E DÖNÜŞ)
-        document.getElementById('pomoWork').value = 25; document.getElementById('workVal').innerText = 25;
-        document.getElementById('pomoBreak').value = 5; document.getElementById('breakVal').innerText = 5;
-        
-        document.getElementById('timerDisplay').innerText = "25:00"; 
-        document.getElementById('pomoStartBtn').style.display = "block"; document.getElementById('pomoStopBtn').style.display = "none"; 
+        document.getElementById('pomoWork').value = 25; document.getElementById('pomoBreak').value = 5;
+        document.getElementById('timerDisplay').innerText = "25:00"; document.getElementById('pomoStartBtn').style.display = "block"; document.getElementById('pomoStopBtn').style.display = "none"; 
     }
     function timerTick() {
         if (pomoTimeLeft <= 0) {
@@ -675,10 +628,6 @@
             const alarm = document.getElementById('pomoAlarm'); if(alarm) alarm.play().catch(e => console.log(e));
             if (isWorkSession) {
                 const data = loadData(); if (data.pomoCount < 20) togglePomo(data.pomoCount + 1);
-                
-                // ODAK EVRENİ COİN SİSTEMİ (Her Pomo = 2 Coin)
-                data.stats.coin += 2; saveData(data);
-                
                 const bM = parseInt(document.getElementById('pomoBreak').value) || 5; pomoTimeLeft = bM * 60; isWorkSession = false;
                 document.getElementById('timerStatus').innerText = "MOLA ZAMANI"; document.getElementById('timerStatus').style.color = "var(--water-color)";
                 pomoInterval = setInterval(timerTick, 1000);
@@ -693,44 +642,34 @@
         const parse = t => { if(!t) return null; const [h, m] = t.split(':').map(Number); return h * 60 + m; };
         const format = mins => { const h = Math.floor(mins / 60) % 24; const m = mins % 60; return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`; };
         data.schedule.forEach(task => { if(task.time && !task.locked) { const currentMins = parse(task.time); task.time = format(currentMins + minsToAdd); } });
-        saveData(data); render();
+        data.userDefaultSchedule = JSON.parse(JSON.stringify(data.schedule)); saveData(data); render();
     }
 
     // --- YAPAY ZEKA GÜVENLİK POP-UP ---
     let pendingAIAction = null;
-    function approveAIAction() {
-        if(pendingAIAction) { pendingAIAction(); pendingAIAction = null; document.getElementById('confirm-modal').style.display = 'none'; }
-    }
+    function approveAIAction() { if(pendingAIAction) { pendingAIAction(); pendingAIAction = null; document.getElementById('confirm-modal').style.display = 'none'; } }
     function cancelAIAction() { pendingAIAction = null; document.getElementById('confirm-modal').style.display = 'none'; }
 
     let currentAttachedImage = null;
     function previewImage(event) {
-        const file = event.target.files[0]; if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const imgPreview = document.getElementById('aiImagePreview');
-            imgPreview.src = e.target.result; imgPreview.style.display = "block";
-            currentAttachedImage = { mimeType: file.type, data: e.target.result.split(',')[1] };
-        };
-        reader.readAsDataURL(file);
+        const file = event.target.files[0]; if (!file) return; const reader = new FileReader();
+        reader.onload = function(e) { document.getElementById('aiImagePreview').src = e.target.result; document.getElementById('aiImagePreview').style.display = "block"; currentAttachedImage = { mimeType: file.type, data: e.target.result.split(',')[1] }; }; reader.readAsDataURL(file);
     }
 
     // MANUEL MİKROFON: BAS/KONUŞ/KAPAT
     let micRecognition = null; let isMicRecording = false;
     function toggleVoiceRecognition() {
         const micBtn = document.getElementById('micBtn'); const promptInput = document.getElementById('aiPrompt');
-        
         if (isMicRecording && micRecognition) {
-            micRecognition.stop(); isMicRecording = false; micBtn.style.color = "var(--danger)"; promptInput.placeholder = "Yaz veya konuş..."; return;
+            micRecognition.stop(); isMicRecording = false; micBtn.style.color = "var(--text-main)"; promptInput.placeholder = "Yaz veya konuş...";
+            if(promptInput.value.trim() !== "") askGemini(); return;
         }
-
         if (!('webkitSpeechRecognition' in window)) { alert("Tarayıcı desteklemiyor. Lütfen klavye mikrofonunu kullanın."); return; }
-        
         micRecognition = new webkitSpeechRecognition(); micRecognition.lang = 'tr-TR'; micRecognition.interimResults = true; micRecognition.continuous = true;
-        micRecognition.onstart = function() { isMicRecording = true; micBtn.style.color = "var(--success)"; promptInput.placeholder = "Sizi dinliyorum... (Kapatmak için tekrar dokunun)"; promptInput.value = ""; };
+        micRecognition.onstart = function() { isMicRecording = true; micBtn.style.color = "var(--success)"; promptInput.placeholder = "Sizi dinliyorum... (Durdurup göndermek için tekrar dokunun)"; promptInput.value = ""; };
         micRecognition.onresult = function(event) { let finalTranscript = ''; for (let i = 0; i < event.results.length; ++i) { finalTranscript += event.results[i][0].transcript; } promptInput.value = finalTranscript; };
-        micRecognition.onerror = function(event) { isMicRecording = false; micBtn.style.color = "var(--danger)"; promptInput.placeholder = "Ses anlaşılamadı."; };
-        micRecognition.onend = function() { if(isMicRecording) { micRecognition.start(); } else { if(promptInput.value.trim() !== "") { askGemini(); } } };
+        micRecognition.onerror = function(event) { isMicRecording = false; micBtn.style.color = "var(--text-main)"; promptInput.placeholder = "Ses anlaşılamadı."; };
+        micRecognition.onend = function() { if(isMicRecording) micRecognition.start(); };
         micRecognition.start();
     }
 
@@ -741,19 +680,19 @@
 
         resultDiv.style.display = "block"; resultDiv.innerHTML = "<span style='color:var(--accent); font-weight:700;'>Analiz ediliyor... 🧠</span>";
 
-        // JSON PROMPT MÜHENDİSLİĞİ (TÜM GÜNÜ PLANLAMA KİLİDİ AÇILDI)
         const scheduleText = data.schedule.map(t => `${t.time} - ${t.desc} [${t.tag}] ${t.locked ? '(Kilitli)' : ''}`).join("\n");
-        const systemInstruction = `Sen 'Life Center AI'. Kullanıcı: ${data.userProfile?.name}, Yaş: ${data.userProfile?.age}, Yaşam: ${data.userProfile?.lifestyle}. ONA DAİMA İSMİYLE HİTAP ET.
+        const systemInstruction = `Sen 'Life Center AI'. Kullanıcı: ${data.userProfile?.name}, Yaş: ${data.userProfile?.age}, Hedef: ${data.userProfile?.goal}, Uyanış: ${data.userProfile?.wake}.
 Bugünün Gerçek Tarihi/Saati: ${document.getElementById('dateDisplay').innerText}
 Görevler:
 ${scheduleText}
 
-GİZLİ SİSTEM KOMUTU: Kullanıcı sana 'Bütün günümü tasarla' veya 'Şunları ekle' dediğinde asla kısıtlama yapma. Tüm günü sabahtan akşama kadar (10, 15, 20 görev olsa bile) eksiksiz olarak JSON'a bas. Görev eklerken eski görevleri SİLME.
-Değişiklik istenirse metnin EN SONUNA JSON ekle.
-1. Görev Ekle (Çoklu ekleyebilirsin): {"action":"ADD_TASKS", "tasks": [{"time":"09:00", "desc":"Spor", "type":"saglik"}, {"time":"10:00", "desc":"İş", "type":"diger"}]}
+GİZLİ SİSTEM KOMUTU: Tüm günü sabahtan akşama kadar (15-20 görev olsa bile) eksiksiz olarak TEK BİR JSON'a bas. 
+Kullanıcıya verdiğin metinsel cevabın EN SONUNA Markdown formatı OLMADAN, sadece süslü parantezlerle başlayan ham JSON ekle.
+ÖRNEKLER:
+1. Ekle: {"action":"ADD_TASKS", "tasks": [{"time":"09:00", "desc":"Spor", "type":"saglik"}, {"time":"10:00", "desc":"İş", "type":"is"}]}
 2. Sil: {"action":"DELETE_TASK", "time":"09:00"}
 3. Saat Kaydır: {"action":"SHIFT_TASKS", "mins": 30}
-Sadece ham JSON yaz.`;
+4. Su Ekle: {"action":"ADD_WATER", "amount": 1}`;
 
         const fullPrompt = `${systemInstruction}\n\nKullanıcı Mesajı: ${userPrompt}`;
         const apiParts = [{ text: fullPrompt }]; if (currentAttachedImage) { apiParts.push({ inlineData: { mimeType: currentAttachedImage.mimeType, data: currentAttachedImage.data } }); }
@@ -764,42 +703,39 @@ Sadece ham JSON yaz.`;
             if (!response.ok) { const errData = await response.json(); throw new Error(errData.error.message || "Bilinmeyen API Hatası"); }
 
             const json = await response.json(); let reply = json.candidates[0].content.parts[0].text;
-            const actionRegex = /\{"action"\s*:\s*"[^"]+"[\s\S]*?\}/g; const matches = reply.match(actionRegex);
+            
+            // GELİŞMİŞ JSON AYRIŞTIRICI (REGEX)
+            let extractedJSONs = [];
+            reply = reply.replace(/```json\n([\s\S]*?)\n```/g, (m, g1) => { extractedJSONs.push(g1); return ""; });
+            reply = reply.replace(/\{"action"\s*:\s*"[^"]+"[\s\S]*?\}/g, (m) => { if(!extractedJSONs.includes(m)) extractedJSONs.push(m); return ""; });
 
-            if (matches) {
+            if (extractedJSONs.length > 0) {
                 const newData = loadData(); let isChanged = false; let requiresApproval = false; let approvalText = "";
                 
-                matches.forEach(matchStr => {
+                extractedJSONs.forEach(matchStr => {
                     try {
                         const actionData = JSON.parse(matchStr);
                         if(actionData.action === "DELETE_TASK") { requiresApproval = true; approvalText = `Saat ${actionData.time} görevini SİLMEK istiyor.`; }
-                        else if(actionData.action === "SHIFT_TASKS") { requiresApproval = true; approvalText = `Tüm planı ${actionData.mins} dakika kaydırmak istiyor.`; }
+                        else if(actionData.action === "SHIFT_TASKS") { requiresApproval = true; approvalText = `Planı ${actionData.mins} dakika kaydırmak istiyor.`; }
                     } catch(e) {}
                 });
 
                 const executeJSON = () => {
-                    matches.forEach(matchStr => {
+                    extractedJSONs.forEach(matchStr => {
                         try {
                             const actionData = JSON.parse(matchStr);
                             switch(actionData.action) {
-                                case "ADD_TASKS": 
-                                    if(actionData.tasks) { actionData.tasks.forEach(t => newData.schedule.push({ id: Date.now()+Math.random(), time: t.time || "12:00", desc: t.desc, tag: t.type || "diger", locked: false })); } 
-                                    newData.schedule.sort((a, b) => (a.time||"24:00").localeCompare(b.time||"24:00")); newData.userDefaultSchedule = JSON.parse(JSON.stringify(newData.schedule)); isChanged = true; break;
-                                case "DELETE_TASK": newData.schedule = newData.schedule.filter(t => t.time !== actionData.time); newData.completedIndices = []; isChanged = true; break;
-                                case "SHIFT_TASKS": newData.schedule.forEach(t => { if(t.time && !t.locked) { const [h, m] = t.time.split(':').map(Number); let mins = h*60 + m + actionData.mins; const newH = Math.floor(mins/60)%24; const newM = mins%60; t.time = `${String(newH).padStart(2,'0')}:${String(newM).padStart(2,'0')}`; }}); isChanged = true; break;
+                                case "ADD_TASKS": if(actionData.tasks) { actionData.tasks.forEach(t => newData.schedule.push({ id: Date.now()+Math.random(), time: t.time || "12:00", desc: t.desc, tag: t.type || "diger", locked: false, originalTime: t.time })); } newData.schedule.sort((a, b) => (a.time||"24:00").localeCompare(b.time||"24:00")); newData.userDefaultSchedule = JSON.parse(JSON.stringify(newData.schedule)); isChanged = true; break;
+                                case "DELETE_TASK": newData.schedule = newData.schedule.filter(t => t.time !== actionData.time); newData.completedIndices = []; newData.userDefaultSchedule = JSON.parse(JSON.stringify(newData.schedule)); isChanged = true; break;
+                                case "SHIFT_TASKS": newData.schedule.forEach(t => { if(t.time && !t.locked) { const [h, m] = t.time.split(':').map(Number); let mins = h*60 + m + actionData.mins; const newH = Math.floor(mins/60)%24; const newM = mins%60; t.time = `${String(newH).padStart(2,'0')}:${String(newM).padStart(2,'0')}`; }}); newData.userDefaultSchedule = JSON.parse(JSON.stringify(newData.schedule)); isChanged = true; break;
+                                case "ADD_WATER": newData.water = Math.min(newData.waterGoal, newData.water + (actionData.amount || 1)); isChanged = true; break;
                             }
                         } catch(e) {}
                     });
                     if (isChanged) { saveData(newData); render(); document.getElementById('aiPrompt').value = ""; }
                 };
 
-                if (requiresApproval) {
-                    document.getElementById('confirm-text').innerText = approvalText;
-                    document.getElementById('confirm-modal').style.display = 'flex';
-                    pendingAIAction = executeJSON;
-                } else { executeJSON(); }
-                
-                reply = reply.replace(actionRegex, '');
+                if (requiresApproval) { document.getElementById('confirm-text').innerText = approvalText; document.getElementById('confirm-modal').style.display = 'flex'; pendingAIAction = executeJSON; } else { executeJSON(); }
             } else { document.getElementById('aiPrompt').value = ""; }
 
             document.getElementById('aiImagePreview').style.display = 'none'; currentAttachedImage = null; document.getElementById('aiImageInput').value = "";
@@ -811,8 +747,7 @@ Sadece ham JSON yaz.`;
     async function proactiveAI(situationPrompt) {
         const data = loadData(); const apiKey = data.geminiKey; if (!apiKey) return;
         const resultDiv = document.getElementById('aiResult'); resultDiv.style.display = "block"; resultDiv.innerHTML = "<span style='color:var(--accent); font-weight:700;'>Analiz ediliyor... 🧠</span>";
-        const scheduleText = data.schedule.map(t => `${t.time} - ${t.desc} [${t.tag}] ${data.completedIndices.includes(data.schedule.indexOf(t)) ? '(Tamamlandı)' : '(Bekliyor)'}`).join("\n");
-        const systemInstruction = `Sen 'Life Center AI'. Kullanıcı: ${data.userProfile?.name}, Yaş: ${data.userProfile?.age}, Yaşam: ${data.userProfile?.lifestyle}. Görevleri: ${scheduleText}. Kısa, nokta atışı ve ismen hitap ederek koçluk yap.`;
+        const systemInstruction = `Sen 'Life Center AI'. Kullanıcı: ${data.userProfile?.name}, Yaş: ${data.userProfile?.age}, Hedef: ${data.userProfile?.goal}. Kısa, nokta atışı ve ismen hitap ederek koçluk yap. JSON YAZMA.`;
         const fullPrompt = `${systemInstruction}\n\nSİSTEM BİLDİRİMİ: ${situationPrompt}`;
         try {
             const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${apiKey.trim()}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: [{ text: fullPrompt }] }] }) });
@@ -830,7 +765,7 @@ Sadece ham JSON yaz.`;
                 const isCompleted = data.completedIndices.includes(idx);
                 if (!isCompleted && task.time) {
                     const [h, m] = task.time.split(':').map(Number); const taskMins = h * 60 + m;
-                    if (currentMins === taskMins + 15) { proactiveAI(`Kullanıcının saat ${task.time}'daki '${task.desc}' görevi 15 dk gecikti. Uyar!`); }
+                    if (currentMins === taskMins + 15) { proactiveAI(`Kullanıcının saat ${task.time}'daki '${task.desc}' görevi 15 dk gecikti. Onu uyar!`); }
                 }
             });
         }, 60000);
