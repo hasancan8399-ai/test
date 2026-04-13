@@ -77,7 +77,7 @@
     .glass-input { background: var(--input-bg); border: 1px solid var(--border); color: var(--text-main); padding: 12px; border-radius: 12px; width: 110px; text-align: right; font-size: 1rem; font-weight: 600; transition: 0.3s; }
     .glass-input:focus { outline: 2px solid var(--accent); }
     
-    select.glass-input { appearance: none; -webkit-appearance: none; text-align: center; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='gray' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 8px center; background-size: 14px; padding-right: 25px; }
+select.glass-input { appearance: none; -webkit-appearance: none; text-align: left; padding-left: 12px; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238e8e93' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 12px center; background-size: 16px; padding-right: 35px; cursor: pointer; }
 
     .task { display: grid; grid-template-columns: 36px 50px 1fr 36px; gap: 10px; align-items: center; margin-bottom: 10px; padding: 12px 10px; border-radius: 16px; background: var(--flow-bg); border: 1px solid var(--border);}
     .task.completed { opacity: 0.5; }
@@ -170,6 +170,36 @@
         <div style="display:flex; gap:10px;">
             <button class="main-btn" style="background:var(--input-bg); color:var(--text-main); border:1px solid var(--border);" onclick="cancelAIAction()">İptal</button>
             <button class="main-btn" style="background:var(--danger); color:#fff;" onclick="approveAIAction()">Onayla</button>
+        </div>
+    </div>
+</div>
+
+<div id="edit-note-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:10001; align-items:center; justify-content:center; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);">
+    <div class="glass-card" style="width: 90%; max-width: 400px; padding: 25px; border: 1px solid rgba(255,255,255,0.1);">
+        <h3 style="margin-top:0; color:var(--accent); font-size: 1.2rem; margin-bottom: 20px;">Notu Düzenle</h3>
+        <div style="display:flex; flex-direction:column; gap:15px;">
+            <div>
+                <label style="font-size:0.75rem; color:var(--text-muted); margin-left: 5px;">İÇERİK</label>
+                <textarea id="edit-n-desc" class="glass-input" style="width:100%; min-height:100px; text-align:left; padding:12px; margin-top:5px;"></textarea>
+            </div>
+            <div style="display:flex; gap:10px;">
+                <div style="flex:1;">
+                    <label style="font-size:0.75rem; color:var(--text-muted); margin-left: 5px;">TARİH</label>
+                    <input type="date" id="edit-n-date" class="glass-input" style="width:100%; margin-top:5px;">
+                </div>
+                <div style="flex:1;">
+                    <label style="font-size:0.75rem; color:var(--text-muted); margin-left: 5px;">SAAT</label>
+                    <input type="time" id="edit-n-time" class="glass-input" style="width:100%; margin-top:5px;">
+                </div>
+            </div>
+            <div>
+                <label style="font-size:0.75rem; color:var(--text-muted); margin-left: 5px;">KATEGORİ</label>
+                <select id="edit-n-type" class="glass-input" style="width:100%; margin-top:5px;"></select>
+            </div>
+        </div>
+        <div style="display:flex; gap:12px; margin-top:30px;">
+            <button class="main-btn" style="background:rgba(255,255,255,0.05); color:var(--text-main); border:1px solid var(--border); flex:1;" onclick="document.getElementById('edit-note-modal').style.display='none'">Vazgeç</button>
+            <button class="main-btn" style="background:var(--accent); color:#fff; flex:1; font-weight:700;" id="save-edit-btn">Güncelle</button>
         </div>
     </div>
 </div>
@@ -541,9 +571,9 @@ data.globalNotes.sort((a, b) => {
                 return timeA.localeCompare(timeB);
             });
 
-            const notesDiv = document.getElementById('globalNotesList'); notesDiv.innerHTML = '';
+const notesDiv = document.getElementById('globalNotesList'); notesDiv.innerHTML = '';
             if (data.globalNotes && data.globalNotes.length > 0) {
-                data.globalNotes.forEach((note, nIdx) => {
+                data.globalNotes.forEach((note) => {
                     const nCard = document.createElement('div'); nCard.className = 'note-card';
                     const typeObj = data.customTypes.find(t => t.id === note.type) || { label: note.type, color: '#007AFF' };
                     nCard.style.borderLeftColor = typeObj.color; let dateFmt = "Tarihsiz";
@@ -552,9 +582,10 @@ data.globalNotes.sort((a, b) => {
                     nCard.innerHTML = `
                         <div class="note-meta"><span>${dateFmt} | ${note.time || "Yok"}</span><span class="note-badge" style="background:${typeObj.color}22; color:${typeObj.color};">${typeObj.label}</span></div>
                         <div style="font-size:0.95rem; font-weight:500; margin-top:4px;">${note.desc}</div>
-                        <div style="display:flex; justify-content:space-between; margin-top:10px;">
-                            <button style="background:var(--flow-bg); color:var(--text-main); border:1px solid var(--border); padding:6px 12px; border-radius:8px; font-weight:600; cursor:pointer; font-size:0.85rem;" onclick="moveToToday(${nIdx})">Bugüne Al</button>
-                            <button class="del-btn" style="color:var(--danger);" onclick="delGlobalNote(${nIdx})">×</button>
+                        <div style="display:flex; justify-content:space-between; margin-top:10px; gap:8px;">
+                            <button style="background:transparent; color:var(--accent); border:1px solid var(--accent); padding:6px 12px; border-radius:8px; font-weight:600; cursor:pointer; font-size:0.85rem; flex:1;" onclick="editGlobalNotePrompt(${note.id})">✏️ Düzenle</button>
+                            <button style="background:var(--flow-bg); color:var(--text-main); border:1px solid var(--border); padding:6px 12px; border-radius:8px; font-weight:600; cursor:pointer; font-size:0.85rem; flex:1;" onclick="moveToTodayById(${note.id})">Bugüne Al</button>
+                            <button class="del-btn" style="color:var(--danger);" onclick="delGlobalNoteById(${note.id})">×</button>
                         </div>
                     `;
                     notesDiv.appendChild(nCard);
@@ -597,23 +628,93 @@ data.globalNotes.sort((a, b) => {
         }
     }
 
-    function addTask() {
-        const noteDesc = document.getElementById('newDesc').value; const noteDate = document.getElementById('newDate').value; 
-        const noteTime = document.getElementById('newTime').value; const noteType = document.getElementById('newType').value;
-        if(!noteDesc || !noteType) return;
-        const data = loadData(); let isToday = false;
-        if (noteDate) { isToday = (new Date(noteDate).setHours(0,0,0,0) === new Date().setHours(0,0,0,0)); }
-        const newEntry = { id: Date.now(), date: noteDate, time: noteTime, desc: noteDesc, type: noteType, locked: false, originalTime: noteTime };
+function addTask() {
+        const noteDesc = document.getElementById('newDesc').value; 
+        if(!noteDesc) return; // Sadece isim boşsa durdur
+
+        const noteDate = document.getElementById('newDate').value; 
+        const noteTime = document.getElementById('newTime').value;
+        let noteType = document.getElementById('newType').value || "diger"; // Seçilmezse 'diger' ata
+
+        const data = loadData();
+        let isToday = false;
+        if (noteDate) { 
+            isToday = (new Date(noteDate).setHours(0,0,0,0) === new Date().setHours(0,0,0,0));
+        }
+        const newEntry = { id: Date.now() + Math.random(), date: noteDate, time: noteTime, desc: noteDesc, type: noteType, locked: false, originalTime: noteTime };
         
-        // OTOMATİK SABİTLEME (AUTO-SAVE)
-        if (isToday || !noteDate) { data.schedule.push(newEntry); data.schedule.sort((a, b) => (a.time||"24:00").localeCompare(b.time||"24:00")); data.userDefaultSchedule = JSON.parse(JSON.stringify(data.schedule)); } 
-        else { data.globalNotes.push(newEntry); }
-        saveData(data); document.getElementById('newDesc').value = ''; render();
+        if (isToday || !noteDate) { 
+            data.schedule.push(newEntry);
+            data.schedule.sort((a, b) => (a.time||"24:00").localeCompare(b.time||"24:00")); 
+            data.userDefaultSchedule = JSON.parse(JSON.stringify(data.schedule)); 
+        } else { 
+            data.globalNotes.push(newEntry);
+        }
+        
+        saveData(data); 
+        document.getElementById('newDesc').value = ''; 
+        render();
     }    
 
-    function delTask(idx) { const data = loadData(); data.schedule.splice(idx, 1); data.completedIndices = []; data.userDefaultSchedule = JSON.parse(JSON.stringify(data.schedule)); saveData(data); render(); }
-    function delGlobalNote(idx) { const data = loadData(); data.globalNotes.splice(idx, 1); saveData(data); render(); }
-    function moveToToday(idx) { const data = loadData(); const note = data.globalNotes.splice(idx, 1)[0]; data.schedule.push({ time: note.time, desc: note.desc, tag: note.type, locked:false, originalTime: note.time }); data.schedule.sort((a, b) => (a.time||"24:00").localeCompare(b.time||"24:00")); data.userDefaultSchedule = JSON.parse(JSON.stringify(data.schedule)); saveData(data); render(); }
+function delTask(idx) {
+        showPopup("Görevi Sil", "Bu görevi silmek istediğinizden emin misiniz?", () => {
+            const data = loadData();
+            data.schedule.splice(idx, 1);
+            data.completedIndices = [];
+            data.userDefaultSchedule = JSON.parse(JSON.stringify(data.schedule));
+            saveData(data);
+            render();
+        });
+    }
+
+function delGlobalNoteById(id) {
+        showPopup("Notu Sil", "Bu notu silmek istediğinizden emin misiniz?", () => {
+            const data = loadData();
+            data.globalNotes = data.globalNotes.filter(n => n.id !== id);
+            saveData(data);
+            render();
+        });
+    }
+
+    function moveToTodayById(id) {
+        const data = loadData();
+        const nIdx = data.globalNotes.findIndex(n => n.id === id);
+        if (nIdx !== -1) {
+            const note = data.globalNotes.splice(nIdx, 1)[0];
+            data.schedule.push({ time: note.time || "12:00", desc: note.desc, tag: note.type, locked:false, originalTime: note.time });
+            data.schedule.sort((a, b) => (a.time||"24:00").localeCompare(b.time||"24:00"));
+            data.userDefaultSchedule = JSON.parse(JSON.stringify(data.schedule));
+            saveData(data);
+            render();
+        }
+    }
+
+function editGlobalNotePrompt(id) {
+        const data = loadData();
+        // Notu ID üzerinden buluyoruz (Sıralama değişse de id değişmez)
+        const note = data.globalNotes.find(n => n.id === id);
+        if (!note) return;
+
+        const newDesc = prompt("Not içeriğini düzenle:", note.desc);
+        if (newDesc === null) return; // İptal edilirse çık
+
+        const newDate = prompt("Tarih (YYYY-AA-GG) - Örn: 2026-04-15 (Boş bırakılabilir):", note.date || "");
+        const newTime = prompt("Saat (SS:DD) - Örn: 14:30 (Boş bırakılabilir):", note.time || "");
+        
+        // Türleri listele ve seçtir
+        const typeList = data.customTypes.map(t => `${t.id}: ${t.label}`).join("\n");
+        const newType = prompt("Yeni Tür ID'sini girin:\n" + typeList, note.type);
+
+        note.desc = newDesc || note.desc;
+        note.date = newDate;
+        note.time = newTime;
+        if(newType && data.customTypes.find(t => t.id === newType)) {
+            note.type = newType;
+        }
+
+        saveData(data);
+        render();
+    }
 
     function autoFinishDay(data, dateKey) {
         data.history.unshift({ date: dateKey, weight: data.inputs.w || '-', calIn: data.inputs.in || '-', calOut: data.inputs.out || '-', pomo: data.pomoCount });
@@ -663,10 +764,17 @@ data.globalNotes.sort((a, b) => {
         data.userDefaultSchedule = JSON.parse(JSON.stringify(data.schedule)); saveData(data); render();
     }
 
-    // --- YAPAY ZEKA GÜVENLİK POP-UP ---
-    let pendingAIAction = null;
-    function approveAIAction() { if(pendingAIAction) { pendingAIAction(); pendingAIAction = null; document.getElementById('confirm-modal').style.display = 'none'; } }
-    function cancelAIAction() { pendingAIAction = null; document.getElementById('confirm-modal').style.display = 'none'; }
+// --- EVRENSEL POP-UP MOTORU ---
+    let pendingAction = null;
+    function showPopup(title, message, callback) {
+        const modal = document.getElementById('confirm-modal');
+        modal.querySelector('h3').innerText = title;
+        document.getElementById('confirm-text').innerHTML = message;
+        modal.style.display = 'flex';
+        pendingAction = callback;
+    }
+    function approveAIAction() { if(pendingAction) { pendingAction(); pendingAction = null; document.getElementById('confirm-modal').style.display = 'none'; } }
+    function cancelAIAction() { pendingAction = null; document.getElementById('confirm-modal').style.display = 'none'; }
 
     let currentAttachedImage = null;
     function previewImage(event) {
@@ -696,35 +804,46 @@ async function askGemini() {
         if (!apiKey) { const newKey = prompt("Geçerli bir API Key girin:"); if(newKey) { data.geminiKey = newKey; saveData(data); askGemini(); } return; }
         if (!userPrompt && !currentAttachedImage) return;
 
-        if (!data.chatHistory) data.chatHistory = []; // Hafıza yoksa oluştur
+        if (!data.chatHistory) data.chatHistory = []; 
         resultDiv.style.display = "block"; resultDiv.innerHTML = "<span style='color:var(--accent); font-weight:700;'>Analiz ediliyor... 🧠</span>";
 
-        const scheduleText = data.schedule.map(t => `${t.time} - ${t.desc} [${t.tag}] ${t.locked ? '(Kilitli)' : ''}`).join("\n");
-        const systemInstruction = `Sen 'Life Center AI'. Kullanıcı: ${data.userProfile?.name}, Yaş: ${data.userProfile?.age}, Hedef: ${data.userProfile?.goal}.
-Bugünün Gerçek Tarihi ve Saati: ${new Date().toLocaleDateString('tr-TR')} - Saat: ${String(new Date().getHours()).padStart(2,'0')}:${String(new Date().getMinutes()).padStart(2,'0')}
-Görevler:
-${scheduleText}
+        // GÖREVLERİ SIRA NUMARASIYLA VERİYORUZ (İlk, İkinci komutları için)
+        const scheduleText = data.schedule.map((t, index) => `${index + 1}. SIRA | Saat: ${t.time} - ${t.desc} [${t.tag}] ${t.locked ? '(Kilitli)' : ''}`).join("\n");
+        const todayDateStr = new Date().toLocaleDateString('tr-TR');
+        const todayDayStr = new Date().toLocaleDateString('tr-TR', { weekday: 'long' });
 
-GİZLİ SİSTEM KOMUTU (TAM YETKİ): Kullanıcının asistanısın. Sohbet geçmişini biliyorsun. Tüm günü tasarlayabilir, pomodoro başlatabilir, su/elma ekleyebilir, kilit açıp/kapatabilirsin.
-İşlem yapman gerekirse cevabının EN SONUNA Markdown OLMADAN sadece ham JSON yaz. 
-Formatlar:
-[
-  {"action":"ADD_TASKS", "tasks": [{"time":"09:00", "desc":"Spor", "type":"saglik"}]},
-  {"action":"DELETE_TASK", "time":"09:00"},
-  {"action":"SHIFT_TASKS", "mins": 30},
-  {"action":"ADD_WATER", "amount": 1},
-  {"action":"SET_POMO_GOAL", "amount": 15},
-  {"action":"TOGGLE_LOCK", "time":"09:00"},
-  {"action":"START_POMO"},
-  {"action":"ADD_GLOBAL_NOTE", "desc":"Market alışverişi", "type":"diger"}
-]`;
+        // YAPAY ZEKA BEYİN NAKLİ (Zaman ve Bağlam Farkındalığı)
+        const systemInstruction = `Sen 'Life Center AI'. Kullanıcı: ${data.userProfile?.name}.
+Bugünün Tarihi: ${todayDateStr} (${todayDayStr}) - Saat: ${String(new Date().getHours()).padStart(2,'0')}:${String(new Date().getMinutes()).padStart(2,'0')}
+
+MEVCUT GÖREVLER (Sırasıyla):
+${scheduleText || "Görev yok"}
+
+KESİN KURALLAR:
+1. SIRA BİLDİREN KOMUTLAR: "İlk görevi", "ikinci görevi" dendiğinde, MEVCUT GÖREVLER listesindeki "X. SIRA" numarasına bak. İşlemi yaparken o görevin "Saat" (time) değerini JSON'da kullan. Asla yanlış görevi silme/tamamlama!
+2. GELECEK TARİHLİ GÖREVLER: Yarına, Çarşambaya veya başka bir güne verilen görevleri BUGÜNÜN listesine (ADD_TASKS) EKLEME! Bunları ADD_GLOBAL_NOTE ile "date" (YYYY-AA-GG) ve "time" (SS:DD) formatında ekle. (Örn: Çarşamba diyorsa bugünün tarihinden o günü hesapla).
+3. LİSTEDE OLMAYAN EYLEMLER: "X yaptım" (Örn: Dijital detoks yaptım) dendiğinde, bunu başka bir görevi tamamlama olarak algılama! Ya ADD_GLOBAL_NOTE olarak ekle ya da ADD_TASKS ile o anki saate yeni bir görev olarak ekleyip, ardından TOGGLE_TASK_COMPLETE ile onu tamamla.
+4. Sadece komutta istenenleri yap. Cevabının EN SONUNA ham JSON (Markdown olmadan) yaz.
+
+ARAÇ KUTUSU:
+- Görev Ekle: {"action":"ADD_TASKS", "tasks": [{"time":"09:00", "desc":"Spor", "type":"saglik"}]}
+- Görev Sil / Tümünü Sil: {"action":"DELETE_TASK", "time":"09:00"}, {"action":"CLEAR_ALL_TASKS"}
+- Görevi Tamamla/Geri Al: {"action":"TOGGLE_TASK_COMPLETE", "time":"09:00"}
+- Kilitle/Aç: {"action":"TOGGLE_TASK_LOCK", "time":"09:00"}
+- Plan Kaydır (+/- dk): {"action":"SHIFT_TASKS", "mins": 30}
+- Su Ekle / Sıfırla: {"action":"ADD_WATER", "amount": 1}, {"action":"SET_WATER", "amount": 0}
+- Su Hedefi: {"action":"SET_WATER_GOAL", "amount": 10}
+- Pomo Başlat / Durdur: {"action":"START_POMO"}, {"action":"STOP_POMO"}
+- Pomo Süresi (dk): {"action":"SET_POMO_WORK", "mins": 45}, {"action":"SET_POMO_BREAK", "mins": 15}
+- Pomo Hedefi / Tamamlanan Pomo: {"action":"SET_POMO_GOAL", "amount": 15}, {"action":"ADD_POMO", "amount": 1}, {"action":"SET_POMO_COUNT", "amount": 0}
+- Genel Not / Gelecek Görev: {"action":"ADD_GLOBAL_NOTE", "desc":"Psikolog", "type":"saglik", "date":"2026-04-15", "time":"13:30"}
+- Fiziksel: {"action":"SET_INPUTS", "weight":"75", "calIn":"2000", "calOut":"500"}
+- Reset: {"action":"RESET_ALL_SYSTEM"}`;
 
         const fullPrompt = `${systemInstruction}\n\nKullanıcı Mesajı: ${userPrompt}`;
         const apiParts = [{ text: fullPrompt }]; if (currentAttachedImage) { apiParts.push({ inlineData: { mimeType: currentAttachedImage.mimeType, data: currentAttachedImage.data } }); }
 
-        const requestBody = { 
-            contents: [ ...data.chatHistory, { role: "user", parts: apiParts } ] // SINIRSIZ HAFIZA GÖNDERİMİ
-        };
+        const requestBody = { contents: [ ...data.chatHistory, { role: "user", parts: apiParts } ] };
 
         try {
             const cleanApiKey = apiKey.trim(); const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${cleanApiKey}`;
@@ -733,12 +852,10 @@ Formatlar:
 
             const json = await response.json(); let reply = json.candidates[0].content.parts[0].text;
             
-            // Hafızaya Kaydet (Sınırsız)
             data.chatHistory.push({ role: "user", parts: apiParts });
             data.chatHistory.push({ role: "model", parts: [{ text: reply }] });
             saveData(data);
 
-            // JSON Temizleme ve Yakalama
             reply = reply.replace(/```json/gi, '').replace(/```/g, '');
             const jsonArrayRegex = /\[\s*\{[\s\S]*\}\s*\]/;
             const match = reply.match(jsonArrayRegex);
@@ -747,42 +864,81 @@ Formatlar:
                 const actions = JSON.parse(match[0]);
                 const newData = loadData(); let isChanged = false; 
                 
-                // MEGA POP-UP ONAY METNİ HAZIRLAMA
-                let approvalText = "Yapay Zeka şu işlemleri yapmak istiyor:<br><br>";
+                let approvalText = "";
                 actions.forEach(actionData => {
-                    if(actionData.action === "ADD_TASKS") approvalText += "📌 Görev(ler) eklemek<br>";
+                    if(actionData.action === "ADD_TASKS" && actionData.tasks && actionData.tasks.length > 0) approvalText += `📌 ${actionData.tasks.length} yeni görev eklemek<br>`;
                     else if(actionData.action === "DELETE_TASK") approvalText += `🗑️ Saat ${actionData.time} görevini silmek<br>`;
+                    else if(actionData.action === "TOGGLE_TASK_COMPLETE") approvalText += `✅ Saat ${actionData.time} görevini tamamlandı olarak işaretlemek/geri almak<br>`;
+                    else if(actionData.action === "CLEAR_ALL_TASKS") approvalText += `🧨 TÜM GÖREVLERİ SİLMEK<br>`;
                     else if(actionData.action === "SHIFT_TASKS") approvalText += `⏱️ Planı ${actionData.mins} dk kaydırmak<br>`;
-                    else if(actionData.action === "ADD_WATER") approvalText += `💧 Su eklemek<br>`;
+                    else if(actionData.action === "SET_POMO_COUNT") approvalText += `🍎 Tamamlanan elma sayısını ${actionData.amount} yapmak<br>`;
+                    else if(actionData.action === "TOGGLE_TASK_LOCK") approvalText += `🔒 Saat ${actionData.time} görevini kilitlemek/açmak<br>`;
+                    else if(actionData.action === "ADD_WATER") approvalText += `💧 ${actionData.amount} bardak su eklemek<br>`;
+                    else if(actionData.action === "SET_WATER_GOAL") approvalText += `🎯 Su hedefini ${actionData.amount} yapmak<br>`;
+                    else if(actionData.action === "SET_WATER") approvalText += `💧 İçilen suyu ${actionData.amount} yapmak<br>`;
                     else if(actionData.action === "START_POMO") approvalText += `🍅 Pomodoro sayacını başlatmak<br>`;
-                    else if(actionData.action === "TOGGLE_LOCK") approvalText += `🔒 Bir görevi kilitlemek/açmak<br>`;
-                    else if(actionData.action === "ADD_GLOBAL_NOTE") approvalText += `📝 Genel not eklemek<br>`;
-                    else approvalText += `⚙️ Sistem ayarı değiştirmek<br>`;
+                    else if(actionData.action === "STOP_POMO") approvalText += `⏹️ Pomodoro sayacını durdurmak<br>`;
+                    else if(actionData.action === "SET_POMO_WORK") approvalText += `⚙️ Çalışma süresini ${actionData.mins}dk yapmak<br>`;
+                    else if(actionData.action === "SET_POMO_BREAK") approvalText += `⚙️ Mola süresini ${actionData.mins}dk yapmak<br>`;
+                    else if(actionData.action === "SET_POMO_GOAL") approvalText += `🎯 Pomodoro hedefini ${actionData.amount} elma yapmak<br>`;
+                    else if(actionData.action === "ADD_POMO") approvalText += `🍎 ${actionData.amount} elma (pomodoro) tamamlandı olarak eklemek<br>`;
+                    else if(actionData.action === "ADD_GLOBAL_NOTE") {
+                        let noteTxt = `📝 Not/Randevu eklemek: ${actionData.desc}`;
+                        if(actionData.date) noteTxt += ` (Tarih: ${actionData.date} ${actionData.time||''})`;
+                        approvalText += noteTxt + `<br>`;
+                    }
+                    else if(actionData.action === "SET_INPUTS") approvalText += `📊 Fiziksel analiz (Kilo/Kalori) girmek<br>`;
+                    else if(actionData.action === "RESET_ALL_SYSTEM") approvalText += `⚠️ TÜM SİSTEMİ SIFIRLAMAK<br>`;
                 });
 
-                // ONAYLANIRSA ÇALIŞACAK FONKSİYON
                 const executeJSON = () => {
                     actions.forEach(actionData => {
                         try {
                             switch(actionData.action) {
                                 case "ADD_TASKS": if(actionData.tasks) { actionData.tasks.forEach(t => newData.schedule.push({ id: Date.now()+Math.random(), time: t.time || "12:00", desc: t.desc, tag: t.type || "diger", locked: false, originalTime: t.time })); } newData.schedule.sort((a, b) => (a.time||"24:00").localeCompare(b.time||"24:00")); newData.userDefaultSchedule = JSON.parse(JSON.stringify(newData.schedule)); isChanged = true; break;
+                                case "UPDATE_TASK": const uIdx = newData.schedule.findIndex(x => x.time === actionData.oldTime); if(uIdx !== -1) { if(actionData.newTime) newData.schedule[uIdx].time = actionData.newTime; if(actionData.newDesc) newData.schedule[uIdx].desc = actionData.newDesc; if(actionData.newType) newData.schedule[uIdx].tag = actionData.newType; if(typeof actionData.locked === 'boolean') newData.schedule[uIdx].locked = actionData.locked; if(typeof actionData.completed === 'boolean'){ const cPos = newData.completedIndices.indexOf(uIdx); if(actionData.completed && cPos === -1) newData.completedIndices.push(uIdx); else if(!actionData.completed && cPos !== -1) newData.completedIndices.splice(cPos, 1); } } isChanged = true; break;
                                 case "DELETE_TASK": newData.schedule = newData.schedule.filter(t => t.time !== actionData.time); newData.completedIndices = []; newData.userDefaultSchedule = JSON.parse(JSON.stringify(newData.schedule)); isChanged = true; break;
+                                case "TOGGLE_TASK_COMPLETE":
+                                    const tIdx = newData.schedule.findIndex(x => x.time === actionData.time);
+                                    if(tIdx !== -1) {
+                                        const cp = newData.completedIndices.indexOf(tIdx);
+                                        if(cp === -1) newData.completedIndices.push(tIdx); else newData.completedIndices.splice(cp, 1);
+                                        isChanged = true;
+                                    } break;
+                                case "CLEAR_ALL_TASKS": newData.schedule = []; newData.completedIndices = []; newData.userDefaultSchedule = []; isChanged = true; break;
                                 case "SHIFT_TASKS": newData.schedule.forEach(t => { if(t.time && !t.locked) { const [h, m] = t.time.split(':').map(Number); let mins = h*60 + m + actionData.mins; const newH = Math.floor(mins/60)%24; const newM = mins%60; t.time = `${String(newH).padStart(2,'0')}:${String(newM).padStart(2,'0')}`; }}); newData.userDefaultSchedule = JSON.parse(JSON.stringify(newData.schedule)); isChanged = true; break;
+                                case "TOGGLE_TASK_LOCK": const lTIdx = newData.schedule.findIndex(x => x.time === actionData.time); if(lTIdx !== -1) { newData.schedule[lTIdx].locked = !newData.schedule[lTIdx].locked; newData.userDefaultSchedule = JSON.parse(JSON.stringify(newData.schedule)); isChanged = true; } break;
                                 case "ADD_WATER": newData.water = Math.min(newData.waterGoal, newData.water + (actionData.amount || 1)); isChanged = true; break;
+                                case "SET_WATER_GOAL": newData.waterGoal = actionData.amount; isChanged = true; break;
+                                case "SET_WATER": newData.water = actionData.amount; isChanged = true; break;
+                                case "SET_POMO_COUNT": newData.pomoCount = actionData.amount; isChanged = true; break;
                                 case "START_POMO": setTimeout(startPomodoro, 500); break;
-                                case "TOGGLE_LOCK": const t = newData.schedule.find(x => x.time === actionData.time); if(t) t.locked = !t.locked; isChanged = true; break;
-                                case "ADD_GLOBAL_NOTE": newData.globalNotes.push({ id: Date.now(), desc: actionData.desc, type: actionData.type || "diger" }); isChanged = true; break;
+                                case "STOP_POMO": setTimeout(stopPomodoro, 500); break;
+                                case "SET_POMO_WORK": document.getElementById('pomoWork').value = actionData.mins; break;
+                                case "SET_POMO_BREAK": document.getElementById('pomoBreak').value = actionData.mins; break;
+                                case "SET_POMO_GOAL": newData.pomoGoal = actionData.amount; isChanged = true; break;
+                                case "ADD_POMO": newData.pomoCount += actionData.amount; isChanged = true; break;
+                                case "ADD_GLOBAL_NOTE": 
+                                    newData.globalNotes.push({ 
+                                        id: Date.now() + Math.random(), 
+                                        desc: actionData.desc, 
+                                        type: actionData.type || "diger",
+                                        date: actionData.date || "",
+                                        time: actionData.time || ""
+                                    }); 
+                                    isChanged = true; break;
+                                case "UPDATE_GLOBAL_NOTE": const gnIdx = newData.globalNotes.findIndex(n => n.desc === actionData.oldDesc); if(gnIdx !== -1) { if(actionData.newDesc) newData.globalNotes[gnIdx].desc = actionData.newDesc; if(actionData.newType) newData.globalNotes[gnIdx].type = actionData.newType; } isChanged = true; break;
+                                case "DELETE_GLOBAL_NOTE": newData.globalNotes = newData.globalNotes.filter(n => n.desc !== actionData.desc); isChanged = true; break;
+                                case "MOVE_NOTE_TO_TODAY": newData.globalNotes = newData.globalNotes.filter(n => n.desc !== actionData.desc); newData.schedule.push({ time: actionData.time || "12:00", desc: actionData.desc, tag: "diger", locked: false }); isChanged = true; break;
+                                case "SET_INPUTS": if(actionData.weight) newData.inputs.w = actionData.weight; if(actionData.calIn) newData.inputs.in = actionData.calIn; if(actionData.calOut) newData.inputs.out = actionData.calOut; isChanged = true; break;
+                                case "RESET_ALL_SYSTEM": setTimeout(forceReset, 500); break;
                             }
                         } catch(e) {}
                     });
                     if (isChanged) { saveData(newData); render(); document.getElementById('aiPrompt').value = ""; }
                 };
 
-                // POP-UP'I ZORLA AÇ
-                document.getElementById('confirm-text').innerHTML = approvalText; 
-                document.getElementById('confirm-modal').style.display = 'flex'; 
-                pendingAIAction = executeJSON;
-                
+                if (approvalText !== "") showPopup("Yapay Zeka İşlemi", approvalText, executeJSON); else executeJSON();
                 reply = reply.replace(jsonArrayRegex, '');
             }
             
@@ -818,6 +974,40 @@ Formatlar:
                 }
             });
         }, 60000);
+    }
+
+let currentEditingNoteId = null;
+
+    function editGlobalNotePrompt(id) {
+        const data = loadData();
+        const note = data.globalNotes.find(n => n.id === id);
+        if (!note) return;
+
+        currentEditingNoteId = id;
+        document.getElementById('edit-n-desc').value = note.desc;
+        document.getElementById('edit-n-date').value = note.date || "";
+        document.getElementById('edit-n-time').value = note.time || "";
+
+        // Kategorileri doldur
+        const typeSelect = document.getElementById('edit-n-type');
+        typeSelect.innerHTML = data.customTypes.map(t => `<option value="${t.id}" ${t.id === note.type ? 'selected' : ''}>${t.label}</option>`).join('');
+
+        document.getElementById('edit-note-modal').style.display = 'flex';
+        
+        // Kaydet butonu aksiyonu
+        document.getElementById('save-edit-btn').onclick = function() {
+            const d = loadData();
+            const n = d.globalNotes.find(x => x.id === currentEditingNoteId);
+            if(n) {
+                n.desc = document.getElementById('edit-n-desc').value;
+                n.date = document.getElementById('edit-n-date').value;
+                n.time = document.getElementById('edit-n-time').value;
+                n.type = document.getElementById('edit-n-type').value;
+                saveData(d);
+                render();
+                document.getElementById('edit-note-modal').style.display = 'none';
+            }
+        };
     }
 
 window.onload = function() {
