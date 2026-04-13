@@ -395,7 +395,8 @@ select.glass-input { appearance: none; -webkit-appearance: none; text-align: lef
         "radial-gradient(circle at 10% 0%, #30005a 0%, transparent 50%), radial-gradient(circle at 90% 100%, #1a0033 0%, #000000 100%)", // 1: Aurora (Derin Mor)
         "radial-gradient(circle at 80% 0%, #002b5e 0%, transparent 50%), radial-gradient(circle at 20% 100%, #00132b 0%, #000000 100%)", // 2: Okyanus (Gece Mavisi)
         "radial-gradient(circle at 50% 0%, #591c00 0%, transparent 50%), radial-gradient(circle at 50% 100%, #260900 0%, #000000 100%)", // 3: Mars (Kızıl Sis)
-        "radial-gradient(circle at 0% 50%, #00401a 0%, transparent 50%), radial-gradient(circle at 100% 50%, #001a0a 0%, #000000 100%)"  // 4: Zümrüt Ormanı (Koyu Yeşil)
+        "radial-gradient(circle at 0% 50%, #00401a 0%, transparent 50%), radial-gradient(circle at 100% 50%, #001a0a 0%, #000000 100%)",  // 4: Zümrüt Ormanı (Koyu Yeşil)
+        "#000000", // 5: ZİFİRİ SİYAH (OLED Saf Siyah)
     ];
 
     function applyTheme() {
@@ -427,7 +428,7 @@ select.glass-input { appearance: none; -webkit-appearance: none; text-align: lef
     function toggleBackground() {
         const data = loadData();
         if(data.theme === 'light') {
-            showPopup("Tema Uyarısı", "Premium sıvı cam arka planları, okuma kontrastını bozmamak için sadece <b>Karanlık Modda</b> kullanılabilir. Lütfen önce gece moduna geçin.", null);
+showPopup("Karanlık Mod", "Premium arka planlar cam efektini bozmamak için sadece Karanlık Modda çalışır. Şimdi karanlık moda geçilsin mi?", () => { const d = loadData(); d.theme = 'dark'; d.bgIndex = 1; saveData(d); applyTheme(); });
             return;
         }
         
