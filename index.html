@@ -129,6 +129,36 @@ select.glass-input { appearance: none; -webkit-appearance: none; text-align: lef
     #history-modal { display:none; margin-top: 20px; padding: 16px; overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; font-size: 0.9rem; min-width: 300px; }
     th, td { border-bottom: 1px solid var(--border); padding: 12px 8px; text-align: left; }
+
+.streak-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+    .streak-card {
+        background: var(--input-bg);
+        padding: 15px;
+        border-radius: 18px;
+        border: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .streak-card:active { transform: scale(0.96); }
+    .streak-card.premium {
+        background: linear-gradient(135deg, rgba(255, 215, 0, 0.12), rgba(255, 165, 0, 0.05));
+        border-color: rgba(255, 215, 0, 0.4);
+        box-shadow: 0 8px 20px rgba(255, 215, 0, 0.1);
+    }
+    .streak-card.icy {
+        background: linear-gradient(135deg, rgba(50, 173, 230, 0.15), rgba(0, 122, 255, 0.05));
+        border-color: rgba(50, 173, 230, 0.4);
+        box-shadow: 0 8px 20px rgba(50, 173, 230, 0.1);
+    }
+    .streak-val { font-size: 1.6rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+    .streak-icon { font-size: 1.2rem; margin-bottom: 4px; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 </head>
@@ -204,6 +234,15 @@ select.glass-input { appearance: none; -webkit-appearance: none; text-align: lef
     </div>
 </div>
 
+<div id="ai-alert-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:10005; align-items:center; justify-content:center; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);">
+    <div class="glass-card" style="width: 90%; max-width: 400px; padding: 25px; border: 1px solid rgba(0, 122, 255, 0.4); text-align:center; position:relative; overflow:hidden;">
+        <div style="position:absolute; top:0; left:0; width:100%; height:4px; background:linear-gradient(90deg, transparent, var(--accent), transparent);"></div>
+        <h3 style="margin-top:0; color:var(--accent); font-size: 1.2rem; margin-bottom: 15px; text-transform:uppercase; font-weight:800;">JARVIS BİLDİRİMİ</h3>
+        <div id="ai-alert-text" style="color:var(--text-main); font-size:1.05rem; line-height:1.5; font-weight:500; margin-bottom:25px; text-align:left;"></div>
+        <button class="main-btn" style="background:var(--accent); color:#fff;" onclick="document.getElementById('ai-alert-modal').style.display='none'">Anladım</button>
+    </div>
+</div>
+
 <div class="container">
 <header>
         <div class="header-titles">
@@ -250,12 +289,29 @@ select.glass-input { appearance: none; -webkit-appearance: none; text-align: lef
         <div id="aiResult" class="ai-response"></div>
     </div>
 
-    <div class="glass-card streak-board">
-        <div class="panel-header" style="margin:0; padding:0;">Günlük Seri & Odak</div>
+<div class="glass-card streak-board">
+        <div class="panel-header" style="margin:0; padding:0; margin-bottom:12px;">Dopamin & Başarı Panosu</div>
         <div class="streak-stats">
-            <div class="streak-card"><span class="streak-val" id="stat-days">0</span><div class="streak-lbl">GÜN</div></div>
-            <div class="streak-card"><span class="streak-val" id="stat-pomo-streak">0</span><div class="streak-lbl">ODAK SERİ</div></div>
-            <div class="streak-card"><span class="streak-val" id="stat-namaz">0</span><div class="streak-lbl">NAMAZ</div></div>
+            <div class="streak-card premium">
+                <div class="streak-icon">🪙</div>
+                <span class="streak-val" id="stat-coin" style="color:#FFD700;">0</span>
+                <div class="streak-lbl">VAKA COIN</div>
+            </div>
+            <div class="streak-card">
+                <div class="streak-icon">🔥</div>
+                <span class="streak-val" id="stat-days">0</span>
+                <div class="streak-lbl">TOPLAM GÜN</div>
+            </div>
+            <div class="streak-card">
+                <div class="streak-icon">🎯</div>
+                <span class="streak-val" id="stat-pomo-streak">0</span>
+                <div class="streak-lbl">ODAK SERİSİ</div>
+            </div>
+            <div class="streak-card icy">
+                <div class="streak-icon">🧊</div>
+                <span class="streak-val" id="stat-freeze" style="color:#32ADE6;">0</span>
+                <div class="streak-lbl">DONDURUCU</div>
+            </div>
         </div>
     </div>
 
@@ -369,7 +425,7 @@ select.glass-input { appearance: none; -webkit-appearance: none; text-align: lef
             userProfile: null, theme: 'dark', dateStr: "Yükleniyor", lastFinishedDate: "",
             schedule: [], userDefaultSchedule: [], completedIndices: [],
             pomoCount: 0, water: 0, waterGoal: 7, inputs: { w: '', in: '', out: '' },
-            stats: { namaz: 0, ders: 0, pomoStreak: 0, days: 0 },
+stats: { namaz: 0, ders: 0, pomoStreak: 0, days: 0, coin: 0, freeze: 0 },
             history: [], globalNotes: [], geminiKey: '', chatHistory: [],
             customTypes: [{ id: "diger", label: "Diğer", color: "#007AFF" }, { id: "ders", label: "Ders", color: "#34C759" }, { id: "namaz", label: "Maneviyat", color: "#FF3B30" }, { id: "saglik", label: "Sağlık", color: "#FF9500" }, { id: "is", label: "İş", color: "#AF52DE" }]
         };
@@ -380,6 +436,8 @@ select.glass-input { appearance: none; -webkit-appearance: none; text-align: lef
             const raw = localStorage.getItem(DB_KEY); if (!raw) return getInitialState();
             const data = JSON.parse(raw);
             if(!data.stats) data.stats = { namaz:0, ders:0, pomoStreak:0, days:0 };
+if(data.stats.coin === undefined) data.stats.coin = 0;
+if(data.stats.freeze === undefined) data.stats.freeze = 0;
             if(!data.waterGoal) data.waterGoal = 7;
             if(!data.theme) data.theme = 'dark';
             if(!data.userDefaultSchedule) data.userDefaultSchedule = [];
@@ -552,8 +610,9 @@ function render() {
             if (currentSel) typeSelect.value = currentSel;
             
             document.getElementById('stat-days').innerText = data.stats.days;
+document.getElementById('stat-coin').innerText = data.stats.coin || 0;
+document.getElementById('stat-freeze').innerText = data.stats.freeze || 0;
             document.getElementById('stat-pomo-streak').innerText = data.stats.pomoStreak;
-            document.getElementById('stat-namaz').innerText = data.stats.namaz;
 
             const lastLog = data.history && data.history.length > 0 ? data.history[0] : null;
             document.getElementById('prev-weight').innerText = lastLog ? `Dün: ${lastLog.weight}` : "Dün: -";
@@ -1173,8 +1232,10 @@ case "UPDATE_PROFILE":
 async function proactiveAI(situationPrompt) {
         const data = loadData();
         const apiKey = data.geminiKey; if (!apiKey) return;
-        const resultDiv = document.getElementById('aiResult'); resultDiv.style.display = "block";
-        resultDiv.innerHTML = "<span style='color:var(--accent); font-weight:700;'>Analiz ediliyor... 🧠</span>";
+const modal = document.getElementById('ai-alert-modal');
+        const textDiv = document.getElementById('ai-alert-text');
+        modal.style.display = "flex";
+        textDiv.innerHTML = "<span style='color:var(--text-muted); font-weight:700;'>Durum analiz ediliyor... 🧠</span>";
         const systemInstruction = `Sen 'Life Center AI'. Kullanıcı: ${data.userProfile?.name}, Yaş: ${data.userProfile?.age}, Hedef: ${data.userProfile?.goal}.
 Kısa, nokta atışı ve ismen hitap ederek koçluk yap. JSON YAZMA.
 Bunun dışında senin öğrendiğin tüm ekstra profil bilgileri: ${JSON.stringify(data.userProfile)}`;
@@ -1185,7 +1246,7 @@ Bunun dışında senin öğrendiğin tüm ekstra profil bilgileri: ${JSON.string
             if (!response.ok) throw new Error("API Hatası");
             const json = await response.json(); let reply = json.candidates[0].content.parts[0].text;
             reply = reply.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>").replace(/\n/g, "<br>");
-            resultDiv.innerHTML = reply;
+textDiv.innerHTML = reply;
         } catch (error) {}
     }
 
@@ -1246,6 +1307,21 @@ window.onload = function() {
             startShadowAI();
             // Saati her saniye güncelleyen motor
             setInterval(updateLiveClock, 1000); 
+
+            // --- FAZ 3.5: PROAKTİF SABAH BRİFİNGİ (YENİ EKLENDİ) ---
+            const todayStr = new Date().toLocaleDateString('tr-TR');
+            if (data.lastGreetingDate !== todayStr) {
+                data.lastGreetingDate = todayStr;
+                saveData(data);
+                
+                const lastLog = data.history && data.history.length > 0 ? data.history[0] : null;
+                const yesterdayInfo = lastLog ? `Dün tamamlanan odak seansı (Elma): ${lastLog.pomo}, girilen kilo: ${lastLog.weight}.` : "Dün herhangi bir kayıt girilmemiş.";
+                
+                setTimeout(() => {
+                    proactiveAI(`Kullanıcı uygulamayı bugün İLK DEFA açtı. ${yesterdayInfo} Onun dünkü istatistiklerine ve kayıtlı hedefine göre ona 'Günaydın' de, ismen hitap et ve bugünü verimli geçirmesi için çok kısa (2-3 cümle) motive et! Soru sorma ve json yazma.`);
+                }, 2000); // Sistem açıldıktan 2 saniye sonra zarifçe ekrana gelir
+            }
+            // --------------------------------------------------------
         }
     };
 </script>
