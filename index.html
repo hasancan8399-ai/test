@@ -425,11 +425,11 @@ select.glass-input { appearance: none; -webkit-appearance: none; text-align: lef
     <button class="main-btn" style="background:var(--text-main); color:var(--bg-color); margin-top:10px; margin-bottom: 30px;" onclick="saveOnboarding()">Sistemi Başlat</button>
 </div>
 
-<div id="confirm-modal">
-    <div class="confirm-box">
-        <h3 style="margin-top:0; color:var(--text-main);">Yapay Zeka Uyarıyor</h3>
-        <p id="confirm-text" style="color:var(--text-muted); margin-bottom:20px; font-size:0.95rem; font-weight:500;">Bu işlemi onaylıyor musunuz?</p>
-        <div style="display:flex; gap:10px;">
+<div id="confirm-modal" onclick="if(event.target === this) cancelAIAction()">
+    <div class="confirm-box" style="display: flex; flex-direction: column; max-height: 80vh;">
+        <h3 style="margin-top:0; color:var(--text-main); flex-shrink: 0;">Yapay Zeka Uyarıyor</h3>
+        <p id="confirm-text" style="color:var(--text-muted); margin-bottom:20px; margin-top:5px; font-size:0.95rem; font-weight:500; overflow-y: auto; text-align: left; padding-right: 5px; flex-grow: 1;">Bu işlemi onaylıyor musunuz?</p>
+        <div style="display:flex; gap:10px; flex-shrink: 0;">
             <button class="main-btn" style="background:var(--input-bg); color:var(--text-main); border:1px solid var(--border);" onclick="cancelAIAction()">İptal</button>
             <button class="main-btn" style="background:var(--danger); color:#fff;" onclick="approveAIAction()">Onayla</button>
         </div>
@@ -633,6 +633,10 @@ select.glass-input { appearance: none; -webkit-appearance: none; text-align: lef
 <div style="display:flex; justify-content:space-between; align-items:center; padding: 10px 5px 10px 5px; margin-top:20px;">
         <h3 style="margin:0; font-size:1rem; color:var(--text-muted); text-transform:uppercase; font-weight:600; letter-spacing:0.5px;">GÜNLÜK AKIŞ</h3>
         <div style="display: flex; gap: 8px;">
+            <button style="background: rgba(255, 149, 0, 0.15); color: var(--pomodoro); border: none; padding: 6px 12px; border-radius: 8px; font-weight:700; font-size:0.85rem; display:flex; align-items:center; gap:4px;" onclick="autoShiftDelays()" title="Gecikmeyi Dengele">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                Dengele
+            </button>
             <button style="background: rgba(255, 59, 48, 0.15); color: var(--danger); border: none; padding: 6px 12px; border-radius: 8px; font-weight:700; font-size:0.85rem;" onclick="shiftRoutine(-30)">-30dk</button>
             <button style="background: rgba(52, 199, 89, 0.15); color: var(--success); border: none; padding: 6px 12px; border-radius: 8px; font-weight:700; font-size:0.85rem;" onclick="shiftRoutine(30)">+30dk</button>
         </div>
@@ -1040,7 +1044,19 @@ data.schedule.forEach((task, idx) => {
                 const descEditable = isDone || task.locked ? '' : `contenteditable="true" onblur="editTask(${idx}, 'desc', this.innerText)"`;
                 const delDisabled = task.locked ? 'disabled style="opacity:0.2; cursor:not-allowed;"' : '';
 
-                const handleIcon = `<svg class="drag-handle" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:grab; opacity:0.5;"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>`;
+// FAZ 5.2: Kilitliyse Kilit İkonu, Değilse 3 Çizgi Göster
+                const handleContent = task.locked 
+                    ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="var(--danger)"><path d="M12 2a5 5 0 0 0-5 5v4H6a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v4H9V7z"></path></svg>`
+                    : `<div style="display:flex; flex-direction:column; gap:3px; opacity:0.3;">
+                        <div style="width:16px; height:1.5px; background:currentColor; border-radius:1px;"></div>
+                        <div style="width:16px; height:1.5px; background:currentColor; border-radius:1px;"></div>
+                        <div style="width:16px; height:1.5px; background:currentColor; border-radius:1px;"></div>
+                       </div>`;
+
+                const handleIcon = `<div class="drag-handle" ondblclick="confirmToggleLock(${idx})" style="cursor:grab; padding:5px; display:flex; align-items:center; justify-content:center; min-height:24px;">${handleContent}</div>`;
+
+                // GÖLGE TAKTİĞİ: Çökmeyi önlemek için değişkeni tutuyoruz ama içini boşaltıyoruz.
+                const lockIndicator = '';
 
                 if (task.expanded) row.classList.add('expanded');
                 
@@ -1052,9 +1068,10 @@ data.schedule.forEach((task, idx) => {
                     </div>
                 `).join('');
 
-                // FAZ 5.2: Kategori Bilgisini ve Rengini Al
+                // 3. Kategori Seçici ve Veri Bağlama
                 const taskTag = task.type || task.tag || 'diger';
                 const catInfo = data.customTypes.find(ct => ct.id === taskTag) || { label: 'Diğer', color: '#888' };
+                const catOptions = data.customTypes.map(ct => `<option value="${ct.id}" ${taskTag === ct.id ? 'selected' : ''}>${ct.label}</option>`).join('');
 
                 row.innerHTML = `
                     <div style="display:flex; flex-direction:column; align-items:center; gap:5px;">
@@ -1067,7 +1084,12 @@ data.schedule.forEach((task, idx) => {
                     <div style="display:flex; flex-direction:column; gap:4px; overflow:hidden; flex-grow:1;">
                         <div style="display:flex; align-items:center; gap:8px;">
                             <input type="time" class="time-badge" value="${task.time}" ${timeDisabled} style="width:70px; border:none; background:transparent; text-align:left; padding:0;" onblur="formatTimeInput(this); editTask(${idx}, 'time', this.value)">
-                            <span style="font-size:0.65rem; padding:2px 8px; border-radius:10px; background:${catInfo.color}33; color:${catInfo.color}; border:1px solid ${catInfo.color}66; font-weight:800; text-transform:uppercase; letter-spacing:0.5px;">${catInfo.label}</span>
+                            <div style="position:relative; display:flex; align-items:center;">
+                                <select onchange="changeTaskCategory(${idx}, this.value)" ${task.locked ? 'disabled' : ''} style="font-size:0.65rem; padding:2px 8px; border-radius:10px; background:${catInfo.color}33; color:${catInfo.color}; border:1px solid ${catInfo.color}66; font-weight:800; text-transform:uppercase; outline:none; appearance:none; cursor:pointer;">
+                                    ${catOptions}
+                                </select>
+                                ${lockIndicator}
+                            </div>
                         </div>
                         <span class="task-desc" ${descEditable} style="transition: all 0.3s;">${task.desc}</span>
                     </div>
@@ -1089,7 +1111,7 @@ data.schedule.forEach((task, idx) => {
                 listDiv.appendChild(cursorDiv);
             }
 
-            // --- FAZ 3: GERÇEK ZAMANLI BEYİN VE MATEMATİKSEL LAZER MOTORU ---
+// --- FAZ 5.3: GÜÇLENDİRİLMİŞ ZAMAN, LAZER VE STRES MOTORU (KRONOS v3 - Anı Yaşama) ---
             if (!window.updateTimeline) {
                 window.updateTimeline = function() {
                     const nowD = new Date();
@@ -1100,19 +1122,19 @@ data.schedule.forEach((task, idx) => {
                     let activeTimeIdx = -1;
                     const taskTimes = [];
                     
+                    // 1. Saatleri Hesapla ve Gece Yarısı (Midnight) Mantığını Düzelt
                     for (let i = 0; i < tempData.schedule.length; i++) {
                         const [h, m] = tempData.schedule[i].time.split(':').map(Number);
-                        const mins = h * 60 + m;
+                        let mins = h * 60 + m;
+                        // Midnight Fix: Gece geç saatlerdeysek 00:00'ı 1440 dk (günün sonu) kabul et
+                        if (mins === 0 && currentMins > 1200) mins = 1440;
                         taskTimes.push(mins);
                         if (mins <= currentMins) activeTimeIdx = i;
                     }
-                    
-                    let firstIncompleteIdx = -1;
-                    for (let i = 0; i < tempData.schedule.length; i++) {
-                        if (!tempData.completedIndices.includes(i)) { firstIncompleteIdx = i; break; }
-                    }
 
                     const taskRows = document.querySelectorAll('#taskList .task');
+
+                    // 2. Görevleri Render Et ve Gecikmeleri Hesapla
                     tempData.schedule.forEach((task, idx) => {
                         const row = taskRows[idx];
                         if(!row) return;
@@ -1121,43 +1143,88 @@ data.schedule.forEach((task, idx) => {
                         
                         row.classList.remove('status-done', 'status-active', 'status-missed', 'status-future');
                         
+                        // Gecikme Rozeti (Delay Badge) Kontrolü
+                        let delayBadge = row.querySelector('.delay-badge');
+                        if (!delayBadge) {
+                            delayBadge = document.createElement('span');
+                            delayBadge.className = 'delay-badge';
+                            delayBadge.style.cssText = 'font-size:0.65rem; color:var(--danger); font-weight:800; padding:2px 6px; border-radius:6px; display:none; border:1px solid rgba(255,59,48,0.3); background:rgba(255,59,48,0.1); margin-left:auto; z-index:5;';
+                            const timeRowDiv = row.querySelector('input[type="time"]').parentElement;
+                            if(timeRowDiv) timeRowDiv.appendChild(delayBadge);
+                        }
+
                         if (isDone) {
                             row.classList.add('status-done');
+                            delayBadge.style.display = 'none';
                         } else {
-                            if (idx === activeTimeIdx || (idx === firstIncompleteIdx && taskMins >= currentMins)) {
-                                row.classList.add('status-active');
-                            } else if (taskMins < currentMins) {
+                            if (taskMins < currentMins && idx !== activeTimeIdx) {
+                                // Geçmiş saatte kalmış ve aktif olmayan görev
                                 row.classList.add('status-missed');
+                                const delayMins = currentMins - taskMins;
+                                let delayText = (delayMins >= 60) 
+                                    ? "+" + Math.floor(delayMins/60) + "s " + (delayMins%60) + "dk" 
+                                    : "+" + delayMins + "dk";
+                                delayBadge.innerText = delayText;
+                                delayBadge.style.display = 'inline-block';
+                            } else if (idx === activeTimeIdx) {
+                                // ŞU ANKİ görev (Zamanı geçmiş olsa bile hala üzerinde çalıştığımız dilim)
+                                row.classList.add('status-active');
+                                delayBadge.style.display = 'none';
                             } else {
+                                // Gelecekteki görev
                                 row.classList.add('status-future');
+                                delayBadge.style.display = 'none';
                             }
                         }
                     });
 
-                    // LAZER ÇİZGİSİNİN PİKSEL PİKSEL HESAPLANMASI (İnterpolasyon)
+                    // 3. Stres Seviyesini Belirle (SADECE ANLIK DURUMA ODAKLANIR)
+                    let currentStressLevel = 0; // 0: Mavi, 1: Turuncu, 2: Kırmızı
+
+                    if (activeTimeIdx !== -1) {
+                        const activeTaskDone = tempData.completedIndices.includes(activeTimeIdx);
+                        
+                        if (!activeTaskDone) {
+                            // Aktif (şu anki) görev yapılmadıysa sadece onun gecikmesine bak
+                            const activeTaskMins = taskTimes[activeTimeIdx];
+                            const diff = currentMins - activeTaskMins;
+                            if (diff >= 30) currentStressLevel = 2; // 30 dk üstü sarkma: Kırmızı
+                            else if (diff > 0) currentStressLevel = 1; // Ufak sarkma: Turuncu
+                        } else {
+                            // AKTİF GÖREV BİTTİ! (Mavi Akış) 
+                            // Sadece bir sonraki görev 20 dakikadan yakınsa Turuncu uyarı ver
+                            const nextIdx = activeTimeIdx + 1;
+                            if (nextIdx < tempData.schedule.length) {
+                                if (!tempData.completedIndices.includes(nextIdx)) {
+                                    const diff = currentMins - taskTimes[nextIdx];
+                                    if (diff >= -20) currentStressLevel = 1; // 20 dk uyarı
+                                }
+                            }
+                        }
+                    } else {
+                        // Günün ilk görevinden bile önceysek
+                        if (taskTimes.length > 0 && !tempData.completedIndices.includes(0)) {
+                            const diff = currentMins - taskTimes[0];
+                            if (diff >= -20) currentStressLevel = 1; 
+                        }
+                    }
+
+                    // 4. Lazer ve Renk Motoru
                     const cursor = document.getElementById('time-cursor');
                     if(cursor && taskRows.length > 0) {
                         let yPos = 0;
-                        let showCursor = true;
+                        let showCursor = (currentMins >= taskTimes[0]);
                         
-                        if (currentMins < taskTimes[0]) {
-                            showCursor = false; // Gün başlamadıysa gizle
-                        } else if (currentMins >= taskTimes[taskTimes.length - 1]) {
-                            // Son görevden sonraysak (Son görevin içinde eritiyoruz)
+                        if (currentMins >= taskTimes[taskTimes.length - 1]) {
                             const lastRow = taskRows[taskRows.length - 1];
-                            const elapsed = Math.min(60, currentMins - taskTimes[taskTimes.length - 1]); // Maksimum 1 saat sarkma payı
-                            const ratio = elapsed / 60;
-                            yPos = lastRow.offsetTop + (lastRow.offsetHeight * ratio);
+                            const elapsed = Math.min(60, currentMins - taskTimes[taskTimes.length - 1]); 
+                            yPos = lastRow.offsetTop + (lastRow.offsetHeight * (elapsed/60));
                         } else {
-                            // İki görev arasındaysak (Gerçek zamanlı akış)
                             for (let i = 0; i < taskTimes.length - 1; i++) {
                                 if (currentMins >= taskTimes[i] && currentMins < taskTimes[i+1]) {
                                     const timeDiff = taskTimes[i+1] - taskTimes[i];
                                     const elapsed = currentMins - taskTimes[i];
-                                    const ratio = timeDiff > 0 ? elapsed / timeDiff : 0;
-                                    const y1 = taskRows[i].offsetTop;
-                                    const y2 = taskRows[i+1].offsetTop;
-                                    yPos = y1 + (y2 - y1) * ratio; // Saate göre 2 görev arasındaki pikseli hesapla
+                                    yPos = taskRows[i].offsetTop + (taskRows[i+1].offsetTop - taskRows[i].offsetTop) * (elapsed / timeDiff);
                                     break;
                                 }
                             }
@@ -1166,6 +1233,28 @@ data.schedule.forEach((task, idx) => {
                         if(showCursor) {
                             cursor.style.display = 'block';
                             cursor.style.top = yPos + 'px';
+                            
+                            // Dinamik Renk Ataması
+                            let cursorColor = 'rgba(0, 122, 255, '; // Mavi (Sakin)
+                            let glowColor = '#007AFF';
+                            
+                            if (currentStressLevel === 1) {
+                                cursorColor = 'rgba(255, 149, 0, '; // Turuncu (Gergin)
+                                glowColor = '#FF9500';
+                            } else if (currentStressLevel === 2) {
+                                cursorColor = 'rgba(255, 59, 48, '; // Kırmızı (Kritik)
+                                glowColor = '#FF3B30';
+                            }
+                            
+                            cursor.style.background = "linear-gradient(to left, " + cursorColor + "0.9) 0%, " + cursorColor + "0.2) 50%, transparent 100%)";
+                            
+                            let stressStyle = document.getElementById('stress-laser-style');
+                            if(!stressStyle) {
+                                stressStyle = document.createElement('style');
+                                stressStyle.id = 'stress-laser-style';
+                                document.head.appendChild(stressStyle);
+                            }
+                            stressStyle.innerHTML = "#time-cursor::before { background: " + glowColor + " !important; box-shadow: 0 0 10px " + glowColor + " !important; }";
                         } else {
                             cursor.style.display = 'none';
                         }
@@ -1275,7 +1364,7 @@ if (typeof currentActiveFilter !== 'undefined' && currentActiveFilter !== 'all' 
         openCategoryModal(); // Yeni kategori için modalı aç
     }
 
-    function openCategoryModal(catId = null) {
+function openCategoryModal(catId = null) {
         const modal = document.getElementById('category-modal');
         const data = loadData();
         const saveBtn = document.getElementById('save-category-btn');
@@ -1283,36 +1372,37 @@ if (typeof currentActiveFilter !== 'undefined' && currentActiveFilter !== 'all' 
         const nameInput = document.getElementById('cat-name');
         const colorInput = document.getElementById('cat-color');
 
+        // HAYATİ DÜZELTME: ID'yi DOM'a kalıcı olarak işle (Hafıza kaybını önler)
+        modal.dataset.editId = catId || '';
+
         modal.style.display = 'flex';
         setTimeout(() => modal.classList.add('active'), 10);
 
         if (catId) {
-            // DÜZENLEME MODU
             const cat = data.customTypes.find(t => t.id === catId);
-            nameInput.value = cat.label;
-            colorInput.value = cat.color;
+            if(cat) { nameInput.value = cat.label; colorInput.value = cat.color; }
             delBtn.style.display = 'block';
-            saveBtn.onclick = () => saveCategory(catId);
-            delBtn.onclick = () => deleteCategory(catId);
         } else {
-            // YENİ EKLEME MODU
-            nameInput.value = '';
-            colorInput.value = '#007AFF';
+            nameInput.value = ''; colorInput.value = '#007AFF';
             delBtn.style.display = 'none';
-            saveBtn.onclick = () => saveCategory();
         }
+
+        // Tıklama olaylarını sabitle
+        saveBtn.onclick = saveCategory;
+        delBtn.onclick = deleteCategory;
     }
 
-function saveCategory(existingId = null) {
+    function saveCategory() {
         const data = loadData();
-        const nameInput = document.getElementById('cat-name');
-        const colorInput = document.getElementById('cat-color');
-        const name = nameInput.value.trim();
-        const color = colorInput.value;
+        const modal = document.getElementById('category-modal');
+        const existingId = modal.dataset.editId; // DOM'dan ID'yi geri çek
+        
+        const name = document.getElementById('cat-name').value.trim();
+        const color = document.getElementById('cat-color').value;
 
         if (!name) return showPopup("Hata", "Kategori adı boş olamaz.");
 
-        if (existingId && existingId !== 'null') {
+        if (existingId) {
             const idx = data.customTypes.findIndex(t => t.id === existingId);
             if(idx !== -1) { 
                 data.customTypes[idx].label = name; 
@@ -1323,22 +1413,32 @@ function saveCategory(existingId = null) {
         }
 
         saveData(data);
-        const modal = document.getElementById('category-modal');
         modal.classList.remove('active');
         setTimeout(() => { modal.style.display = 'none'; render(); }, 300);
     }
 
-    function deleteCategory(id) {
-        if (!id || id === 'null') return;
-        showPopup("Kategoriyi Sil?", "Bu kategoriyi silmek tüm ilgili etiketleri 'Diğer' yapacaktır. Emin misin?", () => {
+function deleteCategory() {
+        const modal = document.getElementById('category-modal');
+        const id = modal.dataset.editId;
+        if (!id) return;
+
+        showPopup("Kategoriyi Sil?", "Bu kategoriyi silmek tüm ilgili görevleri 'Diğer' yapacaktır. Emin misin?", () => {
             const data = loadData();
+            
+            // 1. Kategoriyi sil
             data.customTypes = data.customTypes.filter(t => t.id !== id);
+            
+            // 2. Veri Sağlığı: Mevcut görevlerin kategorisini 'diger' yap (GÜÇLENDİRİLDİ)
+            data.schedule.forEach(t => { if(t.type === id || t.tag === id) { t.type = 'diger'; t.tag = 'diger'; } });
+            data.globalNotes.forEach(n => { if(n.type === id) n.type = 'diger'; });
+            
             saveData(data);
-            const modal = document.getElementById('category-modal');
             modal.classList.remove('active');
             setTimeout(() => { modal.style.display = 'none'; currentActiveFilter = 'all'; render(); }, 300);
         });
     }
+
+let currentActiveFilter = 'all'; // EKSİK OLAN HAYATİ TANIM
 
 function setFilter(categoryId) {
         if (currentActiveFilter === categoryId) return; // Aynı filtreyse yorma
@@ -1397,6 +1497,38 @@ function delTask(idx) {
             saveData(data);
             render();
         });
+    }
+
+function confirmToggleLock(idx) {
+        const data = loadData();
+        const task = data.schedule[idx];
+        if (!task) return;
+
+        const isLocking = !task.locked;
+        const title = isLocking ? "Görevi Kilitle?" : "Kilidi Aç?";
+        const msg = isLocking 
+            ? "Bu görevi kilitleyerek yanlışlıkla değiştirilmesini engellemek istediğinize emin misiniz?" 
+            : "Bu görevin kilidini açarak tekrar düzenlemeye izin vermek istiyor musunuz?";
+
+        showPopup(title, msg, () => {
+            const d = loadData();
+            d.schedule[idx].locked = !d.schedule[idx].locked;
+            saveData(d);
+            render();
+        });
+    }
+
+function changeTaskCategory(idx, newCat) {
+        const data = loadData();
+        if (data.schedule[idx]) {
+            // Eğer görev kilitliyse kategori değişimine izin verme (Güvenlik)
+            if (data.schedule[idx].locked) return;
+
+            data.schedule[idx].type = newCat;
+            data.schedule[idx].tag = newCat;
+            saveData(data);
+            render();
+        }
     }
 
 function delGlobalNoteById(id) {
@@ -1686,6 +1818,46 @@ function renderForestEntities() {
         data.userDefaultSchedule = JSON.parse(JSON.stringify(data.schedule)); saveData(data); render();
     }
 
+function autoShiftDelays() {
+        const data = loadData();
+        const now = new Date();
+        const currentMins = now.getHours() * 60 + now.getMinutes();
+
+        let firstIncompleteIdx = -1;
+        for (let i = 0; i < data.schedule.length; i++) {
+            if (!data.completedIndices.includes(i)) { firstIncompleteIdx = i; break; }
+        }
+
+        if (firstIncompleteIdx === -1) return showPopup("Mükemmel!", "Tamamlanmamış veya gecikmiş hiçbir görevin yok. Akıştasın!");
+
+        const task = data.schedule[firstIncompleteIdx];
+        if (!task || !task.time) return;
+
+        const [h, m] = task.time.split(':').map(Number);
+        let taskMins = h * 60 + m;
+        // Midnight Fix
+        if (taskMins === 0 && currentMins > 1200) taskMins = 1440;
+
+        const delay = currentMins - taskMins;
+        if (delay <= 0) return showPopup("Akıştasın! 🌊", "Şu an planın tam saatinde ilerliyor, ittirmeye veya kaydırmaya gerek yok.");
+
+        showPopup("Gecikmeyi Dengele", `Şu anki görevin <b>${delay} dakika</b> gecikmiş görünüyor. Bu görevi ve altındaki tüm planı tam ${delay} dakika ileri ittirerek günün stresini sıfırlamak ister misin?`, () => {
+            const format = mins => { const h = Math.floor(mins / 60) % 24; const m = mins % 60; return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`; };
+            
+            data.schedule.forEach((t, idx) => {
+                if (idx >= firstIncompleteIdx && !t.locked && t.time) {
+                    const [th, tm] = t.time.split(':').map(Number);
+                    const newMins = th * 60 + tm + delay;
+                    t.time = format(newMins);
+                }
+            });
+            
+            data.userDefaultSchedule = JSON.parse(JSON.stringify(data.schedule));
+            saveData(data);
+            render();
+        });
+    }
+
 // --- EVRENSEL POP-UP MOTORU ---
     let pendingAction = null;
     function showPopup(title, message, callback) {
@@ -1750,6 +1922,7 @@ KESİN KURALLAR (HAYATİ ÖNEM TAŞIR):
 4. GELECEK TARİHLİ GÖREVLER: Yarına veya Çarşambaya görev verilirse BUGÜNÜN listesine (ADD_TASKS) EKLEME! ADD_GLOBAL_NOTE ile "date" ve "time" formatında ekle.
 5. CEVAP FORMATI: Kısa ve motive edici bir şekilde konuş, cevabının EN SONUNA yapacağın işlemleri JSON dizisi olarak (köşeli parantez ile) ekle. Markdown vb. özel etiket kullanma.
 6. PROFİL HAFIZASI (SINIRSIZ): Kullanıcının hayatı, sağlığı, kalıcı tercihleri veya çevresiyle ilgili YENİ ve KALICI bir bilgi öğrenirsen UPDATE_PROFILE ile kaydet. KESİN YASAK: "Saat kaç", "Şu an ne yapıyorum", "Su içtim" gibi anlık eylemleri, geçici durumları veya "last_check_time" gibi sistem loglarını/saatlerini ASLA profile kaydetme! Profile sadece KİMLİK ve KARAKTER bilgileri yazılır.
+7. KATEGORİ OTORİTESİ: Görevlere uygun kategori yoksa ADD_CATEGORY ile yeni kategori oluştur. YARATTIĞIN KATEGORİNİN 'catId' DEĞERİNİ KENDİN BELİRLE (örn: "cat_spor") ve görevleri eklerken/düzenlerken 'type' kısmına ZORUNLU OLARAK bu belirlediğin 'catId'yi yaz (Asla ismini yazma). Renkleri HEX kodu olarak (örn: "#FF0000") mutlaka belirt. Renkleri veya isimleri UPDATE_CATEGORY ile değiştirebilirsin.
 
 ARAÇ KUTUSU (Sadece gerekenleri kullan):
 - Görev Ekle: {"action":"ADD_TASKS", "tasks": [{"time":"09:00", "desc":"Spor", "type":"saglik"}]}
@@ -1767,6 +1940,7 @@ ARAÇ KUTUSU (Sadece gerekenleri kullan):
 - Not Düzenle/Sil/Bugüne Al: {"action":"UPDATE_GLOBAL_NOTE", "oldDesc":"Market", "newDesc":"Manav", "newType":"is"}, {"action":"DELETE_GLOBAL_NOTE", "desc":"Market"}, {"action":"MOVE_NOTE_TO_TODAY", "desc":"Market", "time":"14:00"}
 - Kilo/Kalori Girmek: {"action":"SET_INPUTS", "weight":"75", "calIn":"2000", "calOut":"500"}
 - Profil Öğrenme (Sınırsız): {"action":"UPDATE_PROFILE", "key":"chronic_disease", "value":"Bel fıtığı"}
+- Kategori Yönetimi: {"action":"ADD_CATEGORY", "catId":"cat_kitap", "label":"Kitap", "color":"#8E44AD"}, {"action":"DELETE_CATEGORY", "catId":"cat_kitap"}, {"action":"UPDATE_CATEGORY", "catId":"cat_kitap", "newLabel":"Okuma", "newColor":"#9B59B6"}
 - Her Şeyi Sıfırlamak: {"action":"RESET_ALL_SYSTEM"}`;
 
         const fullPrompt = `${systemInstruction}\n\nKullanıcı Mesajı: ${userPrompt}`;
@@ -1827,6 +2001,9 @@ ARAÇ KUTUSU (Sadece gerekenleri kullan):
                         else if(actionData.action === "SET_POMO_WORK") approvalText += `⚙️ Çalışma süresini ${actionData.mins}dk yapmak<br>`;
                         else if(actionData.action === "SET_POMO_BREAK") approvalText += `⚙️ Mola süresini ${actionData.mins}dk yapmak<br>`;
                         else if(actionData.action === "SET_POMO_GOAL") approvalText += `🎯 Pomodoro hedefini ${actionData.amount} elma yapmak<br>`;
+else if(actionData.action === "ADD_CATEGORY") approvalText += `🎨 '${actionData.label}' adında yeni bir kategori oluşturmak<br>`;
+                        else if(actionData.action === "UPDATE_CATEGORY") approvalText += `✏️ Kategoriyi düzenlemek<br>`;
+                        else if(actionData.action === "DELETE_CATEGORY") approvalText += `🗑️ Bir kategoriyi silmek (Görevler 'Diğer'e aktarılacak)<br>`;
                         else if(actionData.action === "ADD_POMO") approvalText += `🍎 ${actionData.amount} elma (pomodoro) tamamlandı olarak eklemek<br>`;
                         else if(actionData.action === "ADD_GLOBAL_NOTE") {
                             let noteTxt = `📝 Not/Randevu eklemek: ${actionData.desc}`;
@@ -1845,8 +2022,42 @@ else if(actionData.action === "UPDATE_PROFILE") approvalText += `👤 Profiline 
                         actions.forEach(actionData => {
                             try {
                                 switch(actionData.action) {
-                                    case "ADD_TASKS": if(actionData.tasks) { actionData.tasks.forEach(t => newData.schedule.push({ id: Date.now()+Math.random(), time: t.time || "12:00", desc: t.desc, tag: t.type || "diger", locked: false, originalTime: t.time })); } newData.schedule.sort((a, b) => (a.time||"24:00").localeCompare(b.time||"24:00")); newData.userDefaultSchedule = JSON.parse(JSON.stringify(newData.schedule)); isChanged = true; break;
-                                    case "UPDATE_TASK": const uIdx = newData.schedule.findIndex(x => x.time === actionData.oldTime); if(uIdx !== -1) { if(actionData.newTime) newData.schedule[uIdx].time = actionData.newTime; if(actionData.newDesc) newData.schedule[uIdx].desc = actionData.newDesc; if(actionData.newType) newData.schedule[uIdx].tag = actionData.newType; if(typeof actionData.locked === 'boolean') newData.schedule[uIdx].locked = actionData.locked; if(typeof actionData.completed === 'boolean'){ const cPos = newData.completedIndices.indexOf(uIdx); if(actionData.completed && cPos === -1) newData.completedIndices.push(uIdx); else if(!actionData.completed && cPos !== -1) newData.completedIndices.splice(cPos, 1); } } isChanged = true; break;
+case "ADD_TASKS": 
+                                        if(actionData.tasks) { 
+                                            actionData.tasks.forEach(t => {
+                                                // TOLERANS MOTORU: ID veya Label ile kategoriyi bul
+                                                let tType = t.type || "diger";
+                                                const catMatch = newData.customTypes.find(c => c.id === tType || c.label === tType);
+                                                if (catMatch) tType = catMatch.id; // İsim yazmışsa bile ID'ye çevir
+                                                
+                                                newData.schedule.push({ id: Date.now()+Math.random(), time: t.time || "12:00", desc: t.desc, tag: tType, type: tType, locked: false, originalTime: t.time });
+                                            }); 
+                                        } 
+                                        newData.schedule.sort((a, b) => (a.time||"24:00").localeCompare(b.time||"24:00")); 
+                                        newData.userDefaultSchedule = JSON.parse(JSON.stringify(newData.schedule)); 
+                                        isChanged = true; break;
+                                        
+                                    case "UPDATE_TASK": 
+                                        const uIdx = newData.schedule.findIndex(x => x.time === actionData.oldTime); 
+                                        if(uIdx !== -1) { 
+                                            if(actionData.newTime) newData.schedule[uIdx].time = actionData.newTime; 
+                                            if(actionData.newDesc) newData.schedule[uIdx].desc = actionData.newDesc; 
+                                            if(actionData.newType) {
+                                                // TOLERANS MOTORU
+                                                let nType = actionData.newType;
+                                                const catMatch = newData.customTypes.find(c => c.id === nType || c.label === nType);
+                                                if (catMatch) nType = catMatch.id;
+                                                newData.schedule[uIdx].tag = nType;
+                                                newData.schedule[uIdx].type = nType;
+                                            }
+                                            if(typeof actionData.locked === 'boolean') newData.schedule[uIdx].locked = actionData.locked; 
+                                            if(typeof actionData.completed === 'boolean'){ 
+                                                const cPos = newData.completedIndices.indexOf(uIdx); 
+                                                if(actionData.completed && cPos === -1) newData.completedIndices.push(uIdx); 
+                                                else if(!actionData.completed && cPos !== -1) newData.completedIndices.splice(cPos, 1); 
+                                            } 
+                                        } 
+                                        isChanged = true; break;
                                     case "DELETE_TASK": newData.schedule = newData.schedule.filter(t => t.time !== actionData.time); newData.completedIndices = []; newData.userDefaultSchedule = JSON.parse(JSON.stringify(newData.schedule)); isChanged = true; break;
                                     case "TOGGLE_TASK_COMPLETE":
                                         const tIdx = newData.schedule.findIndex(x => x.time === actionData.time);
@@ -1868,6 +2079,28 @@ else if(actionData.action === "UPDATE_PROFILE") approvalText += `👤 Profiline 
                                     case "SET_POMO_BREAK": document.getElementById('pomoBreak').value = actionData.mins; break;
                                     case "SET_POMO_GOAL": newData.pomoGoal = actionData.amount; isChanged = true; break;
                                     case "ADD_POMO": newData.pomoCount += actionData.amount; isChanged = true; break;
+case "ADD_CATEGORY": 
+                                        const newId = actionData.catId || ("custom_" + Date.now());
+                                        if(!newData.customTypes.some(c => c.id === newId)) {
+                                            newData.customTypes.push({ id: newId, label: actionData.label, color: actionData.color || "#007AFF" }); 
+                                        }
+                                        isChanged = true; break;
+                                    case "UPDATE_CATEGORY": 
+                                        // Tolerans: AI catId veya label gönderirse ikisini de ara
+                                        const upIdx = newData.customTypes.findIndex(t => t.id === actionData.catId || t.label === actionData.catId || t.label === actionData.label); 
+                                        if(upIdx !== -1) { 
+                                            if(actionData.newLabel) newData.customTypes[upIdx].label = actionData.newLabel; 
+                                            if(actionData.newColor) newData.customTypes[upIdx].color = actionData.newColor; 
+                                        } 
+                                        isChanged = true; break;
+                                    case "DELETE_CATEGORY": 
+                                        const delCat = newData.customTypes.find(t => t.id === actionData.catId || t.label === actionData.catId);
+                                        if(delCat) {
+                                            newData.customTypes = newData.customTypes.filter(t => t.id !== delCat.id);
+                                            newData.schedule.forEach(t => { if(t.type === delCat.id || t.tag === delCat.id) { t.type = 'diger'; t.tag = 'diger'; } });
+                                            newData.globalNotes.forEach(n => { if(n.type === delCat.id) n.type = 'diger'; });
+                                        }
+                                        isChanged = true; break;
                                     case "ADD_GLOBAL_NOTE": 
                                         newData.globalNotes.push({ 
                                             id: Date.now() + Math.random(), 
@@ -1931,17 +2164,52 @@ textDiv.innerHTML = reply;
         } catch (error) {}
     }
 
-    function startShadowAI() {
+function startShadowAI() {
         setInterval(() => {
             const data = loadData(); if(!data.geminiKey) return;
-            const now = new Date(); const currentMins = now.getHours() * 60 + now.getMinutes();
+            const now = new Date(); 
+            const currentMins = now.getHours() * 60 + now.getMinutes();
+            
+            let incompleteCount = 0;
+            
             data.schedule.forEach((task, idx) => {
                 const isCompleted = data.completedIndices.includes(idx);
+                if (!isCompleted) incompleteCount++;
+                
                 if (!isCompleted && task.time) {
-                    const [h, m] = task.time.split(':').map(Number); const taskMins = h * 60 + m;
-                    if (currentMins === taskMins + 15) { proactiveAI(`Kullanıcının saat ${task.time}'daki '${task.desc}' görevi 15 dk gecikti. Onu uyar!`); }
+                    const [h, m] = task.time.split(':').map(Number); 
+                    let taskMins = h * 60 + m;
+                    // Midnight Fix
+                    if (taskMins === 0 && currentMins > 1200) taskMins = 1440;
+                    
+                    if (currentMins === taskMins + 15) { 
+                        proactiveAI(`Kullanıcının saat ${task.time}'daki '${task.desc}' görevi tam 15 dakika gecikti. Zaman lazeri turuncuya döndü! Onu ismen kısa ve tatlı bir dille uyar, harekete geçir.`); 
+                    }
                 }
             });
+
+            // FAZ 5.3: DOMİNO ETKİSİ VE SIKIŞMA ANALİZİ (Geleceği Öngörme)
+            // Sadece her 15 dakikada bir kontrol eder (currentMins % 15 === 0)
+            if (currentMins % 15 === 0 && incompleteCount > 0 && data.userProfile && data.userProfile.sleep) {
+                const [sH, sM] = data.userProfile.sleep.split(':').map(Number);
+                let sleepMins = sH * 60 + sM;
+                if (sleepMins < 1200 && currentMins >= 1200) sleepMins += 1440; // Gece yarısını geçen uykular için
+                
+                const availableMins = sleepMins - currentMins;
+                const requiredMins = incompleteCount * 30; // Her göreve min 30dk harcanacağı varsayılır
+                
+                // Eğer kalan süre yetmiyorsa VE uykuya 3 saatten (180dk) az kaldıysa:
+                if (requiredMins > availableMins && availableMins > 0 && availableMins < 180) {
+                    const todayStr = now.toLocaleDateString('tr-TR');
+                    const warningKey = "domino_" + todayStr; // Günde 1 kez uyarır
+                    
+                    if (data.lastDominoWarning !== warningKey) {
+                        proactiveAI(`Acil durum analizi! Uyku saatine (${data.userProfile.sleep}) sadece ${Math.floor(availableMins/60)} saat ${availableMins%60} dakika kaldı ama hala ${incompleteCount} görev duruyor. Görevler yetişmeyecek gibi. Domino etkisi başladı. Kullanıcıya ismen hitap et ve son görevleri "Yapay zeka asistanından 'Genel Notlar'a (yarına) aktarmasını" istemesini tavsiye et veya sadece 1 göreve odaklanmasını söyle. Çok kısa ve dostça ol.`);
+                        data.lastDominoWarning = warningKey;
+                        saveData(data);
+                    }
+                }
+            }
         }, 60000);
     }
 
