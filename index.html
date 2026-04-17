@@ -38,7 +38,7 @@
         --input-bg: rgba(255, 255, 255, 0.6);
     }
 
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     body { background: var(--bg-color); background-image: var(--bg-gradient); background-attachment: fixed; color: var(--text-main); font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 20px 16px 120px 16px; line-height: 1.4; transition: background 0.4s ease; }
     .container { max-width: 100%; margin: 0 auto; }
 
@@ -46,7 +46,7 @@
 
     header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
     .header-titles { display: flex; flex-direction: column; }
-    h1 { margin: 0; font-size: 1.6rem; color: var(--accent); font-weight: 800; letter-spacing: -0.5px; text-transform: uppercase; }
+h1 { margin: 0; font-size: 1.6rem; color: var(--accent); font-weight: 800; letter-spacing: -0.5px; text-transform: uppercase; word-break: break-word; }
     .date-display { font-size: 0.95rem; color: var(--text-muted); margin-top: 4px; font-weight: 500; font-variant-numeric: tabular-nums; }
     .theme-toggle { background: var(--flow-bg); border: 1px solid var(--border); color: var(--text-main); width: 40px; height: 40px; border-radius: 50%; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); }
 
@@ -90,7 +90,7 @@ select.glass-input { appearance: none; -webkit-appearance: none; text-align: lef
     .ios-toggle:checked::after { transform: translateX(20px); }
 
     .time-badge { background: var(--input-bg); color: var(--text-main); padding: 6px 0; border-radius: 8px; font-size: 0.9rem; border: 1px solid var(--border); font-weight: 600; width: 100%; text-align: center; }
-    .task-desc { outline: none; font-size: 1rem; line-height: 1.3; font-weight: 500; white-space: normal; word-wrap: break-word;}
+.task-desc { outline: none; font-size: 1rem; line-height: 1.3; font-weight: 500; white-space: normal; word-wrap: break-word; word-break: break-word;}
     .del-btn { color: var(--danger); background: transparent; font-size: 1.4rem; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer; border: none; opacity: 0.7;}
     .drag-handle { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; font-size: 20px; color: var(--text-muted); cursor: grab; opacity: 0.5;}
     .lock-handle { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; font-size: 16px; color: var(--danger); opacity: 0.8; cursor: pointer; }
@@ -278,23 +278,6 @@ select.glass-input { appearance: none; -webkit-appearance: none; text-align: lef
     }
     @keyframes fireflies { 0% { opacity: 0; transform: translateY(0) scale(0.8); } 100% { opacity: 0.9; transform: translateY(-15px) scale(1.2); } }
 
-    /* İÇ MOTORU (SVG ANIMATE) OLAN, GERÇEKTEN KANAT ÇIRPAN KUŞLAR (Siyah lekeler değil!) */
-    @keyframes birdsFlyForward { 0% { background-position: -100px 30px, -150px 15px, -50px 40px, -200px 20px; } 100% { background-position: 800px 10px, 750px -5px, 850px 20px, 700px 0px; } }
-    
-    .forest-container.time-dawn.mood-good .animal-layer,
-    .forest-container.time-day.mood-good .animal-layer,
-    .forest-container.time-afternoon.mood-good .animal-layer {
-        background-image: 
-            url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 20'><path fill='%23111111'><animate attributeName='d' values='M 0 10 Q 7 0 15 10 Q 23 0 30 10 Q 23 6 15 12 Q 7 6 0 10 Z; M 0 10 Q 7 20 15 10 Q 23 20 30 10 Q 23 14 15 8 Q 7 14 0 10 Z; M 0 10 Q 7 0 15 10 Q 23 0 30 10 Q 23 6 15 12 Q 7 6 0 10 Z' dur='0.4s' repeatCount='indefinite'/></path></svg>"),
-            url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 20'><path fill='%23111111'><animate attributeName='d' values='M 0 10 Q 7 0 15 10 Q 23 0 30 10 Q 23 6 15 12 Q 7 6 0 10 Z; M 0 10 Q 7 20 15 10 Q 23 20 30 10 Q 23 14 15 8 Q 7 14 0 10 Z; M 0 10 Q 7 0 15 10 Q 23 0 30 10 Q 23 6 15 12 Q 7 6 0 10 Z' dur='0.5s' repeatCount='indefinite'/></path></svg>"),
-            url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 20'><path fill='%23111111'><animate attributeName='d' values='M 0 10 Q 7 0 15 10 Q 23 0 30 10 Q 23 6 15 12 Q 7 6 0 10 Z; M 0 10 Q 7 20 15 10 Q 23 20 30 10 Q 23 14 15 8 Q 7 14 0 10 Z; M 0 10 Q 7 0 15 10 Q 23 0 30 10 Q 23 6 15 12 Q 7 6 0 10 Z' dur='0.45s' repeatCount='indefinite'/></path></svg>"),
-            url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 20'><path fill='%23111111'><animate attributeName='d' values='M 0 10 Q 7 0 15 10 Q 23 0 30 10 Q 23 6 15 12 Q 7 6 0 10 Z; M 0 10 Q 7 20 15 10 Q 23 20 30 10 Q 23 14 15 8 Q 7 14 0 10 Z; M 0 10 Q 7 0 15 10 Q 23 0 30 10 Q 23 6 15 12 Q 7 6 0 10 Z' dur='0.55s' repeatCount='indefinite'/></path></svg>");
-        background-size: 24px 16px, 18px 12px, 30px 20px, 20px 14px;
-        background-repeat: no-repeat;
-        opacity: 0.85;
-        animation: birdsFlyForward 20s linear infinite;
-    }
-
 /* GRID ELMALARI (Kırmızı Gövde, Yeşil Sap) */
     .pomo-apple.filled .apple-body { fill: #FF3B30; stroke: #FF3B30; }
     .pomo-apple.filled .apple-stem { fill: #34C759; stroke: #34C759; }
@@ -336,12 +319,82 @@ select.glass-input { appearance: none; -webkit-appearance: none; text-align: lef
     .store-item:active { transform: scale(0.95); }
     .store-item .item-name { font-size: 0.85rem; font-weight: 600; color: var(--text-main); }
     .store-item .item-price { font-size: 0.9rem; font-weight: 800; color: #FFD700; background: rgba(0,0,0,0.4); padding: 4px 10px; border-radius: 20px; }
+.glass-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; align-items: center; justify-content: center; backdrop-filter: blur(10px); opacity: 0; transition: opacity 0.3s; }
+    .glass-modal-content { background: var(--card-bg); border: 1px solid var(--border); padding: 25px; border-radius: 20px; width: 90%; max-width: 350px; text-align: center; transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
     .glass-modal.active { display: flex !important; opacity: 1 !important; }
     .glass-modal.active .glass-modal-content { transform: scale(1) !important; }
+
+/* FAZ 5.1: ALT GÖREV (SUBTASK) TASARIMI */
+    .subtask-container {
+        grid-column: 1 / -1; margin-left: 46px; margin-top: 5px; padding-bottom: 10px;
+        display: none; flex-direction: column; gap: 8px; border-left: 1px solid var(--border); padding-left: 15px;
+    }
+    .task.expanded .subtask-container { display: flex; }
+    .subtask-item { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; color: var(--text-main); opacity: 0.9; }
+    .subtask-item input[type="checkbox"] { width: 18px; height: 18px; border-radius: 4px; cursor: pointer; }
+    .subtask-item.done { text-decoration: line-through; opacity: 0.5; }
+    .chevron-btn {
+        cursor: pointer; transition: transform 0.3s ease; display: flex; align-items: center; justify-content: center;
+        width: 24px; height: 24px; opacity: 0.6;
+    }
+    .task.expanded .chevron-btn { transform: rotate(180deg); }
+    .add-subtask-btn {
+        background: transparent; border: 1px dashed var(--border); color: var(--text-muted);
+        padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; cursor: pointer; margin-top: 5px; width: fit-content;
+    }
+
+/* FAZ 5.2: DİNAMİK KATEGORİ (PILL) FİLTRELEME TASARIMI */
+    .filter-bar {
+        display: flex; gap: 10px; overflow-x: auto; padding: 10px 5px; margin-bottom: 15px;
+        -webkit-overflow-scrolling: touch; scrollbar-width: none; border-bottom: 1px solid var(--border);
+    }
+    .filter-bar::-webkit-scrollbar { display: none; }
+    .filter-pill {
+        padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 700;
+        cursor: pointer; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        white-space: nowrap; border: 1px solid var(--border);
+        background: rgba(255,255,255,0.05); color: var(--text-muted); opacity: 0.6;
+    }
+    .filter-pill:active { transform: scale(0.95); }
+    .filter-pill.active {
+        opacity: 1; transform: scale(1.05); color: #fff;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3); border-color: transparent;
+    }
+    
+    /* Görev Süzülme Animasyonu */
+    .task { transition: opacity 0.3s ease, transform 0.3s ease, margin 0.3s ease, height 0.3s ease, padding 0.3s ease; }
+    .task.filtered-out {
+        opacity: 0 !important; transform: scale(0.95) !important;
+        margin-top: 0 !important; margin-bottom: 0 !important;
+        height: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important;
+        overflow: hidden !important; border: none !important; pointer-events: none !important;
+    }
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 </head>
 <body>
+
+<div id="category-modal" class="glass-modal">
+    <div class="glass-modal-content" style="max-width: 350px; text-align: left;">
+        <h3 style="margin-top:0; color:var(--accent); margin-bottom: 20px;">Kategori Düzenle</h3>
+        <div style="display:flex; flex-direction:column; gap:15px;">
+            <div>
+                <label style="font-size:0.75rem; color:var(--text-muted); margin-left: 5px;">KATEGORİ ADI</label>
+                <input type="text" id="cat-name" class="glass-input" style="width:100%; text-align:left; margin-top:5px;">
+            </div>
+            <div>
+                <label style="font-size:0.75rem; color:var(--text-muted); margin-left: 5px;">ETİKET RENGİ</label>
+                <input type="color" id="cat-color" style="width:100%; height:40px; border:none; background:transparent; cursor:pointer; margin-top:5px;">
+            </div>
+        </div>
+        <div style="display:flex; gap:12px; margin-top:30px;">
+            <button class="main-btn" style="background:rgba(255,255,255,0.05); color:var(--text-main); border:1px solid var(--border); flex:1;" onclick="document.getElementById('category-modal').classList.remove('active'); setTimeout(()=>document.getElementById('category-modal').style.display='none',300)">Vazgeç</button>
+            <button class="main-btn" style="background:var(--success); color:#fff; flex:1;" id="save-category-btn">Kaydet</button>
+        </div>
+        <button class="main-btn" style="background:rgba(255,59,48,0.1); color:var(--danger); border:1px solid rgba(255,59,48,0.2); margin-top:10px;" id="delete-category-btn">Kategoriyi Sil</button>
+    </div>
+</div>
 
 <div id="onboarding-modal">
     <h2 style="color:var(--text-main); text-align:center; margin-top:30px; font-size: 2rem; font-weight:800; letter-spacing:-1px;">LIFE CENTER AI</h2>
@@ -489,16 +542,20 @@ select.glass-input { appearance: none; -webkit-appearance: none; text-align: lef
                 <div class="streak-lbl">ODAK SERİSİ</div>
             </div>
             
-            <div class="streak-card icy" onclick="openStore()" style="cursor: pointer;">
+<div class="streak-card icy" onclick="openStore()" style="cursor: pointer;">
                 <div class="streak-icon"><svg class="glass-svg" viewBox="0 0 24 24" style="color:#32ADE6;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div>
                 <span class="streak-val" id="stat-freeze" style="color:#32ADE6;">0</span>
                 <div class="streak-lbl">DONDURUCU</div>
             </div>
+        </div>
+    </div>
 
 <div class="panel-header">Disiplin Dünyası & Odak Motoru</div>
+
     <div class="glass-card pomo-wrapper">
         
-        <div style="text-align:center; font-size:0.75rem; color:var(--text-muted); font-weight:700; letter-spacing:1px; margin-top:10px;">GÜNLÜK DİSİPLİN İLERLEMESİ</div>
+<div style="text-align:center; font-size:0.75rem; color:var(--text-muted); font-weight:700; letter-spacing:1px; margin-top:10px;">GÜNLÜK DİSİPLİN İLERLEMESİ</div>
+        
         <div class="apple-container" id="globalAppleContainer" style="display: flex; margin-top: 10px; position:relative; width: 140px; height: 140px; margin-left: auto; margin-right: auto;">
             <svg viewBox="0 0 100 100" class="apple-glass" style="position:absolute; width:100%; height:100%; drop-shadow: 0 10px 15px rgba(255,59,48,0.2);">
                 <defs><mask id="biteMask"><rect x="0" y="0" width="100" height="100" fill="white" /></mask></defs>
@@ -512,16 +569,24 @@ select.glass-input { appearance: none; -webkit-appearance: none; text-align: lef
             <div class="apple-percent" id="applePercent" style="text-shadow: 0 4px 15px rgba(0,0,0,0.9); z-index: 10; display:flex; align-items:center; justify-content:center; width:100%;">%0</div>
         </div>
 
-<div id="disciplineForest" class="forest-container time-day mood-good">
-            <div class="sky-layer"></div>
-<div class="sun-moon"></div>
+        <div id="disciplineForest" class="forest-container time-day mood-good">
+            <div class="sky-bg"></div>
+            <div class="mountain-layer"></div>
+            <div class="sun-moon"></div>
             <div class="stars-layer"></div>
-            <div class="shooting-star"></div>
-            <div class="weather-layer"></div>
+            
             <div class="cloud-layer"></div>
-            <div class="animal-layer"></div>
-            <div class="forest-ground"></div>
-            <div id="forest-msg" style="position: absolute; top: 40%; width: 100%; text-align: center; color: rgba(255,255,255,0.8); font-size: 0.8rem; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.5); z-index: 20;">Orman Canlanıyor...</div>
+            <div class="weather-fx"></div>
+            <div class="flying-birds"></div>
+            
+            <div class="grass-layer layer-back"></div>
+            <div class="grass-layer layer-mid"></div>
+            <div class="grass-layer layer-front"></div>
+            
+            <div class="animal-zemin"></div>
+            <div class="butterflies"></div>
+            
+            <div id="forest-msg">Orman Canlanıyor...</div>
         </div>
 
         <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 10px; margin-top:10px;">
@@ -540,8 +605,6 @@ select.glass-input { appearance: none; -webkit-appearance: none; text-align: lef
         <button class="main-btn" id="pomoStartBtn" style="background:var(--text-main); color:var(--bg-color);" onclick="startPomodoro()">Süreci Başlat</button>
         <button class="main-btn" id="pomoStopBtn" style="display:none; background:rgba(255,59,48,0.1); color:var(--danger);" onclick="stopPomodoro()">Süreci Bitir</button>
         
-        <hr style="border: 0; height: 1px; background: var(--border); margin: 20px 0;">
-
 <hr style="border: 0; height: 1px; background: var(--border); margin: 20px 0;">
 
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 10px;">
@@ -574,6 +637,9 @@ select.glass-input { appearance: none; -webkit-appearance: none; text-align: lef
             <button style="background: rgba(52, 199, 89, 0.15); color: var(--success); border: none; padding: 6px 12px; border-radius: 8px; font-weight:700; font-size:0.85rem;" onclick="shiftRoutine(30)">+30dk</button>
         </div>
     </div>
+
+<div id="categoryFilterBar" class="filter-bar"></div>
+
     <div id="taskList"></div>
 
     <div class="panel-header">Yeni Görev / Not</div>
@@ -669,23 +735,39 @@ select.glass-input { appearance: none; -webkit-appearance: none; text-align: lef
             userProfile: null, theme: 'dark', dateStr: "Yükleniyor", lastFinishedDate: "",
             schedule: [], userDefaultSchedule: [], completedIndices: [],
             pomoCount: 0, water: 0, waterGoal: 7, inputs: { w: '', in: '', out: '' },
-stats: { namaz: 0, ders: 0, pomoStreak: 0, days: 0, coin: 0, freeze: 0 },
+stats: { pomoStreak: 0, days: 0, coin: 0, freeze: 0 },
 lastSeedPct: 0, forestEntities: [],
             history: [], globalNotes: [], geminiKey: '', chatHistory: [],
             customTypes: [{ id: "diger", label: "Diğer", color: "#007AFF" }, { id: "ders", label: "Ders", color: "#34C759" }, { id: "namaz", label: "Maneviyat", color: "#FF3B30" }, { id: "saglik", label: "Sağlık", color: "#FF9500" }, { id: "is", label: "İş", color: "#AF52DE" }]
         };
     }
 
-    function loadData() {
+function loadData() {
         try {
-            const raw = localStorage.getItem(DB_KEY); if (!raw) return getInitialState();
+            const raw = localStorage.getItem(DB_KEY);
+            if (!raw) return getInitialState();
             const data = JSON.parse(raw);
-            if(!data.stats) data.stats = { namaz:0, ders:0, pomoStreak:0, days:0 };
-if(data.stats.coin === undefined) data.stats.coin = 0;
-if(data.stats.freeze === undefined) data.stats.freeze = 0;
+            if(!data.stats) data.stats = { pomoStreak:0, days:0 };
+            if(data.stats.coin === undefined) data.stats.coin = 0;
+            if(data.stats.freeze === undefined) data.stats.freeze = 0;
             if(!data.waterGoal) data.waterGoal = 7;
             if(!data.theme) data.theme = 'dark';
             if(!data.userDefaultSchedule) data.userDefaultSchedule = [];
+            
+            // VERİTABANI YAMASI: Eski kullanıcılarda eksik olan yeni dizileri ekle
+            if(!data.customTypes) {
+                data.customTypes = [
+                    { id: "diger", label: "Diğer", color: "#007AFF" }, 
+                    { id: "ders", label: "Ders", color: "#34C759" }, 
+                    { id: "namaz", label: "Maneviyat", color: "#FF3B30" }, 
+                    { id: "saglik", label: "Sağlık", color: "#FF9500" }, 
+                    { id: "is", label: "İş", color: "#AF52DE" }
+                ];
+            }
+            if(!data.forestEntities) data.forestEntities = [];
+            if(data.lastSeedPct === undefined) data.lastSeedPct = 0;
+            if(!data.globalNotes) data.globalNotes = [];
+            
             return data;
         } catch (e) { return getInitialState(); }
     }
@@ -773,7 +855,6 @@ function updateLiveClock() {
 if(now.getHours() === 0 && now.getMinutes() === 0 && data.lastFinishedDate !== dateKey) {
             autoFinishDay(data, dateKey);
         }
-        updateForestEcosystem(); // İŞTE ŞİMDİ ÖZGÜRCE HER SANİYE ÇALIŞACAK
     }
 
     function saveOnboarding() {
@@ -809,9 +890,9 @@ function render() {
                     .task { transition: all 0.4s ease; position: relative; z-index: 2; }
                     
 /* YENİ: SAĞDAN SOLA ERİYEN LAZER ÇİZGİSİ (iOS 26 MAVİ) */
-                    #time-cursor {
+#time-cursor {
                         position: absolute;
-                        left: 0; right: -8px; /* Sağdan hafifçe dışarı taşar */
+                        left: 0; right: -8px; /* Sağdan hafifçe dışarı taşar (Orijinal Tasarım) */
                         height: 2px;
                         /* Sırrımız: 'to left' ile sağda %100 parlak başlar, sola (yazılara) doğru tamamen şeffaflaşır */
                         background: linear-gradient(to left, rgba(0, 122, 255, 0.9) 0%, rgba(0, 122, 255, 0.2) 50%, transparent 100%);
@@ -944,22 +1025,59 @@ btn.innerHTML = `<svg class="glass-svg" viewBox="0 0 24 24" style="width:28px; h
             listDiv.innerHTML = '';
             listDiv.style.position = 'relative'; // LAZER ÇİZGİSİ İÇİN GEREKLİ
             
-            data.schedule.forEach((task, idx) => {
-                const row = document.createElement('div'); const isDone = data.completedIndices.includes(idx); const isFixed = !!task.locked;
-                row.className = `task ${isDone ? 'completed' : ''} ${isFixed ? 'fixed-task' : ''}`;
+data.schedule.forEach((task, idx) => {
+                // YANLIŞLIKLA SİLİNEN HAYATİ DEĞİŞKENLER VE ROW OLUŞUMU GERİ GELDİ
+                const row = document.createElement('div');
+                row.className = 'task';
+                row.draggable = true;
+                row.dataset.idx = idx;
+
+                const isDone = data.completedIndices.includes(idx);
+                if (isDone) row.classList.add('done');
+                if (task.locked) row.classList.add('locked');
+
+                const timeDisabled = isDone ? 'disabled' : '';
+                const descEditable = isDone || task.locked ? '' : `contenteditable="true" onblur="editTask(${idx}, 'desc', this.innerText)"`;
+                const delDisabled = task.locked ? 'disabled style="opacity:0.2; cursor:not-allowed;"' : '';
+
+                const handleIcon = `<svg class="drag-handle" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:grab; opacity:0.5;"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>`;
+
+                if (task.expanded) row.classList.add('expanded');
                 
-                const handleIcon = isFixed ? `<div class="lock-handle" onclick="handleLockTap(${idx})">🔒</div>` : `<div class="drag-handle" onclick="handleLockTap(${idx})">≡</div>`;
-                const timeDisabled = isFixed ? 'disabled' : ''; const descEditable = isFixed ? '' : `contenteditable="true" onblur="editTask(${idx}, 'desc', this.innerText)"`; const delDisabled = isFixed ? 'disabled style="opacity:0.2;"' : '';
-                
+                let subtasksHtml = (task.subtasks || []).map((st, sIdx) => `
+                    <div class="subtask-item ${st.completed ? 'done' : ''}">
+                        <input type="checkbox" ${st.completed ? 'checked' : ''} onchange="toggleSubtask(${idx}, ${sIdx})">
+                        <span contenteditable="true" onblur="editSubtask(${idx}, ${sIdx}, this.innerText)">${st.desc}</span>
+                        <button class="del-btn" style="font-size: 1rem;" onclick="delSubtask(${idx}, ${sIdx})">×</button>
+                    </div>
+                `).join('');
+
+                // FAZ 5.2: Kategori Bilgisini ve Rengini Al
+                const taskTag = task.type || task.tag || 'diger';
+                const catInfo = data.customTypes.find(ct => ct.id === taskTag) || { label: 'Diğer', color: '#888' };
+
                 row.innerHTML = `
-                    ${handleIcon}
+                    <div style="display:flex; flex-direction:column; align-items:center; gap:5px;">
+                        ${handleIcon}
+                        <div class="chevron-btn" onclick="toggleSubtaskAccordion(${idx})">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                    </div>
                     <input type="checkbox" class="ios-toggle" ${isDone?'checked':''} onchange="toggleTask(${idx})">
-                    <div style="display:flex; flex-direction:column; gap:4px; overflow:hidden;">
-                        <input type="time" class="time-badge" value="${task.time}" ${timeDisabled} style="width:70px; border:none; background:transparent; text-align:left; padding:0;" onblur="formatTimeInput(this); editTask(${idx}, 'time', this.value)">
+                    <div style="display:flex; flex-direction:column; gap:4px; overflow:hidden; flex-grow:1;">
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <input type="time" class="time-badge" value="${task.time}" ${timeDisabled} style="width:70px; border:none; background:transparent; text-align:left; padding:0;" onblur="formatTimeInput(this); editTask(${idx}, 'time', this.value)">
+                            <span style="font-size:0.65rem; padding:2px 8px; border-radius:10px; background:${catInfo.color}33; color:${catInfo.color}; border:1px solid ${catInfo.color}66; font-weight:800; text-transform:uppercase; letter-spacing:0.5px;">${catInfo.label}</span>
+                        </div>
                         <span class="task-desc" ${descEditable} style="transition: all 0.3s;">${task.desc}</span>
                     </div>
                     <button class="del-btn" ${delDisabled} onclick="delTask(${idx})">×</button>
+                    <div class="subtask-container">
+                        ${subtasksHtml}
+                        <button class="add-subtask-btn" onclick="addSubtask(${idx})">+ Alt Görev Ekle</button>
+                    </div>
                 `;
+                
                 listDiv.appendChild(row);
             });
 
@@ -1087,11 +1205,15 @@ btn.innerHTML = `<svg class="glass-svg" viewBox="0 0 24 24" style="width:28px; h
                 return timeA.localeCompare(timeB);
             });
 
-            const notesDiv = document.getElementById('globalNotesList'); notesDiv.innerHTML = '';
+const notesDiv = document.getElementById('globalNotesList'); notesDiv.innerHTML = '';
             if (data.globalNotes && data.globalNotes.length > 0) {
                 data.globalNotes.forEach((note) => {
+                    // FAZ 5.2: NOT FİLTRELEME MANTIĞI
+if (typeof currentActiveFilter !== 'undefined' && currentActiveFilter !== 'all' && note.type !== currentActiveFilter) return;
+
                     const nCard = document.createElement('div'); nCard.className = 'note-card';
                     const typeObj = data.customTypes.find(t => t.id === note.type) || { label: note.type, color: '#007AFF' };
+                    // ... (Geri kalan nCard.innerHTML kodunuz aynı kalsın)
                     nCard.style.borderLeftColor = typeObj.color; let dateFmt = "Tarihsiz";
                     if (note.date) { const d = new Date(note.date); dateFmt = `${d.getDate()} ${months[d.getMonth()]}`; }
                     
@@ -1108,9 +1230,33 @@ btn.innerHTML = `<svg class="glass-svg" viewBox="0 0 24 24" style="width:28px; h
                 });
 } else { notesDiv.innerHTML = '<div style="text-align:center; color:var(--text-muted); padding:10px; font-size:0.9rem;">Not bulunmuyor.</div>'; }
             
-            updateForestEcosystem(); // DOĞRU YER TAM OLARAK BURASI
-        } catch (e) {}
-    }
+// --- GÜNCEL FİLTRE VE RENDER ENTEGRASYONU ---
+            renderFilterBar();
+            
+            if (currentActiveFilter !== 'all') {
+                // Sadece seçili kategori dışındakileri gizle (DOM Manipülasyonu)
+                const taskRows = document.querySelectorAll('#taskList .task');
+                const d = loadData();
+                d.schedule.forEach((task, idx) => {
+                    const row = taskRows[idx];
+                    if (!row) return;
+                    const taskType = task.type || task.tag;
+                    if (taskType !== currentActiveFilter) {
+                        row.classList.add('filtered-out');
+                    }
+                });
+                
+                // Filtre varken lazeri gizle
+                const cursor = document.getElementById('time-cursor');
+                if (cursor) cursor.style.display = 'none';
+            } else {
+                // Tümü seçiliyse lazeri yeniden başlat
+                if (window.updateTimeline) window.updateTimeline();
+            }
+            
+            updateForestEcosystem();
+        } catch (e) { console.error("Render Hatası:", e); }
+    } // render fonksiyonu kapanışı
 
     let lastTap = 0;
     function handleLockTap(idx) { const now = new Date().getTime(); if ((now - lastTap < 300) && (now - lastTap > 0)) toggleLock(idx); lastTap = now; }
@@ -1124,11 +1270,80 @@ btn.innerHTML = `<svg class="glass-svg" viewBox="0 0 24 24" style="width:28px; h
         else if (m1 !== null) return format(m1 + 30); else if (m2 !== null) return format(Math.max(0, m2 - 30)); return "12:00";
     }
 
+// --- FAZ 5.2: GELİŞMİŞ KATEGORİ VE RENK YÖNETİMİ ---
     function addNewType() {
-        const newLabel = prompt("Yeni türün adını girin (Örn: Alışveriş):"); if (!newLabel || newLabel.trim() === "") return;
-        const data = loadData(); const newId = "custom_" + Date.now(); const colors = ['#AF52DE', '#FF2D55', '#5856D6', '#FF9500', '#34C759', '#32ADE6', '#FF3B30'];
-        data.customTypes.push({ id: newId, label: newLabel.trim(), color: colors[Math.floor(Math.random() * colors.length)] });
-        saveData(data); render(); setTimeout(() => { document.getElementById('newType').value = newId; }, 50);
+        openCategoryModal(); // Yeni kategori için modalı aç
+    }
+
+    function openCategoryModal(catId = null) {
+        const modal = document.getElementById('category-modal');
+        const data = loadData();
+        const saveBtn = document.getElementById('save-category-btn');
+        const delBtn = document.getElementById('delete-category-btn');
+        const nameInput = document.getElementById('cat-name');
+        const colorInput = document.getElementById('cat-color');
+
+        modal.style.display = 'flex';
+        setTimeout(() => modal.classList.add('active'), 10);
+
+        if (catId) {
+            // DÜZENLEME MODU
+            const cat = data.customTypes.find(t => t.id === catId);
+            nameInput.value = cat.label;
+            colorInput.value = cat.color;
+            delBtn.style.display = 'block';
+            saveBtn.onclick = () => saveCategory(catId);
+            delBtn.onclick = () => deleteCategory(catId);
+        } else {
+            // YENİ EKLEME MODU
+            nameInput.value = '';
+            colorInput.value = '#007AFF';
+            delBtn.style.display = 'none';
+            saveBtn.onclick = () => saveCategory();
+        }
+    }
+
+function saveCategory(existingId = null) {
+        const data = loadData();
+        const nameInput = document.getElementById('cat-name');
+        const colorInput = document.getElementById('cat-color');
+        const name = nameInput.value.trim();
+        const color = colorInput.value;
+
+        if (!name) return showPopup("Hata", "Kategori adı boş olamaz.");
+
+        if (existingId && existingId !== 'null') {
+            const idx = data.customTypes.findIndex(t => t.id === existingId);
+            if(idx !== -1) { 
+                data.customTypes[idx].label = name; 
+                data.customTypes[idx].color = color; 
+            }
+        } else {
+            data.customTypes.push({ id: "custom_" + Date.now(), label: name, color: color });
+        }
+
+        saveData(data);
+        const modal = document.getElementById('category-modal');
+        modal.classList.remove('active');
+        setTimeout(() => { modal.style.display = 'none'; render(); }, 300);
+    }
+
+    function deleteCategory(id) {
+        if (!id || id === 'null') return;
+        showPopup("Kategoriyi Sil?", "Bu kategoriyi silmek tüm ilgili etiketleri 'Diğer' yapacaktır. Emin misin?", () => {
+            const data = loadData();
+            data.customTypes = data.customTypes.filter(t => t.id !== id);
+            saveData(data);
+            const modal = document.getElementById('category-modal');
+            modal.classList.remove('active');
+            setTimeout(() => { modal.style.display = 'none'; currentActiveFilter = 'all'; render(); }, 300);
+        });
+    }
+
+function setFilter(categoryId) {
+        if (currentActiveFilter === categoryId) return; // Aynı filtreyse yorma
+        currentActiveFilter = categoryId;
+        render(); // Sadece durumu (state) güncelle ve çizimi render'a bırak
     }
 
     function togglePomo(count) { const data = loadData(); data.pomoCount = (data.pomoCount === count) ? count - 1 : count; saveData(data); render(); }
@@ -1158,7 +1373,7 @@ function addTask() {
         if (noteDate) { 
             isToday = (new Date(noteDate).setHours(0,0,0,0) === new Date().setHours(0,0,0,0));
         }
-        const newEntry = { id: Date.now() + Math.random(), date: noteDate, time: noteTime, desc: noteDesc, type: noteType, locked: false, originalTime: noteTime };
+const newEntry = { id: Date.now() + Math.random(), date: noteDate, time: noteTime, desc: noteDesc, type: noteType, locked: false, originalTime: noteTime, subtasks: [], expanded: false };
         
         if (isToday || !noteDate) { 
             data.schedule.push(newEntry);
@@ -1206,38 +1421,149 @@ function delGlobalNoteById(id) {
         }
     }
 
-function editGlobalNotePrompt(id) {
+// --- FAZ 5.1: ALT GÖREV (SUBTASK) KONTROLLERİ ---
+    function toggleSubtaskAccordion(idx) {
         const data = loadData();
-        // Notu ID üzerinden buluyoruz (Sıralama değişse de id değişmez)
-        const note = data.globalNotes.find(n => n.id === id);
-        if (!note) return;
-
-        const newDesc = prompt("Not içeriğini düzenle:", note.desc);
-        if (newDesc === null) return; // İptal edilirse çık
-
-        const newDate = prompt("Tarih (YYYY-AA-GG) - Örn: 2026-04-15 (Boş bırakılabilir):", note.date || "");
-        const newTime = prompt("Saat (SS:DD) - Örn: 14:30 (Boş bırakılabilir):", note.time || "");
-        
-        // Türleri listele ve seçtir
-        const typeList = data.customTypes.map(t => `${t.id}: ${t.label}`).join("\n");
-        const newType = prompt("Yeni Tür ID'sini girin:\n" + typeList, note.type);
-
-        note.desc = newDesc || note.desc;
-        note.date = newDate;
-        note.time = newTime;
-        if(newType && data.customTypes.find(t => t.id === newType)) {
-            note.type = newType;
+        if(data.schedule[idx]) {
+            data.schedule[idx].expanded = !data.schedule[idx].expanded;
+            saveData(data);
+            render();
         }
-
-        saveData(data);
-        render();
     }
 
-    function autoFinishDay(data, dateKey) {
+function renderFilterBar() {
+        const filterBar = document.getElementById('categoryFilterBar');
+        if (!filterBar) return;
+        const data = loadData();
+        filterBar.innerHTML = '';
+        
+        const allBtn = document.createElement('div');
+        allBtn.className = `filter-pill ${currentActiveFilter === 'all' ? 'active' : ''}`;
+        allBtn.innerText = 'Tümü';
+        if (currentActiveFilter === 'all') allBtn.style.background = 'rgba(255,255,255,0.2)';
+        allBtn.onclick = () => setFilter('all');
+        filterBar.appendChild(allBtn);
+
+        data.customTypes.forEach(cat => {
+            const btn = document.createElement('div');
+            btn.className = `filter-pill ${currentActiveFilter === cat.id ? 'active' : ''}`;
+            btn.innerText = cat.label;
+            if (currentActiveFilter === cat.id) {
+                btn.style.background = cat.color;
+                btn.style.color = '#fff';
+                btn.style.boxShadow = `0 4px 15px ${cat.color}80`;
+            } else {
+                btn.style.borderColor = `${cat.color}50`;
+            }
+            btn.onclick = () => setFilter(cat.id);
+            btn.addEventListener('dblclick', () => openCategoryModal(cat.id));
+            
+            let timer;
+            btn.addEventListener('touchstart', () => { timer = setTimeout(() => openCategoryModal(cat.id), 800); });
+            btn.addEventListener('touchend', () => { clearTimeout(timer); });
+
+            filterBar.appendChild(btn);
+        });
+
+        // GENEL NOTLAR SEÇİM KUTUSUNU DİNAMİK GÜNCELLE
+        const noteSelect = document.getElementById('globalNoteType');
+        if (noteSelect) {
+            const currentVal = noteSelect.value;
+            noteSelect.innerHTML = '';
+            data.customTypes.forEach(cat => {
+                const opt = document.createElement('option');
+                opt.value = cat.id;
+                opt.innerText = cat.label;
+                noteSelect.appendChild(opt);
+            });
+            if ([...noteSelect.options].some(o => o.value === currentVal)) {
+                noteSelect.value = currentVal;
+            }
+        }
+    }
+
+    function addSubtask(taskIdx) {
+        const data = loadData();
+        const desc = prompt("Alt görev nedir?");
+        if (desc && desc.trim() !== "") {
+            if (!data.schedule[taskIdx].subtasks) data.schedule[taskIdx].subtasks = [];
+            data.schedule[taskIdx].subtasks.push({ desc: desc.trim(), completed: false });
+            data.schedule[taskIdx].expanded = true;
+            saveData(data);
+            render();
+        }
+    }
+
+    function toggleSubtask(taskIdx, subIdx) {
+        const data = loadData();
+        const task = data.schedule[taskIdx];
+        if (task && task.subtasks[subIdx]) {
+            task.subtasks[subIdx].completed = !task.subtasks[subIdx].completed;
+            
+            // Otomatik Ana Görev Güncelleme: Tüm alt görevler bittiyse ana görevi de bitir
+            const allDone = task.subtasks.every(st => st.completed);
+            const isDone = data.completedIndices.includes(taskIdx);
+            
+            if (allDone && !isDone) {
+                data.completedIndices.push(taskIdx);
+            } else if (!allDone && isDone) {
+                const pos = data.completedIndices.indexOf(taskIdx);
+                data.completedIndices.splice(pos, 1);
+            }
+            
+            saveData(data);
+            render();
+        }
+    }
+
+    function editSubtask(taskIdx, subIdx, newDesc) {
+        const data = loadData();
+        if (data.schedule[taskIdx] && data.schedule[taskIdx].subtasks[subIdx]) {
+            data.schedule[taskIdx].subtasks[subIdx].desc = newDesc;
+            saveData(data);
+        }
+    }
+
+    function delSubtask(taskIdx, subIdx) {
+        const data = loadData();
+        if (data.schedule[taskIdx] && data.schedule[taskIdx].subtasks) {
+            data.schedule[taskIdx].subtasks.splice(subIdx, 1);
+            saveData(data);
+            render();
+        }
+    }
+
+function autoFinishDay(data, dateKey) {
+        // 1. DÜNÜN PERFORMANSINI HESAPLA
+        const targetPomo = data.pomoGoal || 20;
+        const pomoPct = Math.min(100, Math.round((data.pomoCount / targetPomo) * 100) || 0);
+        const waterPct = Math.min(100, Math.round((data.water / (data.waterGoal||7)) * 100) || 0);
+        const taskPct = data.schedule.length === 0 ? 0 : Math.round((data.completedIndices.length / data.schedule.length) * 100);
+        const globalPct = Math.round((pomoPct + waterPct + taskPct) / 3);
+
+        // 2. KAYIPTAN KAÇINMA & SERİ DONDURUCU MOTORU
+        if (globalPct >= 20) {
+            data.stats.days++; // Gün başarılı, seriyi uzat
+        } else {
+            if (data.stats.freeze > 0) {
+                data.stats.freeze--; // Dondurucu harcandı
+                data.lastFreezeUsedDate = dateKey; // Yarın "Kalkan kullanıldı" mesajı göstermek için
+            } else {
+                data.stats.days = 0; // BAŞARISIZLIK: Seri sıfırlandı
+            }
+        }
+
+        // 3. VERİLERİ ARŞİVLE VE SIFIRLA
         data.history.unshift({ date: dateKey, weight: data.inputs.w || '-', calIn: data.inputs.in || '-', calOut: data.inputs.out || '-', pomo: data.pomoCount });
         data.schedule = data.userDefaultSchedule ? JSON.parse(JSON.stringify(data.userDefaultSchedule)) : [];
-        data.completedIndices = []; data.pomoCount = 0; data.water = 0; data.inputs.in = ''; data.inputs.out = ''; data.stats.days++;
-        data.lastFinishedDate = dateKey; saveData(data); render();
+        data.completedIndices = []; data.pomoCount = 0; data.water = 0; data.inputs.in = ''; data.inputs.out = ''; 
+        
+        // 4. HASAT EDİLMEYEN AĞAÇLAR ÇÜRÜR (SIFIRLANIR)
+        data.forestEntities = [];
+        data.lastSeedPct = 0;
+        
+        data.lastFinishedDate = dateKey; 
+        saveData(data); render();
     }
 
     function toggleHistory() { const el = document.getElementById('history-modal'); const data = loadData(); el.style.display = el.style.display === 'block' ? 'none' : 'block'; const table = document.getElementById('historyTable'); if(!data.history || data.history.length === 0) { table.innerHTML = "<tr><td>Kayıt yok.</td></tr>"; return; } let html = `<thead><tr><th>Tarih</th><th>Kg</th><th>Al</th><th>Ver</th><th>Pom</th></tr></thead><tbody>`; data.history.forEach(log => { html += `<tr><td>${log.date.split(' ')[0]}</td><td>${log.weight}</td><td>${log.calIn}</td><td>${log.calOut}</td><td>${log.pomo}</td></tr>`; }); html += "</tbody>"; table.innerHTML = html; }
@@ -1728,6 +2054,61 @@ let currentEditingNoteId = null;
         };
     }
 
+// --- FAZ 4.3: DOPAMİN MAĞAZASI MOTORU (BİRLEŞTİRİLMİŞ NİHAİ VERSİYON) ---
+    function openStore() {
+        const storeModal = document.getElementById('store-modal');
+        const data = loadData();
+        document.getElementById('store-balance-val').innerText = (data.stats.coin || 0) + " DP";
+        storeModal.style.display = 'flex';
+        setTimeout(() => { storeModal.classList.add('active'); }, 10);
+    }
+
+    function closeStore() {
+        const storeModal = document.getElementById('store-modal');
+        storeModal.classList.remove('active');
+        setTimeout(() => { storeModal.style.display = 'none'; }, 300);
+    }
+
+    function buyItem(itemType, price) {
+        const data = loadData();
+        let currentCoin = data.stats.coin || 0;
+
+        if (currentCoin < price) {
+            showPopup("Yetersiz Bakiye ❌", `Bu öğeyi almak için ${price} DP gerekiyor ancak kasanızda ${currentCoin} DP var. Ormanda daha fazla ter dökmelisin.`);
+            return;
+        }
+
+        showPopup("Satın Alma Onayı", `Bu izin için ${price} DP harcayacaksın. Onaylıyor musun?`, () => {
+            const d = loadData();
+            d.stats.coin -= price;
+            
+            let successMsg = "";
+            if (itemType === 'freeze') {
+                d.stats.freeze = (d.stats.freeze || 0) + 1;
+                successMsg = "Seri Dondurucu (Kalkan) satın alındı! Zor günler için envanterine eklendi.";
+                document.getElementById('stat-freeze').innerText = d.stats.freeze;
+            } else if (itemType === 'social') {
+                successMsg = "30 Dakika Sosyal Medya izni satın alındı. İyi eğlenceler!";
+            } else if (itemType === 'game') {
+                successMsg = "1 Saat Oyun izni satın alındı. Tadını çıkar!";
+            } else if (itemType === 'tv') {
+                successMsg = "1 Bölüm Dizi/Film izni satın alındı. İyi seyirler!";
+            }
+
+            saveData(d);
+            document.getElementById('stat-coin').innerText = d.stats.coin;
+            document.getElementById('store-balance-val').innerText = d.stats.coin + " DP";
+            
+            closeStore();
+            
+            // AI Motivasyon ve Popup
+            setTimeout(() => { 
+                showPopup("Satın Alım Başarılı! 🛍️", successMsg); 
+                proactiveAI(`${price} DP harcayarak mağazadan ${itemType} izni aldım. Disiplinimi bozmadan kısa bir keyif yapacağım, bana sınırları hatırlatan havalı bir cümle kur.`);
+            }, 350);
+        });
+    }
+
 window.onload = function() {
         const data = loadData();
         if (!data.userProfile || !data.userProfile.name) { 
@@ -1735,8 +2116,10 @@ window.onload = function() {
         } else { 
             render(); 
             startShadowAI();
-            // Saati her saniye güncelleyen motor
+// Saati her saniye güncelleyen motor
             setInterval(updateLiveClock, 1000); 
+            // Orman ekosistemini saniyede bir değil, dakikada bir güncelle (Batarya Optimizasyonu)
+            setInterval(updateForestEcosystem, 60000); 
 
             // --- FAZ 3.5: PROAKTİF SABAH BRİFİNGİ (YENİ EKLENDİ) ---
             const todayStr = new Date().toLocaleDateString('tr-TR');
